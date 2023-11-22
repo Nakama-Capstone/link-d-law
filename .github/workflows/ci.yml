@@ -36,7 +36,6 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           gradle-version: 'current'
-        working-directory: ./apps/mobile-android
       - name: Run lint
         run: ./gradlew lintDebug
         working-directory: ./apps/mobile-android
