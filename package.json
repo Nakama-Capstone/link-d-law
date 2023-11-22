@@ -1,0 +1,28 @@
+{
+  "name": "law-d-link",
+  "private": true,
+  "scripts": {
+    "seed": "bun prisma/seeds/index.ts",
+    "dev": "concurrently -c -n api-auth,api-user \"cd services/api-auth && bun run dev\" \"cd services/api-user && bun run dev\"",
+    "lint": "concurrently -c -n api-auth,api-user \"cd services/api-auth && bun run lint\" \"cd services/api-user && bun run lint\""
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.10.0",
+    "@typescript-eslint/parser": "^6.10.0",
+    "bun-types": "latest",
+    "concurrently": "^8.2.2",
+    "eslint": "^8.53.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "workspaces": [
+    "services/*"
+  ],
+  "dependencies": {
+    "@prisma/client": "5.5.2",
+    "dotenv": "^16.3.1",
+    "nodemon": "^3.0.1",
+    "prisma": "^5.5.2"
+  }
+}

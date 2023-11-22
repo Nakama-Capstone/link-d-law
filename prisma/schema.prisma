@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Law {
+  id          Int      @id @default(autoincrement())
+  title       String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  LawBab      LawBab[]
+}
+
+model LawBab {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  lawId   Int
+  law     Law       @relation(fields: [lawId], references: [id])
+  LawData LawData[]
+}
+
+model LawData {
+  id        Int      @id @default(autoincrement())
+  pasal     String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  lawBabId Int
+  lawBab   LawBab @relation(fields: [lawBabId], references: [id])
+}

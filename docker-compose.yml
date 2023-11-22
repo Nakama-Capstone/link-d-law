@@ -1,0 +1,25 @@
+
+version: '3'
+services:
+  api:
+    build: 
+      context: .
+      dockerfile: ./docker/dev/Dockerfile
+    ports:
+      - 80:80
+    volumes:
+      - .:/app
+  db:
+    image: postgres:13.12
+    environment:
+      POSTGRES_USER: lawdlink_user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: lawdlink_db
+    ports:
+      - 5432:5432
+    volumes:
+      - lawdlink_db:/var/lib/postgresql/data
+
+volumes:
+  lawdlink_db:
+    driver: local

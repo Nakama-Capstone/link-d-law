@@ -1,0 +1,13 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  dev:
+    runs-on: ubuntu-latest
+    steps:
+      - name: say-hello
+        run: echo "Hello World from Continuous Deployment!"
