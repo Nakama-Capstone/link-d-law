@@ -33,7 +33,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
       - name: Run lint
-        uses: ./gradlew lintDebug
+        uses: ./apps/mobile-android/gradlew lintDebug
       - name: Upload html test report
         uses: actions/upload-artifact@v2
         with:
@@ -47,7 +47,7 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@v4
       - name: Run tests
-        uses: ./gradlew test
+        uses: ./apps/mobile-android/gradlew test
       - name: Upload test report
         uses: actions/upload-artifact@v2
         with:
@@ -65,7 +65,7 @@ jobs:
         with:
           java-version: '17'
       - name: Build debug APK
-        run: ./gradlew assembleDebug --stacktrace
+        run: ./apps/mobile-android/gradlew assembleDebug --stacktrace
       - name: Upload APK
         uses: actions/upload-artifact@v2
         with:
