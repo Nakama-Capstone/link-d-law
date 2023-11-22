@@ -26,7 +26,7 @@ jobs:
       - name: lint
         run: bun lint
 
-  apps-mobile-lint:
+  apps-mobile-android-lint:
     name: (apps/mobile-android) Perform lint check
     runs-on: ubuntu-latest
     defaults:
@@ -56,7 +56,7 @@ jobs:
           name: lint.html
           path: apps/mobile-android/app/build/reports/lint-results-debug.html
 
-  apps-mobile-debug-apk:
+  apps-mobile-android-debug-apk:
     name: (apps/mobile-android) Generate Debug APK
     runs-on: ubuntu-latest
     steps:
