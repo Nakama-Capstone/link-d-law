@@ -32,10 +32,14 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
-      - name: Setup Gradle
+      - name: Set up Gradle
         uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: 'current'
+        working-directory: ./apps/mobile-android
       - name: Run lint
-        uses: ./apps/mobile-android/gradlew lintDebug
+        run: ./gradlew lintDebug
+        working-directory: ./apps/mobile-android
       - name: Upload html test report
         uses: actions/upload-artifact@v2
         with:
