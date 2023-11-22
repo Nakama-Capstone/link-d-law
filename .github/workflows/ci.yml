@@ -32,6 +32,8 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
       - name: Run lint
         uses: ./apps/mobile-android/gradlew lintDebug
       - name: Upload html test report
