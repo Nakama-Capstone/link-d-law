@@ -36,5 +36,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v2
         with:
-          name: sample-app-unsigned
-          path: apps/mobile-android/app/build/outputs/apk/release/*.apk 
+          name: com.nakama.capstone.linkdlaw-unsigned.apk
+          path: apps/mobile-android/app/build/outputs/apk/release/app-release-unsigned.apk
