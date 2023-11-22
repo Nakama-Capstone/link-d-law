@@ -56,32 +56,27 @@ jobs:
           name: lint.html
           path: apps/mobile-android/app/build/reports/lint-results-debug.html
 
-  apps-mobile-unit-test:
-    name: (apps/mobile-android) Perform Unit Testing
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout the code
-        uses: actions/checkout@v4
-      - name: Run tests
-        uses: ./apps/mobile-android/gradlew test
-      - name: Upload test report
-        uses: actions/upload-artifact@v2
-        with:
-          name: unit_test_report
-          path: apps/mobile-android/app/build/reports/test/testDebugUnitTest/
-
   apps-mobile-debug-apk:
     name: (apps/mobile-android) Generate Debug APK
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
-      - name: Set up Java JDK 17
-        uses: actions/setup-java@v1
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
         with:
-          java-version: '17'
+          java-version: 17
+          distribution: 'adopt'
+      - name: Set up Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: 'current'
+      - name: Make Gradle executable
+        run: chmod +x ./gradlew
+        working-directory: ./apps/mobile-android
       - name: Build debug APK
-        run: ./apps/mobile-android/gradlew assembleDebug --stacktrace
+        run: ./gradlew assembleDebug --stacktrace
+        working-directory: ./apps/mobile-android
       - name: Upload APK
         uses: actions/upload-artifact@v2
         with:

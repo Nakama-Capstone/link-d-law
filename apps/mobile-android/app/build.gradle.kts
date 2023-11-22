@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.nakama.capstone.linkdlaw"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.nakama.capstone.linkdlaw"
