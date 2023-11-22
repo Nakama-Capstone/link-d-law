@@ -40,12 +40,16 @@ jobs:
         with:
           java-version: 17
           distribution: 'adopt'
+      - name: Make Gradle executable
+        run: chmod +x ./gradlew
+        working-directory: ./apps/mobile-android
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v2
         with:
           gradle-version: 'current'
       - name: Run lint
         run: ./gradlew lintDebug
+        working-directory: ./apps/mobile-android
       - name: Upload html test report
         uses: actions/upload-artifact@v2
         with:
