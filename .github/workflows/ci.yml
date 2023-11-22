@@ -6,12 +6,13 @@ on:
       - main
     # branches:
     #   - '!main'
-    pull_request:
-      branches:
-        - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  api:
+  api-lint:
+    name: (api) Perform lint check
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -24,3 +25,49 @@ jobs:
         run: bun test
       - name: lint
         run: bun lint
+
+  apps-mobile-lint:
+    name: (apps/mobile-android) Perform lint check
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: Run lint
+        uses: ./gradlew lintDebug
+      - name: Upload html test report
+        uses: actions/upload-artifact@v2
+        with:
+          name: lint.html
+          path: apps/mobile-android/app/build/reports/lint-results-debug.html
+
+  apps-mobile-unit-test:
+    name: (apps/mobile-android) Perform Unit Testing
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+      - name: Run tests
+        uses: ./gradlew test
+      - name: Upload test report
+        uses: actions.upload-artifact@v2
+        with:
+          name: unit_test_report
+          path: apps/mobile-android/app/build/reports/test/testDebugUnitTest/
+
+  apps-mobile-debug-apk:
+    name: (apps/mobile-android) Generate Debug APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+      - name: Set up Java JDK 17
+        uses: actions/setup-java@v1
+        with:
+          java-version: '17'
+      - name: Build debug APK
+        run: ./gradlew assembleDebug --stacktrace
+      - name: Upload APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: sample-app.apk
+          path: apps/mobile-android/app/build/outputs/apk/debug/app-debug.apk
