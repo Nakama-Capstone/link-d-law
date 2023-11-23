@@ -107,6 +107,7 @@ jobs:
         with:
           commit: ${{ github.event.pull_request.head.sha }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
+          inter-link: false
           artifacts-branch: artifacts
           artifacts: |
             app-debug.apk
