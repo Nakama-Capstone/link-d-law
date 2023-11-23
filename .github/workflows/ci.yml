@@ -101,6 +101,9 @@ jobs:
           name: lint-results-debug.html
       - name: Display structure of the artifacts directory
         run: ls -R
+      - name: Renaming artifacts file
+        run: |
+          mv app-debug.apk com.nakama.capstone.linkdlaw-debug.apk
       - name: Pull request artifacts
         if: github.event_name == 'pull_request'
         uses: gavv/pull-request-artifacts@v2
@@ -110,5 +113,5 @@ jobs:
           inter-link: false
           artifacts-branch: artifacts
           artifacts: |
-            app-debug.apk
+            com.nakama.capstone.linkdlaw-debug.apk
             lint-results-debug.html
