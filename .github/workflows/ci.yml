@@ -53,7 +53,7 @@ jobs:
       - name: Upload html test report
         uses: actions/upload-artifact@v2
         with:
-          name: lint.html
+          name: lint-results-debug.html
           path: apps/mobile-android/app/build/reports/lint-results-debug.html
 
   apps-mobile-android-debug-apk:
@@ -98,7 +98,7 @@ jobs:
       - name: Download artifacts - lint report
         uses: actions/download-artifact@v2
         with:
-          name: lint.html
+          name: lint-results-debug.html
       - name: Display structure of the artifacts directory
         run: ls -R
       - name: Pull request artifacts
@@ -109,5 +109,5 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           artifacts-branch: artifacts
           artifacts: |
-            com.nakama.capstone.linkdlaw-debug.apk
-            lint.html
+            app-debug.apk
+            lint-results-debug.html
