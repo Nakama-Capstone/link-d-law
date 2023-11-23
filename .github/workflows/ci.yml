@@ -60,7 +60,7 @@ jobs:
           commit: ${{ github.event.pull_request.head.sha }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           artifacts: |
-            lint.html
+            apps/mobile-android/app/build/reports/lint-results-debug.html
 
   apps-mobile-android-debug-apk:
     name: (apps/mobile-android) Generate Debug APK
@@ -95,4 +95,4 @@ jobs:
           commit: ${{ github.event.pull_request.head.sha }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           artifacts: |
-            com.nakama.capstone.linkdlaw-debug.apk
+            apps/mobile-android/app/build/outputs/apk/debug/app-debug.apk
