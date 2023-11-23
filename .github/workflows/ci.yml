@@ -71,6 +71,7 @@ jobs:
         with:
           commit: ${{ github.event.pull_request.head.sha }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts-branch: ${{ github.event.pull_request.head.ref }}
           artifacts: |
             apps/mobile-android/app/build/reports/lint-results-debug.html
 
@@ -113,5 +114,6 @@ jobs:
         with:
           commit: ${{ github.event.pull_request.head.sha }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts-branch: ${{ github.event.pull_request.head.ref }}
           artifacts: |
             apps/mobile-android/app/build/outputs/apk/debug/app-debug.apk
