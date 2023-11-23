@@ -1,67 +1,63 @@
-import express from "express";
-import dotenv from "dotenv";
-import path from "path";
 import pkg from "../package.json";
+import { MicroserviceService } from "@law-d-link/service"
 
-// load env
-dotenv.config({
-  path: path.resolve(process.cwd(), '../../', '.env')
-});
-const CONFIG = {
-  PORT: Number(process.env.SERVICE_API_AUTH_PORT || "3001")
-}
+// prepare all service needed
+const service = new MicroserviceService({
+  packagejson: pkg,
+})
 
 // SETUP
-const app = express();
-app.get("/", (req, res) => {
-  res.json({
-    ok: true,
-    message: "🚀",
-    data: {
-      routers: app._router.stack,
-    }
-  })
+const {
+  express: app,
+  createGroup,
+  httpService
+} = service.createHttpServer({
+  port: Number(service.getEnv("SERVICE_API_AUTH_PORT", "3001")),
+  apiVersion: "v1",
 });
 
-// TODO: v1 routes
-const routev1 = express.Router();
-routev1.get("/", (req, res) => {
-  res.json({
-    ok: true,
-    message: "🚀 auth",
-  })
-});
-// TODO: route to login
-routev1.get("/login", (req, res) => {
-  res.json({
-    ok: true,
-    message: "🚀 login",
-  })
-});
-// TODO: route to register
-routev1.get("/register", (req, res) => {
-  res.json({
-    ok: true,
-    message: "🚀 register",
-  })
-});
-// TODO: route to get user info from token
-routev1.get("/me", (req, res) => {
-  res.json({
-    ok: true,
-    message: "🚀 me",
-  })
-});
-// TODO: route to refresh token
-routev1.get("/refresh", (req, res) => {
-  res.json({
-    ok: true,
-    message: "🚀 me",
-  })
-});
-app.use("/v1", routev1);
-
-app.listen(CONFIG.PORT, () => {
-  // eslint-disable-next-line no-console
-  console.log(`${pkg.name} Listening on port ${CONFIG.PORT}`);
+// LISTING ROUTES
+// creategroup is a helper function to create a group of routes with a prefix
+// it also create a new express.Router() instance
+// so this script below have url prefix /v1/* (/v1/login, /v1/register, etc)
+createGroup(app, 'v1', (router) => {
+  // TODO: route to register
+  router.get("/register", (req, res) => {
+    res.json({
+      ok: true,
+      message: "🚀 register",
+    })
+  });
+  // TODO: route to login
+  router.get("/login", (req, res) => {
+    res.json({
+      ok: true,
+      message: "🚀 login",
+    })
+  });
+  // TODO: route to logout
+  router.get("/logout", (req, res) => {
+    res.json({
+      ok: true,
+      message: "🚀 logout",
+    })
+  });
+  // TODO: route to get user info from token
+  router.get("/me", (req, res) => {
+    res.json({
+      ok: true,
+      message: "🚀 me",
+    })
+  });
+  // TODO: route to refresh token
+  router.get("/refresh", (req, res) => {
+    res.json({
+      ok: true,
+      message: "🚀 me",
+    })
+  });
 })
+
+
+// LISTENING
+httpService.listen();
