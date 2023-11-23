@@ -11,6 +11,25 @@ jobs:
     steps:
       - name: say-hello
         run: echo "Hello World from Continuous Deployment!"
+  
+  build-docker-image:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+      # - name: Build the Docker image
+      #   run: docker build ./docker/dev --file Dockerfile --tag linkdlaw:$(date +%s)
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        with:
+          name: nakamacapstone/linkdlaw
+          workdir: ./docker/dev
+          dockerfile: Dockerfile
+          tags: latest
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
 
   apps-mobile-android-build-release-apk:
     name: (apps/mobile-android) Generate Production Release Build APK
