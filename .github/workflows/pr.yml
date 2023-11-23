@@ -6,9 +6,6 @@ on:
       - completed
     workflows:
       - 'CI'
-    branches: 
-      - main
-      - dev
 
 jobs:
   comment:
