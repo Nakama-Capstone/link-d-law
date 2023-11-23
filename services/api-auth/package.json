@@ -2,8 +2,9 @@
   "name": "@law-d-link/api-auth",
   "module": "src/index.ts",
   "scripts": {
-    "start": "bun src/index.ts",
-    "dev": "nodemon --ext ts  --watch 'src/**/*' --exec 'bun run start' --quiet",
+    "start": "bun --bun run src/index.ts",
+    "dev": "bun --bun --watch run src/index.ts",
+    "dev:nodemon": "nodemon --ext ts  --watch 'src/**/*' --exec 'bun run start' --quiet",
     "lint": "eslint --config ../../.eslintrc --ext .ts src"
   },
   "dependencies": {
