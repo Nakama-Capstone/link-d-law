@@ -1,7 +1,8 @@
-name: add artifact links to pull request and related issues
+name: PR
+
 on:
   workflow_run:
-    workflows: [CI, ci]
+    workflows: ["CI"]
     types: [completed]
 
 jobs:
