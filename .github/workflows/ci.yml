@@ -122,8 +122,7 @@ jobs:
         uses: elgohr/Publish-Docker-Github-Action@v5
         with:
           name: nakamacapstone/linkdlaw
-          workdir: ./docker/dev
-          dockerfile: Dockerfile
+          dockerfile: ./docker/dev/Dockerfile
           tags: latest
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
