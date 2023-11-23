@@ -56,8 +56,8 @@ jobs:
           name: lint-results-debug.html
           path: apps/mobile-android/app/build/reports/lint-results-debug.html
 
-  apps-mobile-android-debug-apk:
-    name: (apps/mobile-android) Generate Debug APK
+  apps-mobile-android-build-debug-apk:
+    name: (apps/mobile-android) Generate Debug Build APK
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the code
@@ -83,10 +83,37 @@ jobs:
           name: com.nakama.capstone.linkdlaw-debug.apk
           path: apps/mobile-android/app/build/outputs/apk/debug/app-debug.apk
   
+  apps-mobile-android-build-release-apk:
+    name: (apps/mobile-android) Generate Production Release Build APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: 17
+          distribution: 'adopt'
+      - name: Set up Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: 'current'
+      - name: Make Gradle executable
+        run: chmod +x ./gradlew
+        working-directory: ./apps/mobile-android
+      - name: Build Production APK
+        run: ./gradlew assembleRelease
+        working-directory: ./apps/mobile-android
+      - name: Upload APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: com.nakama.capstone.linkdlaw-release-unsigned.apk
+          path: apps/mobile-android/app/build/outputs/apk/release/app-release-unsigned.apk
+
   artifacts-comment:
     name: Generate artifacts and comment on PR
     runs-on: ubuntu-latest
-    needs: [apps-mobile-android-lint, apps-mobile-android-debug-apk]
+    needs: [apps-mobile-android-lint, apps-mobile-android-build-debug-apk, apps-mobile-android-build-release-apk]
     permissions:
       contents: write
       pull-requests: write
@@ -95,6 +122,10 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: com.nakama.capstone.linkdlaw-debug.apk
+      - name: Download artifacts - release APK
+        uses: actions/download-artifact@v2
+        with:
+          name: com.nakama.capstone.linkdlaw-release-unsigned.apk
       - name: Download artifacts - lint report
         uses: actions/download-artifact@v2
         with:
@@ -104,6 +135,7 @@ jobs:
       - name: Renaming artifacts file
         run: |
           mv app-debug.apk com.nakama.capstone.linkdlaw-debug.apk
+          mv app-release-unsigned.apk com.nakama.capstone.linkdlaw-release-unsigned.apk
       - name: Pull request artifacts
         if: github.event_name == 'pull_request'
         uses: gavv/pull-request-artifacts@v2
@@ -114,4 +146,5 @@ jobs:
           artifacts-branch: artifacts
           artifacts: |
             com.nakama.capstone.linkdlaw-debug.apk
+            com.nakama.capstone.linkdlaw-release-unsigned.apk
             lint-results-debug.html
