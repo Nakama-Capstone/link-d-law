@@ -65,26 +65,10 @@ jobs:
         with:
           name: lint.html
           path: apps/mobile-android/app/build/reports/lint-results-debug.html
-      - name: Link Artifacts to Pull Request
-        if: github.event_name == 'pull_request'
-        uses: gavv/pull-request-artifacts@v2
-        with:
-          commit: ${{ github.event.pull_request.head.sha }}
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          artifacts-branch: ${{ github.event.pull_request.head.ref }}
-          artifacts: |
-            apps/mobile-android/app/build/reports/lint-results-debug.html
 
   apps-mobile-android-debug-apk:
     name: (apps/mobile-android) Generate Debug APK
     runs-on: ubuntu-latest
-    permissions:
-      # Required to upload/save artifact, otherwise you'll get
-      # "Error: Resource not accessible by integration"
-      contents: write
-      # Required to post comment, otherwise you'll get
-      # "Error: Resource not accessible by integration"
-      pull-requests: write
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
@@ -108,12 +92,3 @@ jobs:
         with:
           name: com.nakama.capstone.linkdlaw-debug.apk
           path: apps/mobile-android/app/build/outputs/apk/debug/app-debug.apk
-      - name: Link Artifacts to Pull Request
-        if: github.event_name == 'pull_request'
-        uses: gavv/pull-request-artifacts@v2
-        with:
-          commit: ${{ github.event.pull_request.head.sha }}
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          artifacts-branch: ${{ github.event.pull_request.head.ref }}
-          artifacts: |
-            apps/mobile-android/app/build/outputs/apk/debug/app-debug.apk
