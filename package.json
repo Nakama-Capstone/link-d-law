@@ -4,7 +4,7 @@
   "scripts": {
     "seed": "bun --bun run prisma/seeds/index.ts",
     "dev": "bun --bun concurrently -c -n api-gateway,api-auth,api-user \"cd services/api-gateway && bun run dev\" \"cd services/api-auth && bun run dev\" \"cd services/api-user && bun run dev\"",
-    "lint": "bun --bun concurrently -c -n api-gateway,api-auth,api-user \"cd services/api-gateway && bun run dev\" \"cd services/api-auth && bun run lint\" \"cd services/api-user && bun run lint\""
+    "lint": "bun --bun concurrently -c -n api-gateway,api-auth,api-user \"cd services/api-gateway && bun run lint\" \"cd services/api-auth && bun run lint\" \"cd services/api-user && bun run lint\""
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.10.0",
