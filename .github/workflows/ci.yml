@@ -148,10 +148,8 @@ jobs:
         run: bun i
       - name: install vercel
         run: bun i -g vercel @redocly/cli
-      - name: test redocly
-        run: bunx --bun @redocly/cli
       - name: build openapi
-        run: bunx --bun @redocly/cli build-docs ./docs/OpenAPI/link-d-law.json --config ./infrastructures/redoc/redocly.yaml -o ./dist/openapi-doc/index.html
+        run: bun --bun @redocly/cli build-docs ./docs/OpenAPI/link-d-law.json --config ./infrastructures/redoc/redocly.yaml -o ./dist/openapi-doc/index.html
       - name: list files
         run: |
           ls && ls ./dist && ls ./dist/openapi-doc
