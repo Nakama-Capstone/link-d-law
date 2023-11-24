@@ -143,7 +143,7 @@ jobs:
       issues: write
       pull-requests: write
     outputs:
-      deploymentUrl: ${{ steps.Deploy-Preview.outputs.deploymentUrl }}
+      deploymentUrl: ${{ steps.deploy.outputs.deploymentUrl }}
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
@@ -165,9 +165,10 @@ jobs:
           path: ./dist/openapi-doc/index.html
       - name: HTML Preview
         id: html_preview
+        if: github.event_name == 'pull_request'
         uses: pavi2410/html-preview-action@v2
         with:
-          html_file: ./dist/openapi-doc/index.html
+          html_file: ./datasets/kitab-hukum-perdata/kitab-hukum-perdata.html
       - name: Deploy redoc build to Vercel
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }} --cwd=./dist/openapi-doc
       - name: Build with Vercel
