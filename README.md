@@ -29,7 +29,12 @@ L!nk D' Law is a web and mobile application that can be used to find the best la
 ## Contributing Guide
 [Contribute Guide](CONTRIBUTING.md)
 
-## Automate with Makefile
+## Architecture
+
+### Continuous Integration & Continuous Deployment Architecture
+![CICD](./assets/cicd.png)
+
+### Automate with Makefile
 ![Makefile](./assets/makefile.png)
 available command:
 - `make setup-dev` - setup development environment with docker
@@ -37,8 +42,23 @@ available command:
 - `make build` - build all the services into bin
 - `make run <service_name>` - run a builded bin service
 
-## Continuous Integration & Continuous Deployment Architecture
-![CICD](./assets/cicd.png)
+### Monorepo Structure
+```
+packages/
+├─ services/
+├─ loggers/
+services/
+├─ api-gateway/
+│  ├─ index.ts
+├─ api-user/
+├─ api-auth/
+├─ api-consult/
+│  ├─ main.py
+```
+this project using monorepo structure, so all the services and packages are in the same repository.
+- `packages` - contains all the packages that can be used by all the services, like for reusable code, etc.
+- `services` - contains all the services that will be used in this project.
+all service mostly using typescript, so we use bunjs as runtime and using bunjs workspace to manage our monorepo.
 
 ## Copyrigth
 &copy; 2021 [Nakama Capstone](https://github.com/Nakama-Capstone)
