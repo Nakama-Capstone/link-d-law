@@ -4,14 +4,19 @@
         "title": "Link D Law",
         "version": "1.0",
         "description": "OpenAPI for Link D Law",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
         "contact": {
             "email": "nakamacapstone@gmail.com"
         }
     },
+    "security": [],
     "servers": [
         {
             "description": "Link D Law RESTful API Server",
-            "url": "http://{environtment}/",
+            "url": "http://{environtment}",
             "variables": {
                 "environtment": {
                     "description": "Server Environtment",
@@ -31,6 +36,7 @@
     "paths": {
         "/v1/auth/login": {
             "post": {
+                "operationId": "login",
                 "tags": [
                     "Auth"
                 ],
@@ -41,6 +47,10 @@
                         "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/login"
+                            },
+                            "example": {
+                                "email": "user1@mail.com",
+                                "password": "password"
                             }
                         }
                     }
@@ -57,6 +67,7 @@
         },
         "/v1/auth/register": {
             "post": {
+                "operationId": "register",
                 "summary": "Register to Apps",
                 "description": "Melakukan pendaftaran ke aplikasi",
                 "tags": ["Auth"],
@@ -93,87 +104,56 @@
         },
         "/v1/auth/logout": {
             "post": {
+                "operationId": "logout",
                 "summary": "Logout from Apps",
                 "description": "Logout dari aplikasi",
                 "tags": ["Auth"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
                 "responses": {
                     "200": {
                         "$ref": "#/components/responses/AuthLogout"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/AuthLogout400"
                     }
                 }
             }
         },
         "/v1/auth/refresh": {
             "post": {
+                "operationId": "refresh",
                 "summary": "Refresh Token",
                 "description": "Mengambil token baru",
                 "tags": ["Auth"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
                 "responses": {
                     "200": {
                         "$ref": "#/components/responses/AuthRefresh"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/AuthRefresh400"
                     }
                 }
             }
-        },
-        "/v1/laws": {
-            "get": {
-                "tags": ["Law"]
-            }
-        },
-        "/v1/laws/{law}": {
-            "get": {
-                "tags": ["Law"]
-            }
-        },
-        "/v1/laws/{law}/{pasal}": {
-            "get": {
-                "tags": ["Law"]
-            }
-        },
-        "/v1/chats": {
-            "get": {
-                "tags": ["Chat"]
-            }
-        },
-        "/v1/chats/{id}": {
-            "get": {
-                "tags": ["Chat"]
-            },
-            "post": {
-                "tags": ["Chat"]
-            }
-        },
-        "/v1/lawyers": {
-            "get": {
-                "tags": ["Lawyer"]
-            }
-        },
-        "/v1/lawyers/{id}": {
-            "get": {
-                "tags": ["Lawyer"]
-            }
-        },
-        "/v1/profile": {
-            "get": {
-                "tags": ["Profile"]
-            },
-            "post": {
-                "tags": ["Profile"]
-            }
-        },
-        "/v1/mainFitur": {
-            "get": {
-                "tags": ["Main"]
-            },
-            "post": {
-                "tags": ["Main"]
-            }
-        },
-        "/v1/home": {
-            "get": {}
         }
     },
     "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT",
+                "description": "JWT Token"
+            }
+        },
         "schemas": {
             "ResponseSuccess": {
                 "type": "object",
@@ -253,51 +233,19 @@
                 "properties": {
                     "name": {
                         "type": "string",
-                        "minLength": 1,
-                        "required": true
+                        "minLength": 1
                     },
                     "email": {
                         "type": "string",
-                        "minLength": 10,
-                        "required": true
+                        "minLength": 10
                     },
                     "password": {
                         "type": "string",
-                        "minLength": 8,
-                        "required": true
-                    }
-                }
-            },
-            "responseSchemasLogin": {
-                "type": "object",
-                "properties": {
-                    "message": {
-                        "type": "string"
+                        "minLength": 8
                     },
-                    "status": {
-                        "type": "boolean"
-                    }
-                }
-            },
-            "responseSchemasRegister": {
-                "type": "object",
-                "properties": {
-                    "message": {
-                        "type": "string"
-                    },
-                    "status": {
-                        "type": "boolean"
-                    }
-                }
-            },
-            "responseSchemasLogout": {
-                "type": "object",
-                "properties": {
-                    "message": {
-                        "type": "string"
-                    },
-                    "status": {
-                        "type": "boolean"
+                    "password_confirmation": {
+                        "type": "string",
+                        "minLength": 8
                     }
                 }
             }
@@ -409,6 +357,20 @@
                     }
                 }
             },
+            "AuthLogout400": {
+                "description": "Logout Failed",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ResponseError"
+                        },
+                        "example": {
+                            "ok": false,
+                            "message": "logout failed"
+                        }
+                    }
+                }
+            },
             "AuthRefresh": {
                 "description": "Logout Success",
                 "content": {
@@ -419,6 +381,20 @@
                         "example": {
                             "ok": true,
                             "message": "token refreshed"
+                        }
+                    }
+                }
+            },
+            "AuthRefresh400": {
+                "description": "Refresh Failed",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ResponseError"
+                        },
+                        "example": {
+                            "ok": false,
+                            "message": "refresh failed"
                         }
                     }
                 }

@@ -8,6 +8,7 @@
     "build:bin": "bun --bun concurrently -c -n api-gateway,api-auth,api-user \"cd services/api-gateway && bun run build:bin\" \"cd services/api-auth && bun run build:bin\" \"cd services/api-user && bun run build:bin\""
   },
   "devDependencies": {
+    "@redocly/cli": "^1.4.1",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
     "@typescript-eslint/parser": "^6.10.0",
     "bun-types": "latest",

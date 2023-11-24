@@ -1,0 +1,17 @@
+extends:
+  - recommended
+theme:
+  openapi:
+    generateCodeSamples:
+      languages:
+        - lang: curl
+        - lang: C# 
+        - lang: Go
+        - lang: Java
+        - lang: Java8+Apache
+        - lang: JavaScript
+        - lang: Node.js
+        - lang: PHP
+        - lang: Python
+        - lang: R
+        - lang: Ruby
