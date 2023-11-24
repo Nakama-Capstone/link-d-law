@@ -15,7 +15,8 @@
     "eslint": "^8.53.0"
   },
   "peerDependencies": {
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "@law-d-link/service": "workspace:*"
   },
   "workspaces": [
     "packages/*",

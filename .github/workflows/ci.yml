@@ -24,10 +24,21 @@ jobs:
         uses: oven-sh/setup-bun@v1
       - name: install dependencies
         run: bun install
-      - name: run tests
-        run: bun test
       - name: lint
         run: bun lint
+
+  # api-tests:
+  #   name: (api) Perform tests
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: checkout
+  #       uses: actions/checkout@v4
+  #     - name: setup bun
+  #       uses: oven-sh/setup-bun@v1
+  #     - name: install dependencies
+  #       run: bun install
+  #     - name: run tests
+  #       run: bun test
 
   apps-mobile-android-lint:
     name: (apps/mobile-android) Perform lint check

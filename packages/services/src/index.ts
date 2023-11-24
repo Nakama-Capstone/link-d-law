@@ -13,6 +13,19 @@ export interface MicroserviceServiceHttpServerConfig {
   apiVersion: string;
 }
 
+export const LoadConfigEnv = (envPath?: string) => {
+  let env_path: string|undefined = path.resolve(process.cwd(), '../../', '.env');
+    if (!fs.existsSync(env_path)) env_path = path.resolve(process.cwd(), '../', '.env');
+    if (!fs.existsSync(env_path)) env_path = path.resolve(process.cwd(), '.env');
+    if (!fs.existsSync(env_path)) env_path = undefined
+
+    dotenv.config({
+      path: env_path
+    });
+
+    return env_path
+}
+
 export class MicroserviceService {
   constructor(public config: MicroserviceServiceConfig) {
     console.log(`Service "${this.getPackageConfig()?.name}" Instantiated`);
@@ -22,17 +35,10 @@ export class MicroserviceService {
   }
 
   private loadConfigEnv() {
-    let env_path: string|undefined = path.resolve(process.cwd(), '../../', '.env');
-    if (!fs.existsSync(env_path)) env_path = path.resolve(process.cwd(), '../', '.env');
-    if (!fs.existsSync(env_path)) env_path = path.resolve(process.cwd(), '.env');
-    if (!fs.existsSync(env_path)) env_path = undefined
-
+    const env_path = LoadConfigEnv();
     // load env
     if (env_path) console.log(`Service "${this.getPackageConfig()?.name}" use ${env_path}`);
     else console.warn(`Service "${this.getPackageConfig()?.name}" running without env file`);
-    dotenv.config({
-      path: env_path
-    });
   }
 
   getPackageConfig() {
