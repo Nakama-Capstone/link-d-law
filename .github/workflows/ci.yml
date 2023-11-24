@@ -146,27 +146,28 @@ jobs:
         uses: oven-sh/setup-bun@v1
       - name: install dependencies
         run: bun i
+      - name: install vercel
+        run: bun i -g vercel
       - name: build openapi
         uses: seeebiii/redoc-cli-github-action@v10
         with:
-          args: 'build-docs ./docs/OpenAPI/link-d-law.json --config ./infrastructures/redoc/redocly.yaml -o ./dist/link-d-law-openai.html'
+          args: 'build-docs ./docs/OpenAPI/link-d-law.json --config ./infrastructures/redoc/redocly.yaml -o ./dist/openapi-doc/index.html'
       - name: archive openapi
         uses: actions/upload-artifact@v2
         with:
           name: link-d-law-openapi.html
-          path: ./dist/link-d-law-openai.html
+          path: ./dist/openapi-doc/index.html
       - name: HTML Preview
         id: html_preview
         uses: pavi2410/html-preview-action@v2
         with:
-          html_file: 'index.html'
-      - name: deploy to netlify
-        uses: nwtgck/actions-netlify@v1
-        with:
-          publish-dir: ./dist
-          production-branch: main
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          enable-pull-request-comment: true
+          html_file: ./dist/openapi-doc/index.html
+      - name: Deploy redoc build to Vercel
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Build with Vercel
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy to Vercel
+        run: vercel deploy --prebuild --token=${{ secrets.VERCEL_TOKEN }}
 
   artifacts-comment:
     name: Generate artifacts and comment on PR
