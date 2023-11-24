@@ -163,12 +163,6 @@ jobs:
         with:
           name: link-d-law-openapi.html
           path: ./dist/openapi-doc/index.html
-      - name: HTML Preview
-        id: html_preview
-        if: github.event_name == 'pull_request'
-        uses: pavi2410/html-preview-action@v2
-        with:
-          html_file: ./datasets/kitab-hukum-perdata/kitab-hukum-perdata.html
       - name: Deploy redoc build to Vercel
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }} --cwd=./dist/openapi-doc
       - name: Build with Vercel
@@ -206,10 +200,10 @@ jobs:
                 issue_number: issueNumber,
             })
             const botComment = comments.find(comment => {
-                return comment.user.type === 'Bot' && comment.body.includes('Deployed at')
+                return comment.user.type === 'Bot' && comment.body.includes('OPENAPI Docs Deploy at')
             })
 
-            const output = `OPENAPI Docs Deploy at : ${process.env.DEPLOYMENT_URL}\nDeployed at: ${new Date().toUTCString()}`
+            const output = `OPENAPI Docs Deploy at : ${process.env.DEPLOYMENT_URL}\n\n_Deployed at: ${new Date().toUTCString()}_`
 
             // If we have a comment, update it, otherwise create a new one
             if (botComment) {
