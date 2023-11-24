@@ -152,7 +152,7 @@ jobs:
         run: bun run build:openapi
       - name: list files
         run: |
-          ls && ls ./dist && ls ./dist/openapi-doc
+          ls && ls -R ./dist
       - name: archive openapi
         uses: actions/upload-artifact@v2
         with:
