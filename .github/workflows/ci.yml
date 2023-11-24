@@ -135,6 +135,36 @@ jobs:
           tags: latest-dev-dev
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+  
+  build-openapi-redocly:
+    name: Build OpenAPI with Redocly
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+      - name: setup bun
+        uses: oven-sh/setup-bun@v1
+      - name: install dependencies
+        run: bun install
+      - name: build openapi
+        run: bunx @redocly/cli build-docs ./docs/OpenAPI/link-d-law.json --config ./infrastructures/redoc/redocly.yaml -o ./dist/link-d-law-openai.html
+      - name: archive openapi
+        uses: actions/upload-artifact@v2
+        with:
+          name: link-d-law-openapi.html
+          path: ./dist/link-d-law-openai.html
+      - name: HTML Preview
+        id: html_preview
+        uses: pavi2410/html-preview-action@v2
+        with:
+          html_file: 'index.html'
+      - name: deploy to netlify
+        uses: nwtgck/actions-netlify@v1
+        with:
+          publish-dir: ./dist
+          production-branch: main
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          enable-pull-request-comment: true
 
   artifacts-comment:
     name: Generate artifacts and comment on PR
