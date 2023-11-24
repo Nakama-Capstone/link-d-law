@@ -31,38 +31,26 @@
     "paths": {
         "/v1/auth/login": {
             "post": {
-                "summary": "Login to Apps",
-                "description": "Login ke aplikasi",
-                "tags": ["Authentication"],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login",
+                "description": "Login",
                 "requestBody": {
-                    "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/login"
-                            },
-                            "examples": {
-                                "user": {
-                                    "description": "Example user login",
-                                    "value": {
-                                        "email": "user@mail.com",
-                                        "password": "password"
-                                    }
-                                }
                             }
                         }
                     }
                 },
                 "responses": {
                     "200": {
-                        "description": "Berhasil login ke aplikasi",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/responseSchemasLogin"
-                                }
-                            }
-                        }
+                        "$ref": "#/components/responses/AuthLogin"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/AuthLogin400"
                     }
                 }
             }
@@ -71,7 +59,7 @@
             "post": {
                 "summary": "Register to Apps",
                 "description": "Melakukan pendaftaran ke aplikasi",
-                "tags": ["Authentication"],
+                "tags": ["Auth"],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -85,7 +73,8 @@
                                     "value": {
                                         "name": "user",
                                         "email": "user@mail.com",
-                                        "password": "password"
+                                        "password": "password",
+                                        "password_confirmation": "password"
                                     }
                                 }
                             }
@@ -94,14 +83,10 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "berhasil mendaftar pada aplikasi",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/responseSchemasRegister"
-                                }
-                            }
-                        }
+                        "$ref": "#/components/responses/AuthRegister"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/AuthRegister400"
                     }
                 }
             }
@@ -110,41 +95,25 @@
             "post": {
                 "summary": "Logout from Apps",
                 "description": "Logout dari aplikasi",
-                "tags": ["Authentication"],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/logout"
-                            },
-                            "examples": {
-                                "user": {
-                                    "description": "Example user logout",
-                                    "value": {
-                                        "status": "logout"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
+                "tags": ["Auth"],
                 "responses": {
                     "200": {
-                        "description": "Berhasil logout dari aplikasi aplikasi",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/responseSchemasLogout"
-                                }
-                            }
-                        }
+                        "$ref": "#/components/responses/AuthLogout"
                     }
                 }
             }
         },
-        "/v1/home": {
-            "get": {}
+        "/v1/auth/refresh": {
+            "post": {
+                "summary": "Refresh Token",
+                "description": "Mengambil token baru",
+                "tags": ["Auth"],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/AuthRefresh"
+                    }
+                }
+            }
         },
         "/v1/laws": {
             "get": {
@@ -199,22 +168,83 @@
             "post": {
                 "tags": ["Main"]
             }
+        },
+        "/v1/home": {
+            "get": {}
         }
     },
     "components": {
         "schemas": {
+            "ResponseSuccess": {
+                "type": "object",
+                "properties": {
+                    "ok": {
+                        "type": "boolean",
+                        "description": "Status",
+                        "default": true,
+                        "example": true
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "Message",
+                        "default": "Success"
+                    },
+                    "data": {
+                        "type": "object",
+                        "description": "Data",
+                        "nullable": true
+                    }
+                }
+            },
+            "ResponseError": {
+                "type": "object",
+                "properties": {
+                    "ok": {
+                        "type": "boolean",
+                        "description": "Status",
+                        "default": true,
+                        "example": false
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "Message",
+                        "default": "Failed"
+                    },
+                    "errors": {
+                        "type": "array",
+                        "description": "Errors",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "field": {
+                                    "type": "string",
+                                    "description": "Field",
+                                    "nullable": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "description": "Message"
+                                }
+                            }
+                        }
+                    },
+                    "data": {
+                        "type": "object",
+                        "description": "Data",
+                        "nullable": true
+                    }
+                }
+            },
             "login": {
                 "type": "object",
                 "properties": {
                     "email": {
                         "type": "string",
-                        "minLength": 10,
-                        "required": true
+                        "description": "User Email"
                     },
                     "password": {
                         "type": "string",
-                        "minLength": 8,
-                        "required": true
+                        "description": "User Password"
                     }
                 }
             },
@@ -234,16 +264,6 @@
                     "password": {
                         "type": "string",
                         "minLength": 8,
-                        "required": true
-                    }
-                }
-            },
-            "logout": {
-                "type": "object",
-                "properties": {
-                    "status": {
-                        "type": "string",
-                        "minLength": 10,
                         "required": true
                     }
                 }
@@ -283,7 +303,126 @@
             }
         },
         "responses": {
-
+            "AuthLogin": {
+                "description": "Login Success",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ResponseSuccess",
+                            "data": {
+                                "type": "object",
+                                "properties": {
+                                    "access_token": {
+                                        "type": "string",
+                                        "description": "Access Token"
+                                    },
+                                    "refresh_token": {
+                                        "type": "string",
+                                        "description": "Refresh Token"
+                                    }
+                                }
+                            }
+                        },
+                        "example": {
+                            "ok": true,
+                            "message": "login success",
+                            "data": {
+                                "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+                                "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+                            }
+                        }
+                    }
+                }
+            },
+            "AuthLogin400": {
+                "description": "Login Failed",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ResponseError"
+                        },
+                        "example": {
+                            "ok": false,
+                            "message": "login failed",
+                            "errors": [
+                                {
+                                    "field": "email",
+                                    "message": "email is required"
+                                },
+                                {
+                                    "message": "email or Password is wrong"
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "AuthRegister": {
+                "description": "Register Success",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ResponseSuccess"
+                        },
+                        "example": {
+                            "ok": true,
+                            "message": "register success"
+                        }
+                    }
+                }
+            },
+            "AuthRegister400": {
+                "description": "Register Failed",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ResponseError"
+                        },
+                        "example": {
+                            "ok": false,
+                            "message": "register failed",
+                            "errors": [
+                                {
+                                    "field": "email",
+                                    "message": "email is required"
+                                },
+                                {
+                                    "field": "password",
+                                    "message": "password and password confirmation not match"
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "AuthLogout": {
+                "description": "Logout Success",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ResponseSuccess"
+                        },
+                        "example": {
+                            "ok": true,
+                            "message": "token revoked"
+                        }
+                    }
+                }
+            },
+            "AuthRefresh": {
+                "description": "Logout Success",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ResponseSuccess"
+                        },
+                        "example": {
+                            "ok": true,
+                            "message": "token refreshed"
+                        }
+                    }
+                }
+            }
         }
     }
 }
