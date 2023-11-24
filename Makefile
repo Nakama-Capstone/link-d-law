@@ -1,4 +1,5 @@
 .DEFAULT_GOAL := hello
+.PHONY: run
 
 show-banner:
 	@echo "=================================================="
@@ -27,5 +28,22 @@ setup-dev:
 dev:
 	@make show-banner
 	@echo "Running Dev ..."
-	@echo "Running Dev - API"
+	@echo "Running Dev - API Service"
 	@bun dev
+
+build:
+	@make show-banner
+	@echo "Building Prod ..."
+	@echo "Building Prod - API Service"
+	@bun run build:bin
+
+run:
+	@make show-banner
+	@path=./bin/$(filter-out $@,$(MAKECMDGOALS)); \
+	if [ -f $$path ]; then \
+		echo "Running $$path"; \
+		$$path; \
+	else \
+		echo "Error: $$path does not exist or is not a file"; \
+		exit 1; \
+	fi

@@ -11,9 +11,25 @@ jobs:
     steps:
       - name: say-hello
         run: echo "Hello World from Continuous Deployment!"
+  
+  build-docker-image:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        with:
+          name: nakamacapstone/linkdlaw
+          dockerfile: ./docker/dev/Dockerfile
+          tags: latest-dev
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-  apps-mobile-android-build-apk:
-    name: (apps/mobile-android) Generate Production Build APK
+
+  apps-mobile-android-build-release-apk:
+    name: (apps/mobile-android) Generate Production Release Build APK
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the code
@@ -36,5 +52,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v2
         with:
-          name: com.nakama.capstone.linkdlaw-unsigned.apk
+          name: com.nakama.capstone.linkdlaw-release-unsigned.apk
           path: apps/mobile-android/app/build/outputs/apk/release/app-release-unsigned.apk

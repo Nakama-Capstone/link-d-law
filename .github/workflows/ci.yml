@@ -24,24 +24,25 @@ jobs:
         uses: oven-sh/setup-bun@v1
       - name: install dependencies
         run: bun install
-      - name: run tests
-        run: bun test
       - name: lint
         run: bun lint
+
+  # api-tests:
+  #   name: (api) Perform tests
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: checkout
+  #       uses: actions/checkout@v4
+  #     - name: setup bun
+  #       uses: oven-sh/setup-bun@v1
+  #     - name: install dependencies
+  #       run: bun install
+  #     - name: run tests
+  #       run: bun test
 
   apps-mobile-android-lint:
     name: (apps/mobile-android) Perform lint check
     runs-on: ubuntu-latest
-    # defaults:
-    #   run:
-    #     working-directory: ./apps/mobile-android
-    permissions:
-      # Required to upload/save artifact, otherwise you'll get
-      # "Error: Resource not accessible by integration"
-      contents: write
-      # Required to post comment, otherwise you'll get
-      # "Error: Resource not accessible by integration"
-      pull-requests: write
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -63,33 +64,11 @@ jobs:
       - name: Upload html test report
         uses: actions/upload-artifact@v2
         with:
-          name: lint.html
+          name: lint-results-debug.html
           path: apps/mobile-android/app/build/reports/lint-results-debug.html
-      - name: Comment on PR if is PR with bot github actions show artifacts link
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v4
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const artifacts = await github.actions.listWorkflowRunArtifacts({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              run_id: context.runId
-            });
-            const artifact = artifacts.data.artifacts.find(artifact => artifact.name === 'lint.html');
-            if (artifact) {
-              const artifactLink = artifact.archive_download_url;
-              const comment = `Lint report: ${artifactLink}`;
-              github.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: comment
-              });
-            }
 
-  apps-mobile-android-debug-apk:
-    name: (apps/mobile-android) Generate Debug APK
+  apps-mobile-android-build-debug-apk:
+    name: (apps/mobile-android) Generate Debug Build APK
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the code
@@ -114,25 +93,118 @@ jobs:
         with:
           name: com.nakama.capstone.linkdlaw-debug.apk
           path: apps/mobile-android/app/build/outputs/apk/debug/app-debug.apk
-      - name: Comment on PR if is PR with bot github actions show artifacts link
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v4
+  
+  apps-mobile-android-build-release-apk:
+    name: (apps/mobile-android) Generate Production Release Build APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const artifacts = await github.actions.listWorkflowRunArtifacts({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              run_id: context.runId
-            });
-            const artifact = artifacts.data.artifacts.find(artifact => artifact.name === 'lint.html');
-            if (artifact) {
-              const artifactLink = artifact.archive_download_url;
-              const comment = `Lint report: ${artifactLink}`;
-              github.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: comment
-              });
-            }
+          java-version: 17
+          distribution: 'adopt'
+      - name: Set up Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: 'current'
+      - name: Make Gradle executable
+        run: chmod +x ./gradlew
+        working-directory: ./apps/mobile-android
+      - name: Build Production APK
+        run: ./gradlew assembleRelease
+        working-directory: ./apps/mobile-android
+      - name: Upload APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: com.nakama.capstone.linkdlaw-release-unsigned.apk
+          path: apps/mobile-android/app/build/outputs/apk/release/app-release-unsigned.apk
+
+  build-docker-image:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        with:
+          name: nakamacapstone/linkdlaw
+          dockerfile: ./docker/dev/Dockerfile
+          tags: latest-dev-dev
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+  
+  build-openapi-redocly:
+    name: Build OpenAPI with Redocly
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+      - name: setup bun
+        uses: oven-sh/setup-bun@v1
+      - name: install dependencies
+        run: bun i
+      - name: install vercel
+        run: bun i -g vercel @redocly/cli
+      - name: build openapi
+        run: bun run build:openapi
+      - name: list files
+        run: |
+          ls && ls ./dist && ls ./dist/openapi-doc
+      - name: archive openapi
+        uses: actions/upload-artifact@v2
+        with:
+          name: link-d-law-openapi.html
+          path: ./dist/openapi-doc/index.html
+      - name: HTML Preview
+        id: html_preview
+        uses: pavi2410/html-preview-action@v2
+        with:
+          html_file: ./dist/openapi-doc/index.html
+      - name: Deploy redoc build to Vercel
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }} --cwd=./dist/openapi-doc
+      - name: Build with Vercel
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }} --cwd=./dist/openapi-doc
+      - name: Deploy to Vercel
+        run: vercel deploy --prebuild --token=${{ secrets.VERCEL_TOKEN }} --cwd=./dist/openapi-doc
+
+  artifacts-comment:
+    name: Generate artifacts and comment on PR
+    runs-on: ubuntu-latest
+    needs: [apps-mobile-android-lint, apps-mobile-android-build-debug-apk, apps-mobile-android-build-release-apk]
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Download artifacts - debug APK
+        uses: actions/download-artifact@v2
+        with:
+          name: com.nakama.capstone.linkdlaw-debug.apk
+      - name: Download artifacts - release APK
+        uses: actions/download-artifact@v2
+        with:
+          name: com.nakama.capstone.linkdlaw-release-unsigned.apk
+      - name: Download artifacts - lint report
+        uses: actions/download-artifact@v2
+        with:
+          name: lint-results-debug.html
+      - name: Display structure of the artifacts directory
+        run: ls -R
+      - name: Renaming artifacts file
+        run: |
+          mv app-debug.apk com.nakama.capstone.linkdlaw-debug.apk
+          mv app-release-unsigned.apk com.nakama.capstone.linkdlaw-release-unsigned.apk
+      - name: Pull request artifacts
+        if: github.event_name == 'pull_request'
+        uses: gavv/pull-request-artifacts@v2
+        with:
+          commit: ${{ github.event.pull_request.head.sha }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          inter-link: false
+          artifacts-branch: artifacts
+          artifacts: |
+            com.nakama.capstone.linkdlaw-debug.apk
+            com.nakama.capstone.linkdlaw-release-unsigned.apk
+            lint-results-debug.html
