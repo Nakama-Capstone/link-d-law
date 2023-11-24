@@ -145,9 +145,11 @@ jobs:
       - name: setup bun
         uses: oven-sh/setup-bun@v1
       - name: install dependencies
-        run: bun install
+        run: bun i
       - name: build openapi
-        run: bunx @redocly/cli build-docs ./docs/OpenAPI/link-d-law.json --config ./infrastructures/redoc/redocly.yaml -o ./dist/link-d-law-openai.html
+        uses: seeebiii/redoc-cli-github-action@v10
+        with:
+          args: 'build-docs ./docs/OpenAPI/link-d-law.json --config ./infrastructures/redoc/redocly.yaml -o ./dist/link-d-law-openai.html'
       - name: archive openapi
         uses: actions/upload-artifact@v2
         with:
