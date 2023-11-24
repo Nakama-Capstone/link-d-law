@@ -29,5 +29,16 @@ L!nk D' Law is a web and mobile application that can be used to find the best la
 ## Contributing Guide
 [Contribute Guide](CONTRIBUTING.md)
 
+## Automate with Makefile
+![Makefile](./assets/makefile.png)
+available command:
+- `make setup-dev` - setup development environment with docker
+- `make dev` - run development environment
+- `make build` - build all the services into bin
+- `make run <service_name>` - run a builded bin service
+
+## Continuous Integration & Continuous Deployment Architecture
+![CICD](./assets/cicd.png)
+
 ## Copyrigth
 &copy; 2021 [Nakama Capstone](https://github.com/Nakama-Capstone)
