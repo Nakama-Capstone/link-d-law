@@ -208,7 +208,7 @@ jobs:
                 return comment.user.type === 'Bot' && comment.body.includes('Deployed at')
             })
 
-            const output = "OPENAPI Docs Deploy at : " + process.env.DEPLOYMENT_URL
+            const output = `OPENAPI Docs Deploy at : ${process.env.DEPLOYMENT_URL}\nDeployed at: ${new Date().toUTCString()}`
 
             // If we have a comment, update it, otherwise create a new one
             if (botComment) {
