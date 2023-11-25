@@ -143,6 +143,26 @@
                     }
                 }
             }
+        },
+        "/v1/laws": {
+            "get": {
+                "summary": "Get all laws",
+                "description": "Get all laws",
+                "tags": ["Law"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/getLaws"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/getLaws400"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -246,6 +266,31 @@
                     "password_confirmation": {
                         "type": "string",
                         "minLength": 8
+                    }
+                }
+            },
+            "law": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Name of law",
+                        "example": "KUH Perdata"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Description of law",
+                        "example": "Kitab Undang-Undang Hukum Perdata"
+                    },
+                    "totalPasal": {
+                        "type": "number",
+                        "description": "total of pasal",
+                        "example": 1993
+                    },
+                    "image": {
+                        "type": "string",
+                        "description": "link to image",
+                        "example": "google.com"
                     }
                 }
             }
@@ -395,6 +440,45 @@
                         "example": {
                             "ok": false,
                             "message": "refresh failed"
+                        }
+                    }
+                }
+            },
+            "getLaws": {
+                "description": "Success get all laws",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/ResponseSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/law"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "getLaws400": {
+                "description": "Register Failed",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ResponseError"
+                        },
+                        "example": {
+                            "ok": false,
+                            "message": "failed get all laws"
                         }
                     }
                 }
