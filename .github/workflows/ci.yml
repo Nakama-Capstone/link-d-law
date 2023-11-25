@@ -250,7 +250,7 @@ jobs:
           mv app-release-unsigned.apk com.nakama.capstone.linkdlaw-release-unsigned.apk
       - name: Get branch name only
         id: branch-name
-        run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
+        run: echo "BRANCH_NAME=$(echo ${GITHUB_HEAD_REF#refs/heads/})" >> $GITHUB_ENV
       - name: show branch name result
         run: echo $BRANCH_NAME
       - name: Pull request artifacts
