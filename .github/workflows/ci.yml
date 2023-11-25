@@ -257,7 +257,7 @@ jobs:
           inter-link: false
           # artifacts-branch: artifacts
           artifacts-repo: link-d-law-artifacts
-          artifacts-token: ${{ secrets.GITHUB_TOKEN }}
+          # artifacts-token: ${{ secrets.GITHUB_TOKEN }}
           artifacts: |
             com.nakama.capstone.linkdlaw-debug.apk
             com.nakama.capstone.linkdlaw-release-unsigned.apk
