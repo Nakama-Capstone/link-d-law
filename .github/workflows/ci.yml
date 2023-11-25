@@ -262,7 +262,7 @@ jobs:
           inter-link: false
           # prefix must be <branch_name>-
           artifacts-prefix: ${{ env.BRANCH_NAME }}-
-          # artifacts-token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts-branch: artifacts
           artifacts: |
             com.nakama.capstone.linkdlaw-debug.apk
             com.nakama.capstone.linkdlaw-release-unsigned.apk
