@@ -55,6 +55,10 @@ export class MicroserviceService {
 
   createHttpServer(config: MicroserviceServiceHttpServerConfig) {
     const app = express();
+
+    // PLUGINS
+    app.use(express.urlencoded({ extended: true }));
+    app.use(express.json());
     
     // HEALTH CHECK
     app.get("/", (req, res) => {
