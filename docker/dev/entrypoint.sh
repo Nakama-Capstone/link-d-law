@@ -2,5 +2,5 @@
 
 echo "Running entrypoint.sh"
 cd /app
-make dev
+make dev-api
 cd /app

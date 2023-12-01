@@ -1,18 +1,32 @@
-import path from 'path';
-import { PrismaClient } from "@prisma/client"
-import dotenv from "dotenv"
+import { LoadConfigEnv, initPrisma, Password } from "@law-d-link/service"
 
-dotenv.config({
-  path: path.resolve(__dirname, '../../.env'),
-});
-const db = new PrismaClient({
-  datasources: {
-    db: {
-      url: process.env.DATABASE_URL,
-    }
+// load config env
+LoadConfigEnv()
+
+// init prisma db
+const db = initPrisma()
+
+// user seeder
+await db.user.create({
+  data: {
+    firstName: "Gojoh",
+    middleName: undefined,
+    lastName: "Santoso",
+    email: "example1@mail.com",
+    password: Password.hash("password"),
   }
-});
+})
+await db.user.create({
+  data: {
+    firstName: "Uzumaki",
+    middleName: undefined,
+    lastName: "Udin",
+    email: "example2@mail.com",
+    password: Password.hash("password"),
+  }
+})
 
+// law seeder
 await db.law.create({
   data: {
     title: "Kitab Hukum Perdata",
@@ -32,4 +46,5 @@ await db.law.create({
   },
 })
 
-console.log("Seeding completed");
+// done
+console.log("seeding done")

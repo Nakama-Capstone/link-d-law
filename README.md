@@ -14,7 +14,7 @@ L!nk D' Law is a web and mobile application that can be used to find the best la
 - `services` - contains all the services
     - `api-gateway` - api service for handling all the api request
     - `api-auth` - api service for handling authentication
-    - `api-user` - api service for handling user data
+    - `api-main` - api service for handling main features
 
 ## Concept using of this architecture
 - Monorepo
@@ -22,6 +22,11 @@ L!nk D' Law is a web and mobile application that can be used to find the best la
 - Unit Testing
 - CI/CD (Continuous Integration/Continuous Deployment)
 - ...
+
+## Text Editor
+i recommend to use this text editor for development:
+- [Visual Studio Code](https://code.visualstudio.com/)
+- Open this project with VSCode, and you will get a notification to install all the recommended extensions for this project. click install all.
 
 ## Development Guide
 [Development Guide](DEVELOPMENT.md)
@@ -50,7 +55,7 @@ packages/
 services/
 ├─ api-gateway/
 │  ├─ index.ts
-├─ api-user/
+├─ api-main/
 ├─ api-auth/
 ├─ api-consult/
 │  ├─ main.py

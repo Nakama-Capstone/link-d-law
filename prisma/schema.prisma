@@ -20,15 +20,14 @@ model Law {
 }
 
 model LawBab {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   name        String
   description String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  lawId   Int
-  law     Law       @relation(fields: [lawId], references: [id])
-  LawData LawData[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  lawId       Int
+  law         Law       @relation(fields: [lawId], references: [id])
+  LawData     LawData[]
 }
 
 model LawData {
@@ -37,7 +36,17 @@ model LawData {
   content   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  lawBabId  Int
+  lawBab    LawBab   @relation(fields: [lawBabId], references: [id])
+}
 
-  lawBabId Int
-  lawBab   LawBab @relation(fields: [lawBabId], references: [id])
+model User {
+  id         Int      @id @default(autoincrement())
+  email      String   @unique
+  password   String
+  firstName  String
+  middleName String?
+  lastName   String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

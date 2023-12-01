@@ -12,7 +12,7 @@ const {
   createGroup,
   httpService
 } = service.createHttpServer({
-  port: Number(service.getEnv("SERVICE_API_AUTH_PORT", "3002")),
+  port: Number(service.getEnv("SERVICE_API_USER_PORT", "3001")),
   apiVersion: "v1",
 })
 
@@ -21,39 +21,27 @@ const {
 // it also create a new express.Router() instance
 // so this script below have url prefix /v1/* (/v1/login, /v1/register, etc)
 createGroup(app, 'v1', (router) => {
-  // TODO: route to register
-  router.get("/register", (req, res) => {
+  // TODO: get one user by id
+  router.get("/:id", (req, res) => {
+    if (!req.params.id) {
+      return res.status(400).json({
+        ok: false,
+        message: "bad request",
+      })
+    }
+    
     res.json({
       ok: true,
-      message: "🚀 register",
+      message: "get user by id success",
+      data: {
+      }
     })
   })
-  // TODO: route to login
+  // TODO: get all user
   router.get("/login", (req, res) => {
     res.json({
       ok: true,
       message: "🚀 login",
-    })
-  })
-  // TODO: route to logout
-  router.get("/logout", (req, res) => {
-    res.json({
-      ok: true,
-      message: "🚀 logout",
-    })
-  })
-  // TODO: route to get user info from token
-  router.get("/me", (req, res) => {
-    res.json({
-      ok: true,
-      message: "🚀 me",
-    })
-  })
-  // TODO: route to refresh token
-  router.get("/refresh", (req, res) => {
-    res.json({
-      ok: true,
-      message: "🚀 me",
     })
   })
 })
