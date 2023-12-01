@@ -163,6 +163,165 @@
                     }
                 }
             }
+        },
+        "/v1/laws/{law}": {
+            "get": {
+                "summary": "Get all pasal from law",
+                "description": "Get all pasal from law",
+                "tags": ["Law"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "law",
+                        "description": "Name of law",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "kuh-perdata"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/getLaw"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/getLaw400"
+                    }
+                }
+            }
+        },
+        "/v1/laws/{law}/{pasal}": {
+            "get": {
+                "summary": "Get detail pasal",
+                "description": "Get detail pasal",
+                "tags": ["Law"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "law",
+                        "description": "Name of law",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "kuh-perdata"
+                        }
+                    },
+                    {
+                        "name": "pasal",
+                        "description": "number of pasal",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "example": 3
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/getPasal"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/getPasal400"
+                    }
+                }
+            }
+        },
+        "/v1/chats": {
+            "get": {
+                "summary": "Get all user chat",
+                "description": "Get all user chat",
+                "tags": ["Chat"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/getChats"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/getChats400"
+                    }
+                }
+            }
+        },
+        "/v1/chats/{id}": {
+            "get": {
+                "summary": "Get all message from the person being chatted with",
+                "description": "Get all message from the person being chatted with",
+                "tags": ["Chat"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "ID of law",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "crwdnmkhmswehhi"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/getMessage"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/getMessage400"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Send message",
+                "description": "Send message to the person being chatted with",
+                "tags": ["Chat"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "ID of law",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "crwdnmkhmswehhi"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/sendMessage"
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/sendMessage"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/sendMessage400"
+                    }
+                }                
+            }
         }
     },
     "components": {
@@ -272,6 +431,11 @@
             "law": {
                 "type": "object",
                 "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "ID of law",
+                        "example": "kuh-perdata"
+                    },
                     "name": {
                         "type": "string",
                         "description": "Name of law",
@@ -291,6 +455,153 @@
                         "type": "string",
                         "description": "link to image",
                         "example": "google.com"
+                    }
+                }
+            },
+            "lawDetail": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "ID of law",
+                        "example": "kuh-perdata"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of law",
+                        "example": "KUH Perdata"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Description of law",
+                        "example": "Kitab Undang-Undang Hukum Perdata"
+                    },
+                    "totalPasal": {
+                        "type": "number",
+                        "description": "total of pasal",
+                        "example": 1993
+                    },
+                    "image": {
+                        "type": "string",
+                        "description": "link to image",
+                        "example": "google.com"
+                    },
+                    "pasals": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "number",
+                                    "description": "id of pasal",
+                                    "example": 3
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "description": "name of pasal",
+                                    "example": "pasal 3"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "pasalDetail": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number",
+                        "description": "id of pasal",
+                        "example": 3
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "name of pasal",
+                        "example": "pasal 3"
+                    },
+                    "content": {
+                        "type": "string",
+                        "description": "content of pasal",
+                        "example": "Tiada suatu hukuman pun yang mengakibatkan kematian perdata, atau hilangnya segala hak- hak kewargaan."
+                    }
+                }
+            },
+            "chat": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "id of chat",
+                        "example": "crwdnmkhmswehhi"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "the name of the person being chatted with",
+                        "example": "pak budi"
+                    },
+                    "lastMessage": {
+                        "type": "string",
+                        "description": "last message from the person being chatted with",
+                        "example": "Hallo pak apa kabar ?"
+                    },
+                    "time": {
+                        "type": "string",
+                        "description": "time of last message",
+                        "example": "13:15 15/10/2023"
+                    }
+                }
+            },
+            "message": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "id of message",
+                        "example": "asjdnqwlm"
+                    },
+                    "idChat": {
+                        "type": "string",
+                        "description": "id of chat",
+                        "example": "crwdnmkhmswehhi"
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "the message",
+                        "example": "good morning sir"
+                    },
+                    "from": {
+                        "type": "string",
+                        "description": "sender message",
+                        "example": "fir001"
+                    },
+                    "to": {
+                        "type": "string",
+                        "description": "message recipient",
+                        "example": "par001"
+                    },
+                    "time": {
+                        "type": "string",
+                        "description": "time of message",
+                        "example": "13:15 15/10/2023"
+                    }
+                }
+            },
+            "messages": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/message"
+                }
+            }
+        },
+        "requestBodies": {
+            "sendMessage": {
+                "description": "Send message",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/message"
+                        }
                     }
                 }
             }
@@ -470,7 +781,7 @@
                 }
             },
             "getLaws400": {
-                "description": "Register Failed",
+                "description": "Failed get all laws",
                 "content": {
                     "application/json": {
                         "schema": {
@@ -479,6 +790,190 @@
                         "example": {
                             "ok": false,
                             "message": "failed get all laws"
+                        }
+                    }
+                }
+            },
+            "getLaw": {
+                "description": "Success get all pasal from law",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/ResponseSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/lawDetail"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "getLaw400": {
+                "description": "Failed get all pasal from law",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ResponseError"
+                        },
+                        "example": {
+                            "ok": false,
+                            "message": "failed get all pasal from law"
+                        }
+                    }
+                }
+            },
+            "getPasal": {
+                "description": "Success get detail pasal from law",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/ResponseSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/pasalDetail"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "getPasal400": {
+                "description": "Failed get detail pasal from law",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ResponseError"
+                        },
+                        "example": {
+                            "ok": false,
+                            "message": "failed get detail pasal from law"
+                        }
+                    }
+                }
+            },
+            "getChats": {
+                "description": "Success get user chats",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/ResponseSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/chat"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "getChats400": {
+                "description": "Failed get user chats",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ResponseError"
+                        },
+                        "example": {
+                            "ok": false,
+                            "message": "failed get user chats"
+                        }
+                    }
+                }
+            },
+            "getMessage": {
+                "description": "Success get user message",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/ResponseSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/message"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "getMessage400": {
+                "description": "Failed get user message",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ResponseError"
+                        },
+                        "example": {
+                            "ok": false,
+                            "message": "failed get user message"
+                        }
+                    }
+                }
+            },
+            "sendMessage": {
+                "description": "Success send message",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/ResponseSuccess"
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "sendMessage400": {
+                "description": "Failed send message",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ResponseError"
+                        },
+                        "example": {
+                            "ok": false,
+                            "message": "failed send message"
                         }
                     }
                 }
