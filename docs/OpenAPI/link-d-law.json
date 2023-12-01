@@ -271,7 +271,7 @@
                 "parameters": [
                     {
                         "name": "id",
-                        "description": "ID of law",
+                        "description": "ID of chat",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -322,6 +322,110 @@
                     }
                 }                
             }
+        },
+        "/v1/lawyers": {
+            "get": {
+                "summary": "Get all lawyers",
+                "description": "Get all lawyers",
+                "tags": ["Lawyer"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/getLawyers"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/getLawyers400"
+                    }
+                }
+            }
+        },
+        "/v1/lawyers/{id}": {
+            "get": {
+                "summary": "Get detail lawyer",
+                "description": "Get detail lawyer",
+                "tags": ["Lawyer"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "ID of lawyer",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "law001"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/getDetailLawyer"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/getDetailLawyer400"
+                    }
+                }
+            }
+        },
+        "/v1/profile": {
+            "get": {
+                "summary": "Get user profile",
+                "description": "Get user profile",
+                "tags": ["Profile"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/getProfile"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/getProfile400"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Edit profile",
+                "description": "Edit profile",
+                "tags": ["Profile"],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/editProfile"
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/editProfile"
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/editProfile400"
+                    }
+                }
+            }
+        },
+        "/v1/mainFitur": {
+            "get": {
+                "tags": ["Main"]
+            },
+            "post": {
+                "tags": ["Main"]
+            }
+        },
+        "/v1/home": {
+            "get": {}
         }
     },
     "components": {
@@ -591,6 +695,137 @@
                 "items": {
                     "$ref": "#/components/schemas/message"
                 }
+            },
+            "lawyer": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "id of lawyer",
+                        "example": "law001"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "name of lawyer",
+                        "example": "firsta s,p.d"
+                    },
+                    "specialist": {
+                        "type": "string",
+                        "description": "lawyer specialist",
+                        "example": "Pengacara spesialis kasus rumah tangga"
+                    },
+                    "rate": {
+                        "type": "number",
+                        "description": "rate of lawyer",
+                        "example": 5
+                    },
+                    "image": {
+                        "type": "string",
+                        "description": "link of image lawyer",
+                        "example": "google.com"
+                    }
+                }
+            },
+            "detailLawyer": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "id of lawyer",
+                        "example": "law001"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "name of lawyer",
+                        "example": "firsta s,p.d"
+                    },
+                    "specialist": {
+                        "type": "string",
+                        "description": "lawyer specialist",
+                        "example": "Pengacara spesialis kasus rumah tangga"
+                    },
+                    "rate": {
+                        "type": "number",
+                        "description": "rate of lawyer",
+                        "example": 5
+                    },
+                    "nomorPerandi": {
+                        "type": "string",
+                        "description": "nomor perandi",
+                        "example": "00000000000000000000"
+                    },
+                    "educationalBackground": {
+                        "type": "array",
+                        "description": "list of educational background",
+                        "items": {
+                            "type": "object",
+                            "description": "educational background",
+                            "properties": {
+                                "schoolOrUniversity": {
+                                    "type": "string",
+                                    "example": "Universitas Negeri Surabaya"
+                                },
+                                "major": {
+                                    "type": "string",
+                                    "example": "S1 hukum perdata"
+                                }
+                            }
+                        }
+                    },
+                    "firmaHukum": {
+                        "type": "array",
+                        "description": "list of firma hukum",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "example": "organisasi hotman paris"
+                                }
+                            }
+                        }
+                    },
+                    "image": {
+                        "type": "string",
+                        "description": "link of image lawyer",
+                        "example": "google.com"
+                    },
+                    "fee": {
+                        "type": "number",
+                        "description": "fee consultation",
+                        "example": 300000
+                    }
+                }
+            },
+            "UserProfile": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "ID of user",
+                        "example": "fir001"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Name of user",
+                        "example": "Firsta Rahma"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "email user",
+                        "example": "firstasiImoetTea@gmail.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "hash of password",
+                        "example": "598d4c200461b81522a3328565c25f7c"
+                    },
+                    "image": {
+                        "type": "string",
+                        "description": "link image user",
+                        "example": "google.com"
+                    }
+                }
             }
         },
         "requestBodies": {
@@ -601,6 +836,17 @@
                     "application/json": {
                         "schema": {
                             "$ref": "#/components/schemas/message"
+                        }
+                    }
+                }
+            },
+            "editProfile": {
+                "description": "Edit Profile",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/UserProfile"
                         }
                     }
                 }
@@ -974,6 +1220,145 @@
                         "example": {
                             "ok": false,
                             "message": "failed send message"
+                        }
+                    }
+                }
+            },
+            "getLawyers": {
+                "description": "Success get all lawyers",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/ResponseSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/lawyer"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "getLawyers400": {
+                "description": "Failed get lawyers",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ResponseError"
+                        },
+                        "example": {
+                            "ok": false,
+                            "message": "failed get lawyers"
+                        }
+                    }
+                }
+            },
+            "getDetailLawyer": {
+                "description": "Success get detail lawyer",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/ResponseSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/detailLawyer"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "getDetailLawyer400": {
+                "description": "Failed get detail lawyer",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ResponseError"
+                        },
+                        "example": {
+                            "ok": false,
+                            "message": "failed get detail lawyers"
+                        }
+                    }
+                }
+            },
+            "getProfile": {
+                "description": "Success get user profile",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/ResponseSuccess"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/UserProfile"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "getProfile400": {
+                "description": "Failed get user profile",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ResponseError"
+                        },
+                        "example": {
+                            "ok": false,
+                            "message": "failed get user profile"
+                        }
+                    }
+                }
+            },
+            "editProfile": {
+                "description": "Success edit profile",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/components/schemas/ResponseSuccess"
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "editProfile400": {
+                "description": "Failed edit profile",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ResponseError"
+                        },
+                        "example": {
+                            "ok": false,
+                            "message": "Failed edit profile"
                         }
                     }
                 }
