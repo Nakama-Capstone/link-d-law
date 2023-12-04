@@ -1,3 +1,41 @@
+// import { MicroserviceService } from "@law-d-link/service"
+// import pkg from "../package.json"
+// import { createProxyMiddleware } from "http-proxy-middleware";
+
+// // prepare all service needed
+// const service = new MicroserviceService({
+//   packagejson: pkg,
+// })
+
+
+// // SETUP
+// const {
+//   express: app,
+//   createGroup,
+//   httpService
+// } = service.createHttpServer({
+//   port: Number(service.getEnv("SERVICE_API_GATEWAY_PORT", "80")),
+//   apiVersion: "v1",
+// })
+
+// app.get("/hello", (req, res) => {
+//   res.json({"hello": "hai"})
+// })
+
+// // TODO: route /auth to auth service
+// createGroup(app, "v1", (router) => {
+//   router.use("/auth", createProxyMiddleware({
+//     target: `http://localhost:${process.env.SERVICE_API_AUTH_PORT || "3001"}/v1`,
+//     changeOrigin: true,
+//     pathRewrite: {
+//       [`^/v1/auth`]: "",
+//     },
+//   }));
+// })
+
+
+// httpService.listen()
+
 import express from "express";
 import dotenv from "dotenv";
 import path from "path";
@@ -45,31 +83,15 @@ routev1.use("/auth", createProxyMiddleware({
     [`^/v1/auth`]: "",
   },
 }));
-// TODO: passing auth to services
-const routev1auth = express.Router();
-routev1auth.use((req, res, next) => {
-  // get token from query ?token= or from header
-  const token = req?.query?.token || (req.headers.authorization || "").replace("Bearer ", "");
-  console.log("access protected api with token :", token);
+// TODO: route /auth to auth service
+routev1.use("/", createProxyMiddleware({
+  target: `http://localhost:${process.env.SERVICE_API_USER_PORT || "3002"}/v1`,
+  changeOrigin: true,
+  pathRewrite: {
+    [`^/v1/`]: "",
+  },
+}));
 
-  // TODO: check token with auth service
-  // TODO: hit auth service /me with token to get user info
-  if (!token) {
-    return res.status(401).json({
-      ok: false,
-      message: "unauthorized",
-    })
-  }
-
-  next();
-});
-routev1auth.get("/protected", (req, res) => {
-  res.json({
-    ok: true,
-    message: "🚀",
-  })
-});
-routev1.use("/", routev1auth);
 app.use("/v1", routev1);
 
 // LISTEN
