@@ -14,7 +14,7 @@ insert_final_newline = false
 # for python and js
 [*.{js,ts,py,yml}]
 indent_size = 2
-
+indent_style = space
 
 [Makefile]
 indent_style = tab

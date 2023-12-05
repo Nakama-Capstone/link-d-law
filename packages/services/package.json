@@ -1,0 +1,13 @@
+{
+  "name": "@law-d-link/service",
+  "module": "src/index.ts",
+  "type": "module",
+  "types": "src/index.ts",
+  "typings": "src/index.ts",
+  "scripts": {
+    "lint": "eslint --config ../../.eslintrc --ext .ts src"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  }
+}
