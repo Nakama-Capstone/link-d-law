@@ -1,0 +1,19 @@
+{
+  "name": "@law-d-link/api-gateway",
+  "module": "src/index.ts",
+  "scripts": {
+    "start": "bun --bun run src/index.ts",
+    "dev": "bun --bun --watch run src/index.ts",
+    "dev:nodemon": "nodemon --ext ts  --watch 'src/**/*' --exec 'bun run start' --quiet",
+    "lint": "eslint --config ../../.eslintrc --ext .ts src",
+    "build:bin": "bun build ./src/index.ts --compile --outfile ../../bin/service-api-gateway"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "http-proxy-middleware": "^2.0.6"
+  },
+  "devDependencies": {
+    "bun-types": "latest",
+    "@types/express": "^4.17.21"
+  }
+}

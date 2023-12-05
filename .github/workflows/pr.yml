@@ -1,0 +1,17 @@
+name: PR
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches:
+      - main
+      - dev
+
+jobs:
+  artifacts-url-comments:
+    name: say hello
+    runs-on: ubuntu-latest
+    steps:
+      - name: hello world
+        run: echo "Hello world on PR!"

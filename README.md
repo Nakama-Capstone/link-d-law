@@ -1,5 +1,5 @@
 # L!nk D' Law
-This is just a repo for directory structure design, using the concept of monorepo and microservice architecture.
+L!nk D' Law is a web and mobile application that can be used to find the best lawyer and what kind of lawyer you need based on your case.
 
 ## Directory Structure
 - `apps` - contains all the apps
@@ -16,11 +16,18 @@ This is just a repo for directory structure design, using the concept of monorep
     - `api-auth` - api service for handling authentication
     - `api-user` - api service for handling user data
 
-## Contribute Guide
-_Coming soon_
+## Concept using of this architecture
+- Monorepo
+- Microservice
+- Unit Testing
+- CI/CD (Continuous Integration/Continuous Deployment)
+- ...
 
 ## Development Guide
-_Coming soon_
+[Development Guide](DEVELOPMENT.md)
+
+## Contributing Guide
+[Contribute Guide](CONTRIBUTING.md)
 
 ## Copyrigth
 &copy; 2021 [Nakama Capstone](https://github.com/Nakama-Capstone)
