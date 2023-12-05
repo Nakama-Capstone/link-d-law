@@ -40,6 +40,7 @@ import express from "express";
 import dotenv from "dotenv";
 import path from "path";
 import pkg from "../package.json";
+import axios, { AxiosError } from "axios";
 import { createProxyMiddleware } from "http-proxy-middleware";
 
 // load env
@@ -84,13 +85,90 @@ routev1.use("/auth", createProxyMiddleware({
   },
 }));
 // TODO: route /auth to auth service
-routev1.use("/", createProxyMiddleware({
+const routermain = express.Router();
+routermain.use("/", createProxyMiddleware({
   target: `http://localhost:${process.env.SERVICE_API_USER_PORT || "3002"}/v1`,
   changeOrigin: true,
-  pathRewrite: {
-    [`^/v1/`]: "",
+  // { [`^/v1/`]: "",}
+  pathRewrite: async (path, req) => {
+    // token
+    const token = req.query.token as string || req.headers.authorization?.split(" ")[1] || ""
+    if (token) {
+      try {
+        const profile = await axios({
+          method: "GET",
+          url: `http://localhost:${process.env.SERVICE_API_AUTH_PORT || "3001"}/v1/me`,
+          headers: {
+            authorization: `Bearer ${token}`,
+          }
+        })
+        req.query._auth_profile = profile.data?.data?.user
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          // return res.status(401).json({
+          //   ok: false,
+          //   message: "unauthorized",
+          //   errors: [...(error.response?.data?.errors || [])]
+          // })
+          throw Error("unauthorized")
+        }
+      }
+    }
+    
+    // rewrite
+    let newPath = path.replace(/^\/v1\//, "/")
+
+    // if newpath have ? then add & else add ?
+    if (newPath.includes("?")) newPath += `&_auth_profile=${JSON.stringify(req.query._auth_profile)}`
+    else newPath += `?_auth_profile=${JSON.stringify(req.query._auth_profile)}`
+    console.log("pathRewrite", path, newPath)
+    return newPath
   },
+  // onClose: (res, socket, head) => {
+  //   console.log("onClose", res, socket, head)
+  // },
+  // onError: (err, req, res) => {
+  //   console.log("onError", err, req, res)
+  // },
+  // onOpen: (socket) => {
+  //   console.log("onOpen", socket)
+  // },
+  // onProxyReq: (proxyReq, req, res) => {
+  //   console.log("onProxyReq", req, res)
+  // },
+  // onProxyRes: (proxyRes, req, res) => {
+  //   console.log("onProxyRes", req, res)
+  // },
+  // onProxyReqWs: (proxyReq, req, socket, options, head) => {
+  //   console.log("onProxyReqWs", req, socket, options, head)
+  // }
+  // onProxyReq: async (proxyReq, req, res) => {
+  //   console.log("onProxyReq", req.query)
+  //   const token = req.query.token as string || req.headers.authorization?.split(" ")[1] || ""
+  //   if (token) {
+  //     try {
+  //       const profile = await axios({
+  //         method: "GET",
+  //         url: `http://localhost:${process.env.SERVICE_API_AUTH_PORT || "3001"}/v1/me`,
+  //         headers: {
+  //           authorization: `Bearer ${token}`,
+  //         }
+  //       })
+  //       req.query._auth_profile = profile.data.data
+  //     } catch (error) {
+  //       if (error instanceof AxiosError) {
+  //         return res.status(401).json({
+  //           ok: false,
+  //           message: "unauthorized",
+  //           errors: [...(error.response?.data?.errors || [])]
+  //         })
+  //       }
+  //     }
+  //   }
+  //   console.log("profile", token, req.query._auth_profile)
+  // }
 }));
+routev1.use("/", routermain);
 
 app.use("/v1", routev1);
 

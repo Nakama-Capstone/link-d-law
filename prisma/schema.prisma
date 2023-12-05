@@ -47,8 +47,8 @@ model User {
   firstName  String
   middleName String?
   lastName   String?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
   chat1      Chat[]    @relation("user1_id")
   chat2      Chat[]    @relation("user2_id")
   from       Message[] @relation("from")
