@@ -46,5 +46,67 @@ await db.law.create({
   },
 })
 
+// chat seeder
+await db.chat.create({
+  data: {
+    user1_id: 1,
+    user2_id: 2,
+  }
+})
+
+// message seeder
+await db.message.create({
+  data: {
+    chatId: 1,
+    from: 1,
+    to: 2,
+    message: "hallo apa kabar ?",
+  }
+})
+await db.message.create({
+  data: {
+    chatId: 1,
+    from: 2,
+    to: 1,
+    message: "kabar baik, luar biasa",
+  }
+})
+
+// lawyer seeder
+await db.lawyer.create({
+  data: {
+    name: "hotman paris",
+    specialist: "hukum bisnis internasional",
+    rate: 10,
+    nomorPerandi: "007",
+    image: "https://israilrahmatullah.files.wordpress.com/2018/09/biografi-hotman-paris-hutapea.jpg?w=584",
+    fee: 1000000000
+  }
+})
+
+// educational background seeder
+await db.educationalBackground.create({
+  data: {
+    lawyerId: 1,
+    university: "Universitas Teknologi Sydney",
+    major: "Master of Law"
+  }
+})
+await db.educationalBackground.create({
+  data: {
+    lawyerId: 1,
+    university: "Universitas Katolik Parahyangan",
+    major: "Sarjana Hukum"
+  }
+})
+
+// firma hukum seeder
+await db.firmaHukum.create({
+  data: {
+    lawyerId: 1,
+    name: "firma Australia"
+  }
+})
+
 // done
 console.log("seeding done")

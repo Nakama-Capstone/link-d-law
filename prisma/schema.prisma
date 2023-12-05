@@ -41,12 +41,64 @@ model LawData {
 }
 
 model User {
-  id         Int      @id @default(autoincrement())
-  email      String   @unique
+  id         Int       @id @default(autoincrement())
+  email      String    @unique
   password   String
   firstName  String
   middleName String?
   lastName   String?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  chat1      Chat[]    @relation("user1_id")
+  chat2      Chat[]    @relation("user2_id")
+  from       Message[] @relation("from")
+  to         Message[] @relation("to")
+}
+
+model Chat {
+  id       Int       @id @default(autoincrement())
+  user1_id Int
+  user2_id Int
+  user1    User      @relation("user1_id", fields: [user1_id], references: [id])
+  user2    User      @relation("user2_id", fields: [user2_id], references: [id])
+  Message  Message[]
+}
+
+model Message {
+  id      Int      @id @default(autoincrement())
+  chatId  Int
+  from    Int
+  to      Int
+  message String
+  time    DateTime @default(now())
+  chat    Chat     @relation(fields: [chatId], references: [id])
+  fromId  User     @relation("from", fields: [from], references: [id])
+  toId    User     @relation("to", fields: [to], references: [id])
+}
+
+model Lawyer {
+  id                    Int                     @id @default(autoincrement())
+  name                  String
+  specialist            String
+  rate                  Int
+  nomorPerandi          String
+  image                 String
+  fee                   Int
+  educationalBackground educationalBackground[]
+  firmaHukum            firmaHukum[]
+}
+
+model educationalBackground {
+  id         Int    @id @default(autoincrement())
+  lawyerId   Int
+  university String
+  major      String
+  lawyer     Lawyer @relation(fields: [lawyerId], references: [id])
+}
+
+model firmaHukum {
+  id       Int    @id @default(autoincrement())
+  lawyerId Int
+  name     String
+  lawyer   Lawyer @relation(fields: [lawyerId], references: [id])
 }
