@@ -22,9 +22,14 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
+    primary = Blue100,
     secondary = PurpleGrey40,
-    tertiary = Pink40
+    tertiary = Pink40,
+    onPrimary = Gray10,
+    background = Gray30,
+    onBackground = Gray90,
+    surface = Gray50,
+    onSurface = Gray10
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -41,7 +46,7 @@ private val LightColorScheme = lightColorScheme(
 fun LinkDLawTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {

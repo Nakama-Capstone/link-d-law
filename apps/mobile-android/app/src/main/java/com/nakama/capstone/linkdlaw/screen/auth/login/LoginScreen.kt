@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -40,40 +41,42 @@ fun LoginContent(
     navController: NavController,
     modifier: Modifier
 ) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Spacer(modifier = Modifier.height(50.dp))
-        Text(
-            text = "Link D Law",
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold
-        )
-        AppIcon(
-            modifier
-        )
-        Spacer(modifier = Modifier.height(50.dp))
-        Text(text = "Login", fontWeight = FontWeight.Bold, fontSize = 24.sp)
-        TextField(label = "Email", text = "")
-        TextField(label = "Password", text = "")
-        Button(
-            onClick = {
+    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter){
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Spacer(modifier = Modifier.height(50.dp))
+            Text(
+                text = "Link D Law",
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold
+            )
+            AppIcon(
+                modifier
+            )
+            Spacer(modifier = Modifier.height(50.dp))
+            Text(text = "Login", fontWeight = FontWeight.Bold, fontSize = 24.sp)
+            TextField(label = "Email", text = "")
+            TextField(label = "Password", text = "")
+            Button(
+                onClick = {
 
-            },
-            modifier = Modifier
-                .width(300.dp)
-                .padding(8.dp),
-            shape = MaterialTheme.shapes.medium.copy(all = CornerSize(10.dp))
-        ) {
-            Text(text = "Login")
-        }
-        Text(text = "Or", modifier = Modifier.padding(8.dp))
-        LoginOption()
-        Row(
-            modifier = Modifier.padding(4.dp)
-        ) {
-            Text(text = "Don't have account?", fontSize = 12.sp)
-            Text(text = " Register now!", color = MaterialTheme.colorScheme.primary, fontSize = 12.sp, modifier = Modifier.clickable {
-                navController.navigate(route = Screen.Register.route)
-            })
+                },
+                modifier = Modifier
+                    .width(300.dp)
+                    .padding(8.dp),
+                shape = MaterialTheme.shapes.medium.copy(all = CornerSize(10.dp))
+            ) {
+                Text(text = "Login")
+            }
+            Text(text = "Or", modifier = Modifier.padding(8.dp))
+            LoginOption()
+            Row(
+                modifier = Modifier.padding(4.dp)
+            ) {
+                Text(text = "Don't have account?", fontSize = 12.sp)
+                Text(text = " Register now!", color = MaterialTheme.colorScheme.primary, fontSize = 12.sp, modifier = Modifier.clickable {
+                    navController.navigate(route = Screen.Register.route)
+                })
+            }
         }
     }
 }

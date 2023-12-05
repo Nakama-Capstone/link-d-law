@@ -1,7 +1,9 @@
 package com.nakama.capstone.linkdlaw.screen.auth.register
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -33,31 +35,33 @@ fun RegisterContent(
     navController: NavController,
     modifier: Modifier
 ) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Spacer(modifier = Modifier.height(50.dp))
-        Text(
-            text = "Link D Law",
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold
-        )
-        AppIcon(
-            modifier
-        )
-        Spacer(modifier = Modifier.height(50.dp))
-        Text(text = "Register", fontWeight = FontWeight.Bold, fontSize = 24.sp)
-        TextField(label = "Name", text = "", modifier = Modifier.padding(top = 8.dp))
-        TextField(label = "Email", text = "")
-        TextField(label = "Password", text = "")
-        Button(
-            onClick = {
-                navController.navigateUp()
-            },
-            modifier = Modifier
-                .width(300.dp)
-                .padding(8.dp),
-            shape = MaterialTheme.shapes.medium.copy(all = CornerSize(10.dp))
-        ) {
-            Text(text = "Register")
+    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter){
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Spacer(modifier = modifier.height(50.dp))
+            Text(
+                text = "Link D Law",
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold
+            )
+            AppIcon(
+                modifier
+            )
+            Spacer(modifier = Modifier.height(50.dp))
+            Text(text = "Register", fontWeight = FontWeight.Bold, fontSize = 24.sp)
+            TextField(label = "Name", text = "", modifier = Modifier.padding(top = 8.dp))
+            TextField(label = "Email", text = "")
+            TextField(label = "Password", text = "")
+            Button(
+                onClick = {
+                    navController.navigateUp()
+                },
+                modifier = Modifier
+                    .width(300.dp)
+                    .padding(8.dp),
+                shape = MaterialTheme.shapes.medium.copy(all = CornerSize(10.dp))
+            ) {
+                Text(text = "Register")
+            }
         }
     }
 }
