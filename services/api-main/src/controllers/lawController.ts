@@ -1,7 +1,5 @@
 import { Request, Response } from 'express'
-import { initPrisma } from "@law-d-link/service"
-
-const db = initPrisma()
+import { db } from '../connection/database'
 
 const getAllLaw = async (req: Request, res: Response) => {
     res.json({

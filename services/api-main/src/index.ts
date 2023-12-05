@@ -2,6 +2,8 @@ import { MicroserviceService } from "@law-d-link/service"
 import pkg from "../package.json"
 import lawRoute from "./routes/lawRoute"
 import userProfileRoute from "./routes/userProfileRoute"
+import chatRoute from "./routes/chatRoute"
+import lawyerRoute from "./routes/lawyerRoute"
 
 // prepare all service needed
 const service = new MicroserviceService({
@@ -25,6 +27,8 @@ const {
 createGroup(app, 'v1', (router) => {
   router.use('/', lawRoute)
   router.use('/', userProfileRoute)
+  router.use('/', chatRoute)
+  router.use('/', lawyerRoute)
 })
 
 
