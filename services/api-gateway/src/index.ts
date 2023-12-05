@@ -96,5 +96,6 @@ app.use("/v1", routev1);
 
 // LISTEN
 app.listen(CONFIG.PORT, () => {
+  // eslint-disable-next-line no-console
   console.log(`${pkg.name} Listening on port ${CONFIG.PORT}`);
 })

@@ -27,7 +27,7 @@ const sendMessage = async (req: Request, res: Response) => {
 
     const { message, from, to } = req.body
 
-    const sendingMessage = await db.message.create({
+    await db.message.create({
         data: {
             chatId: parseInt(id),
             from: parseInt(from),

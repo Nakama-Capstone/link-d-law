@@ -1,7 +1,10 @@
+/* eslint-disable no-console */
 import express from "express";
 import dotenv from "dotenv";
 import path from "path";
 import fs from "fs";
+import consola, { ConsolaInstance } from "consola";
+import chalk from "chalk";
 
 export interface MicroserviceServiceConfig {
   packagejson: object;
@@ -15,21 +18,62 @@ export interface MicroserviceServiceHttpServerConfig {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const LoadConfigEnv = (envPath?: string) => {
-  let env_path: string|undefined = path.resolve(process.cwd(), '../../', '.env');
-    if (!fs.existsSync(env_path)) env_path = path.resolve(process.cwd(), '../', '.env');
-    if (!fs.existsSync(env_path)) env_path = path.resolve(process.cwd(), '.env');
-    if (!fs.existsSync(env_path)) env_path = undefined
+  const loadEnv2LevelPath = () => {
+    const paths_tables: [string, number][] = [
+      // [path, priority]
+      [path.resolve(process.cwd(), '.env'), 5],
+      [path.resolve(process.cwd(), '../', '.env'), 5],
+      [path.resolve(process.cwd(), '../../', '.env'), 5],
 
-    dotenv.config({
-      path: env_path
-    });
+      [path.resolve(process.cwd(), '.env.development'), 3],
+      [path.resolve(process.cwd(), '../', '.env.development'), 3],
+      [path.resolve(process.cwd(), '../../', '.env.development'), 3],
 
-    return env_path
+      [path.resolve(process.cwd(), '.env.production'), 1],
+      [path.resolve(process.cwd(), '../', '.env.production'), 1],
+      [path.resolve(process.cwd(), '../../', '.env.production'), 1],
+    ]
+    
+    // search and check folder exists per priority, if found, return path
+    // high priority first
+    const paths_tables_sorted = paths_tables.sort((a, b) => b[1] - a[1]) // high priority first
+    for (const [p] of paths_tables_sorted) {
+      if (fs.existsSync(p)) return p
+    }
+  }
+
+  const env_path = loadEnv2LevelPath()
+
+  dotenv.config({
+    path: env_path
+  });
+
+  return env_path
 }
 
 export class MicroserviceService {
+  logger: ConsolaInstance = consola.create({})
+  log = {
+    info: (msg: any, ...args: any) => {
+      return this.logger.info(chalk.blue(`[LOG]`), msg, ...args)
+      if (args.length > 0) {
+        this.logger.info(chalk.blue(`[LOG]`) + msg, ...args)
+      } else {
+        this.logger.info(chalk.blue(`[LOG]`), msg)
+      }
+    },
+    debug: (msg: any, ...args: any) => {
+      return this.logger.debug(chalk.yellow(`[DEBUG]`), msg, ...args)
+      if (args.length > 0) {
+        this.logger.debug(chalk.yellow(`[DEBUG]`) + msg, ...args)
+      } else {
+        this.logger.debug(chalk.yellow(`[DEBUG]`), msg)
+      }
+    }
+  }
+
   constructor(public config: MicroserviceServiceConfig) {
-    console.log(`Service "${this.getPackageConfig()?.name}" Instantiated`);
+    this.log.info(`Service "${this.getPackageConfig()?.name}" Instantiated`);
 
     // load config
     this.loadConfigEnv();
@@ -38,8 +82,8 @@ export class MicroserviceService {
   private loadConfigEnv() {
     const env_path = LoadConfigEnv();
     // load env
-    if (env_path) console.log(`Service "${this.getPackageConfig()?.name}" use ${env_path}`);
-    else console.warn(`Service "${this.getPackageConfig()?.name}" running without env file`);
+    if (env_path) this.log.info(`Service "${this.getPackageConfig()?.name}" use ${env_path}`);
+    else this.log.info(`Service "${this.getPackageConfig()?.name}" running without env file`);
   }
 
   getPackageConfig() {
@@ -75,7 +119,7 @@ export class MicroserviceService {
     const listen = () => {
       return app.listen(config.port, () => {
         // eslint-disable-next-line no-console
-        console.log(`Service "${this.getPackageConfig()?.name}" HTTP Listening on port ${config.port}`);
+        this.log.info(`Service "${this.getPackageConfig()?.name}" HTTP Listening on port ${config.port}`);
       })
     }
     

@@ -10,5 +10,6 @@
             "host": "http://localhost:80",
             "secretKey": "devSecret"
         }
-    }
+    },
+    "discord.enabled": true
 }

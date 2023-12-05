@@ -27,7 +27,12 @@ Content-Type: application/json
     "password": "password"
 }
 
+### V1 AUTH/REFRESH
+POST {{host}}/v1/auth/refresh
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MywiZW1haWwiOiJleGFtcGxlMUBtYWlsLmNvbSIsImlhdCI6MTcwMTc5OTY1NCwiZXhwIjoxNzAxODAwMjU0fQ.Ym2U_AC8ZJIjRvrzR5GulpNSpayXn0HFPHqHBtoCsjk
+
 ### V1 AUTH/ME
 GET {{host}}/v1/auth/me
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MywiZW1haWwiOiJleGFtcGxlMUBtYWlsLmNvbSIsImlhdCI6MTcwMTQzNzczMywiZXhwIjoxNzAxNDM4MzMzfQ.9LsrYMwMHAV3BgNCswXmKihgMIMJ699N2CeJUvTYP6Y
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MywiZW1haWwiOiJleGFtcGxlMUBtYWlsLmNvbSIsImlhdCI6MTcwMTc5OTY5NywiZXhwIjoxNzAxODAwMjk3fQ.3C9rsyrUc8Hw2whvA0UwJl39a7dLRZP-UpmZweYnw5Y
