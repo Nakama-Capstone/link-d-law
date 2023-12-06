@@ -4,6 +4,10 @@ FROM oven/bun:debian as runtime
 # change workdir
 WORKDIR /app
 
+# packages updates
+RUN apt update
+RUN apt install make -y
+
 # entrypoint
 COPY docker/dev/entrypoint.sh /entrypoint.sh
 
