@@ -1,4 +1,4 @@
-package com.nakama.capstone.linkdlaw.screen.auth.detailhukum
+package com.nakama.capstone.linkdlaw.screen.detailhukum
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -33,7 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nakama.capstone.linkdlaw.R
-import com.nakama.capstone.linkdlaw.screen.auth.components.SearchBar
+import com.nakama.capstone.linkdlaw.screen.components.SearchBar
 import com.nakama.capstone.linkdlaw.ui.theme.Poppins
 
 @Composable
