@@ -27,4 +27,4 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MywiZW1haWwiOiJleGFtcGxlMUBtY
 ### V1 AUTH/ME
 GET {{host}}/v1/auth/me
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MywiZW1haWwiOiJleGFtcGxlMUBtYWlsLmNvbSIsImlhdCI6MTcwMTg0Njk2MCwiZXhwIjoxNzAxODQ3NTYwfQ.lmqKggvu6WfCaqtY5s_GMm7lrW9Qor1MLwmU5n6ZW30
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MywiZW1haWwiOiJleGFtcGxlMUBtYWlsLmNvbSIsImlhdCI6MTcwMTg1MTM1MCwiZXhwIjoxNzAxODUxOTUwfQ.zTd894gU2gQ0JNWDH38eQUAPlmIv0pxQDJzb9fqXpgs

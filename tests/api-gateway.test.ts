@@ -73,6 +73,115 @@ describe("API Gateway", () => {
     expect(data.data).toHaveProperty("apiVersion", API_GATEWAY_VERSION)
   });
 
+  // AUTH TEST
+  let account = {
+    email: '',
+    password: '',
+    firstName: '',
+    lastName: '',
+    middleName: '',
+  }
+  let authAccess = {
+    accessToken: '',
+    refreshToken: '',
+  }
+  it("auth: register", async () => {
+    const rand = Math.random().toString(36).substring(7)
+    account.email = `test-${rand}@mail.com`
+    account.password = `password`
+    account.firstName = `first-${rand}`
+    account.lastName = `last-${rand}`
+    account.middleName = `middle-${rand}`
+
+    console.log("register account with email", account.email)
+    const response = await fetch(`${API_GATEWAY_URL}/auth/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        ...account,
+        passwordConfirmation: account.password,
+      })
+    })
+    REQUEST_COUNT += 1
+    const data = await response.json() as {
+      ok: boolean,
+      data: {
+        token: string
+      }
+    }
+
+    expect(response.status).toEqual(201)
+    expect(data).toHaveProperty("ok", true)
+  })
+  it("auth: login", async () => {
+    const response = await fetch(`${API_GATEWAY_URL}/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: account.email,
+        password: account.password,
+      })
+    })
+    REQUEST_COUNT += 1
+    const data = await response.json() as {
+      ok: boolean,
+      data: {
+        auth: {
+          accessToken: string
+          refreshToken: string
+        }
+      }
+    }
+    console.log("login account with name", account.firstName, account.lastName)
+
+    authAccess.accessToken = data?.data?.auth?.accessToken
+    authAccess.refreshToken = data?.data?.auth?.refreshToken
+    expect(response.status).toEqual(200)
+    expect(data).toHaveProperty("ok", true)
+    expect(data).toHaveProperty("data")
+    expect(data?.data).toHaveProperty("auth")
+    expect(data?.data?.auth).toHaveProperty("accessToken")
+    expect(data?.data?.auth).toHaveProperty("refreshToken")
+  })
+  it("auth: me", async () => {
+    const response = await fetch(`${API_GATEWAY_URL}/auth/me`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${authAccess.accessToken}`
+      },
+    })
+    REQUEST_COUNT += 1
+    const data = await response.json() as {
+      ok: boolean,
+      data: {
+        user: {
+          id: number
+          email: string
+          firstName: string
+          lastName: string
+          middleName: string
+        }
+      }
+    }
+    console.log("get auth user data", data?.data?.user)
+
+    expect(response.status).toEqual(200)
+    expect(data).toHaveProperty("ok", true)
+    expect(data).toHaveProperty("data")
+    expect(data?.data).toHaveProperty("user")
+    expect(data?.data?.user).toHaveProperty("id")
+    expect(data?.data?.user).toHaveProperty("email", account.email)
+    expect(data?.data?.user).toHaveProperty("firstName", account.firstName)
+    expect(data?.data?.user).toHaveProperty("lastName", account.lastName)
+    expect(data?.data?.user).toHaveProperty("middleName", account.middleName)
+  })
+
+  // SECURITY TEST
   it("security test: rate limiter", async () => {
     const RATE_LIMITER_TEST_COUNT = 110
     

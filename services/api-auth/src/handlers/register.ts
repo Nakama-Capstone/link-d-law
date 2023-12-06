@@ -13,7 +13,7 @@ export const RegisterHandler = express.Router().post("/register", async (req, re
   })
 
   // get data
-  const { firstName, lastName, email, password, passwordConfirmation } = req.body
+  const { firstName, lastName, middleName, email, password, passwordConfirmation } = req.body
 
   // processing
   // password
@@ -43,13 +43,14 @@ export const RegisterHandler = express.Router().post("/register", async (req, re
     data: {
       firstName,
       lastName,
+      middleName,
       email,
       password: hashedPassword
     }
   })
 
   // return
-  return res.json({
+  return res.status(201).json({
     ok: true,
     message: "🚀 register",
     data: {
