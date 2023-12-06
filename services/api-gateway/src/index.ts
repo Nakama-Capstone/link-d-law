@@ -49,10 +49,13 @@ createGroup(app, 'v1', (router) => {
           req.headers["x-gateway-auth-data"] = JSON.stringify(profile.data?.data || {})
           req.headers["x-gateway-auth-authorized"] = "true"
         } catch (error) {
+          req.headers["x-gateway-auth-authorized"] = "false"
           if (error instanceof AxiosError) {
-            req.headers["x-gateway-auth-authorized"] = "false"
             req.headers["x-gateway-auth-error"] = JSON.stringify(error.response?.data?.errors || [])
             req.headers["x-gateway-auth-response"] = JSON.stringify(error.response?.data || {})
+          } else {
+            service.log.debug(`error: ${error}`, error)
+            req.headers["x-gateway-auth-error"] = JSON.stringify([{message: "internal server error"}])
           }
         }
       }
