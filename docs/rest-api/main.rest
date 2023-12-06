@@ -1,0 +1,7 @@
+### CHECK HEALTH
+GET {{host}}
+Content-Type: application/json
+
+### V1 HEALTH 
+GET {{host}}/v1
+Content-Type: application/json
