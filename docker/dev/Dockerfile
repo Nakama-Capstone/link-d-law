@@ -16,12 +16,6 @@ RUN set -ex \
     && pyenv global $PYTHON_VERSION \
     && pyenv rehash
 
-# install python3.11
-RUN pyenv install 3.11.0
-
-# set global python3.11
-RUN pyenv global 3.11.0
-
 # install pip
 RUN python -m pip install --upgrade pip
 

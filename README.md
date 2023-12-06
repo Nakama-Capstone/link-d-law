@@ -43,7 +43,8 @@ i recommend to use this text editor for development:
 ![Makefile](./assets/makefile.png)
 available command:
 - `make setup-dev` - setup development environment with docker
-- `make dev` - run development environment
+- `make dev-docker` - run development environment with docker
+- `make dev-api` - run all api services
 - `make build` - build all the services into bin
 - `make run <service_name>` - run a builded bin service
 
