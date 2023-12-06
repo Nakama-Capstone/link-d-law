@@ -1,7 +1,6 @@
-package com.nakama.capstone.linkdlaw.screen.auth.pengacara
+package com.nakama.capstone.linkdlaw.screen.pesan
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,10 +12,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.*
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,28 +25,26 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.nakama.capstone.linkdlaw.screen.auth.components.SearchBar
+import com.nakama.capstone.linkdlaw.R
 import com.nakama.capstone.linkdlaw.ui.theme.Poppins
 
 @Composable
-fun PengacaraScreen() {
-    PengacaraContent()
+fun PesanScreen() {
+    PesanContent()
 }
 
 @Composable
-fun PengacaraContent(
+fun PesanContent(
 
-) {
+){
     Column(
         modifier = Modifier
             .padding(vertical = 18.dp, horizontal = 22.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        var rating by remember { mutableFloatStateOf(2f) }
-        
         Text(
             modifier = Modifier.align(Alignment.Start),
-            text = "Pengacara",
+            text = "Pesan",
             style = TextStyle(
                 fontSize = 20.sp,
                 fontFamily = Poppins,
@@ -59,7 +52,6 @@ fun PengacaraContent(
                 color = Color(0xFF242B32),
             )
         )
-        SearchBar(modifier = Modifier)
         Spacer(modifier = Modifier.height(25.dp))
         Row(
             modifier = Modifier
@@ -67,7 +59,7 @@ fun PengacaraContent(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
-                painter = painterResource(id = com.nakama.capstone.linkdlaw.R.drawable.brock_lesnar),
+                painter = painterResource(id = R.drawable.brock_lesnar),
                 contentDescription = "Brock Lesnar",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -83,7 +75,7 @@ fun PengacaraContent(
                     text = "Brock Lesnar",
                     style = TextStyle(
                         fontSize = 16.sp,
-                        fontFamily = FontFamily(Font(com.nakama.capstone.linkdlaw.R.font.poppins_medium)),
+                        fontFamily = FontFamily(Font(R.font.poppins_medium)),
                         color = Color(0xFF242B32),
                     )
                 )
@@ -91,21 +83,28 @@ fun PengacaraContent(
                     text = "Pengacara Spesialis Kriminalis Korea",
                     style = TextStyle(
                         fontSize = 12.sp,
-                        fontFamily = FontFamily(Font(com.nakama.capstone.linkdlaw.R.font.poppins_light)),
+                        fontFamily = FontFamily(Font(R.font.poppins_light)),
                         color = Color(0xFF242B32),
                     )
                 )
-                RatingBar(rating = rating, onRatingChanged = {newRating -> rating = newRating})
+                Text(
+                    text = "13.15",
+                    style = TextStyle(
+                        fontSize = 10.sp,
+                        fontFamily = FontFamily(Font(R.font.poppins_medium)),
+                        color = Color(0xFF242B32),
+                    )
+                )
             }
         }
-        Spacer(modifier = Modifier.height(22.dp))
+        Spacer(modifier = Modifier.height(20.dp))
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
-                painter = painterResource(id = com.nakama.capstone.linkdlaw.R.drawable.brock_lesnar),
+                painter = painterResource(id = R.drawable.brock_lesnar),
                 contentDescription = "Brock Lesnar",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -121,7 +120,7 @@ fun PengacaraContent(
                     text = "Brock Lesnar",
                     style = TextStyle(
                         fontSize = 16.sp,
-                        fontFamily = FontFamily(Font(com.nakama.capstone.linkdlaw.R.font.poppins_medium)),
+                        fontFamily = FontFamily(Font(R.font.poppins_medium)),
                         color = Color(0xFF242B32),
                     )
                 )
@@ -129,37 +128,28 @@ fun PengacaraContent(
                     text = "Pengacara Spesialis Kriminalis Korea",
                     style = TextStyle(
                         fontSize = 12.sp,
-                        fontFamily = FontFamily(Font(com.nakama.capstone.linkdlaw.R.font.poppins_light)),
+                        fontFamily = FontFamily(Font(R.font.poppins_light)),
                         color = Color(0xFF242B32),
                     )
                 )
-                RatingBar(rating = rating, onRatingChanged = {newRating -> rating = newRating})
+                Text(
+                    text = "13.15",
+                    style = TextStyle(
+                        fontSize = 10.sp,
+                        fontFamily = FontFamily(Font(R.font.poppins_medium)),
+                        color = Color(0xFF242B32),
+                    )
+                )
             }
         }
     }
 }
 
-@Composable
-fun RatingBar(rating: Float, onRatingChanged: (Float) -> Unit) {
-    Row {
-        for (i in 1..5) {
-            val icon = if (i <= rating) com.nakama.capstone.linkdlaw.R.drawable.gold_star else com.nakama.capstone.linkdlaw.R.drawable.grey_star
-            Image(
-                painter = painterResource(id = icon),
-                contentDescription = "Rating Star",
-                modifier = Modifier
-                    .size(15.dp)
-                    .clickable { onRatingChanged(i.toFloat()) }
-            )
-        }
-    }
-}
-
 @Preview(
-    showBackground = true,
-    showSystemUi = true
+    showSystemUi = true,
+    showBackground = true
 )
 @Composable
-fun PengacaraScreenPreview(){
-    PengacaraScreen()
+fun PesanScreenPreview(){
+    PesanScreen()
 }

@@ -1,4 +1,4 @@
-package com.nakama.capstone.linkdlaw.screen.auth.daftarhukum
+package com.nakama.capstone.linkdlaw.screen.daftarhukum
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
