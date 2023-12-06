@@ -1,38 +1,21 @@
-# use ubuntu
-FROM ubuntu:22.04 as runtime
+# use debian
+FROM oven/bun:debian as runtime
 
 # change workdir
 WORKDIR /app
 
-# update
-RUN apt update
-
-# install dependencies
-RUN apt install -y make curl unzip
-
-# cached
+# entrypoint
 COPY docker/dev/entrypoint.sh /entrypoint.sh
 
 # chmod +x entrypoint
 RUN chmod +x /entrypoint.sh
 
-# Download dan instal Bun
-RUN curl -fsSL https://bun.sh/install | bash
-
-# add bun to path
-ENV PATH="/root/.bun/bin:${PATH}"
-
-# add node_modules/.bin to path
-ENV PATH="/app/node_modules/.bin:${PATH}"
-
-# cached
+# copy files
 COPY . .
 
 # bun install
-RUN bun i --no-cache
+RUN bun install
 
-# expose
+# run app
 EXPOSE 80
-
-# entrypoint
 ENTRYPOINT ["/entrypoint.sh"]

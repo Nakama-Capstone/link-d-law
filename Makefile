@@ -25,7 +25,13 @@ setup-dev:
 	@echo "[SETUP DEV] Setup docker ... DONE"
 	@echo "[SETUP DEV] ALL Services now running ... check in http://localhost:80"
 
-dev:
+dev-docker:
+	@make show-banner
+	@echo "Running Dev Docker ..."
+	@echo "Running Dev Docker - API Service"
+	@docker-compose up
+
+dev-api:
 	@make show-banner
 	@echo "Running Dev ..."
 	@echo "Running Dev - API Service"

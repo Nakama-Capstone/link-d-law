@@ -1,0 +1,16 @@
+{
+	"recommendations": [
+		"aaron-bond.better-comments",
+        "mikestead.dotenv",
+        "EditorConfig.EditorConfig",
+        "usernamehw.errorlens",
+        "esbenp.prettier-vscode",
+        "humao.rest-client",
+        "Arjun.swagger-viewer",
+        "redhat.vscode-yaml",
+        "steoates.autoimport",
+        "dbaeumer.vscode-eslint",
+        "christian-kohler.npm-intellisense",
+        "Prisma.prisma",
+	]
+}
