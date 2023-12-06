@@ -1,7 +1,8 @@
 import { MicroserviceService } from "@law-d-link/service"
-import pkg from "../package.json"
-import { createProxyMiddleware } from "http-proxy-middleware";
 import axios, { AxiosError } from "axios";
+import { createProxyMiddleware } from "http-proxy-middleware";
+import { rateLimit } from 'express-rate-limit'
+import pkg from "../package.json"
 
 // prepare all service needed
 const service = new MicroserviceService({
@@ -19,8 +20,24 @@ const {
   apiVersion: process.env.SERVICE_API_VERSION || "v1",
   withDefaultExpressMiddlewares: false,
 })
+// rate limiter
+app.use(rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 100,
+  standardHeaders: 'draft-7',
+  legacyHeaders: false,
+}))
 
 createGroup(app, 'v1', (router) => {
+  router.get("/", (req, res) => {
+    return res.json({
+      ok: true,
+      message: "success",
+      data: {
+        apiVersion: "v1",
+      }
+    })
+  })
   // AUTH ROUTE
   router.use("/auth", createProxyMiddleware({
     target: `http://localhost:${process.env.SERVICE_API_AUTH_PORT || "3001"}/v1`,
