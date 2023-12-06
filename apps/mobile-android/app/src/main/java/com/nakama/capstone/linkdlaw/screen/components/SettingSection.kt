@@ -27,7 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.dicoding.sampleui.R
+import com.nakama.capstone.linkdlaw.R
 
 @Composable
 fun SettingSection(
