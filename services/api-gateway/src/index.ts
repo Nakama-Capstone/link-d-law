@@ -102,26 +102,31 @@ routermain.use("/", createProxyMiddleware({
             authorization: `Bearer ${token}`,
           }
         })
-        req.query._auth_profile = profile.data?.data?.user
+        req.headers["x-gateway-auth-data"] = JSON.stringify(profile.data?.data || {})
+        req.headers["x-gateway-auth-authorized"] = "true"
       } catch (error) {
         if (error instanceof AxiosError) {
-          // return res.status(401).json({
-          //   ok: false,
-          //   message: "unauthorized",
-          //   errors: [...(error.response?.data?.errors || [])]
-          // })
-          throw Error("unauthorized")
+          req.headers["x-gateway-auth-authorized"] = "false"
+          req.headers["x-gateway-auth-error"] = JSON.stringify(error.response?.data?.errors || [])
+          req.headers["x-gateway-auth-response"] = JSON.stringify(error.response?.data || {})
         }
       }
     }
     
     // rewrite
-    let newPath = path.replace(/^\/v1\//, "/")
+    req.query.token = token
+    req.headers.authorization = `Bearer ${token}`
+    req.headers["x-gateway-host"] = req.headers.host
+    req.headers["x-gateway-path"] = path
+    req.headers["x-gateway-query"] = JSON.stringify(req.query)
+    req.headers["x-gateway-with-auth"] = token ? "true" : "false"
 
-    // if newpath have ? then add & else add ?
-    if (newPath.includes("?")) newPath += `&_auth_profile=${JSON.stringify(req.query._auth_profile)}`
-    else newPath += `?_auth_profile=${JSON.stringify(req.query._auth_profile)}`
-    console.log("pathRewrite", path, newPath)
+
+    // // if newpath have ? then add & else add ?
+    // if (newPath.includes("?")) newPath += `&_auth_profile=${JSON.stringify(req.query._auth_profile)}`
+    // else newPath += `?_auth_profile=${JSON.stringify(req.query._auth_profile)}`
+    // console.log("pathRewrite", path, newPath)
+    const newPath = path.replace(/^\/v1\//, "/")
     return newPath
   },
   // onClose: (res, socket, head) => {

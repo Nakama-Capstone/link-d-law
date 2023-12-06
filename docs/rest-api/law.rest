@@ -1,4 +1,4 @@
 ### V1 AUTH/ME
 GET {{host}}/v1/test?a=t
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MywiZW1haWwiOiJleGFtcGxlMUBtYWlsLmNvbSIsImlhdCI6MTcwMTgwMzY5MSwiZXhwIjoxNzAxODA0MjkxfQ.sXlzo-1XvLOYY0vG9lwnloVpsaDbA9se1kwH1lIQbXo
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MywiZW1haWwiOiJleGFtcGxlMUBtYWlsLmNvbSIsImlhdCI6MTcwMTg0MzEwNSwiZXhwIjoxNzAxODQzNzA1fQ.fbe923MNeo3cCVKxH7b39_7HWRPg-fuN4puZXC3hyAA

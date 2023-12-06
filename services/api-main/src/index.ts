@@ -24,25 +24,77 @@ const {
 // TODO: move this to middlewares folder
 // middleware
 const AuthMiddleware = async (req: any, res: any, next: any) => {
-  let me = req.query._auth_profile
-  console.log('me', typeof me, me)
-  if (!me) {
-    try {
-      me = JSON.parse(req.query._auth_profile)
-    // eslint-disable-next-line no-empty
-    } catch (error) {}
+  // CHECK FROM GATEWAY
+  // check is authorized
+  let authErrorsResponse
+  try {
+    authErrorsResponse = JSON.parse(req.headers["x-gateway-auth-response"])
+  } catch (error) {
+    // did not found auth response
   }
-  delete req.query._auth_profile
+  const isAuthorized = req.headers['x-gateway-auth-authorized'] == "true" 
+  if (!isAuthorized) return res.status(401).json({
+    ok: false,
+    message: 'Unauthorized',
+    errors: [
+      {
+        message: 'need valid token'
+      },
+      ...(authErrorsResponse?.errors || [])
+    ]
+  })
+  // get auth user data
+  const authDataRaw = req.headers['x-gateway-auth-data']
+  if (!authDataRaw) return res.status(401).json({
+    ok: false,
+    message: 'Unauthorized',
+    errors: [
+      {
+        message: 'user not found'
+      }
+    ]
+  })
+  let authData
+  try {
+    authData = JSON.parse(authDataRaw)
+  } catch (error) {
+    return res.status(401).json({
+      ok: false,
+      message: 'Unauthorized',
+      errors: [
+        {
+          message: 'invalid user auth data'
+        }
+      ]
+    }) 
+  }
+  
+
+  // parse data
   Object.defineProperty(req, 'auth', {
-    value: me,
+    value: authData,
     writable: false,
     enumerable: true,
     configurable: false
   })
+
+
   next()
 }
 export interface RequestAuthMiddleware extends express.Request {
-  auth: any
+  auth: {
+    user: {
+      id: number
+      email: string
+      firstName: string
+      lastName: string
+      middleName?: string
+      createdAt: string
+      updatedAt: string
+    }
+    expired_at: number
+    expired_in_human: string
+  }
 }
 
 // LISTING ROUTES
@@ -57,13 +109,11 @@ createGroup(app, 'v1', (router) => {
 
   router.get('/test', AuthMiddleware, (req, res) => {
     const { auth } = req as RequestAuthMiddleware
-    console.log('auth', typeof auth)
     return res.json({
       ok: true,
       message: 'test',
       data: {
-        test: true,
-        auth
+        auth,
       }
     })
   })
