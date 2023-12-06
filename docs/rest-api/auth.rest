@@ -1,0 +1,30 @@
+### V1 AUTH/REGISTER
+POST {{host}}/v1/auth/register
+Content-Type: application/json
+
+{
+    "firstName": "Jokowo",
+    "lastName": "Prabowi",
+    "email": "example3@mail.com",
+    "password": "password",
+    "passwordConfirmation": "password"
+}
+
+### V1 AUTH/LOGIN
+POST {{host}}/v1/auth/login
+Content-Type: application/json
+
+{
+    "email": "example1@mail.com",
+    "password": "password"
+}
+
+### V1 AUTH/REFRESH
+POST {{host}}/v1/auth/refresh
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MywiZW1haWwiOiJleGFtcGxlMUBtYWlsLmNvbSIsImlhdCI6MTcwMTg0Njk0MywiZXhwIjoxNzAxODQ3NTQzfQ.bQR79r_qYwPg0PIjf0KawL8oeSJw3yQab5IV3XIgOJo
+
+### V1 AUTH/ME
+GET {{host}}/v1/auth/me
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MywiZW1haWwiOiJleGFtcGxlMUBtYWlsLmNvbSIsImlhdCI6MTcwMTg1MTM1MCwiZXhwIjoxNzAxODUxOTUwfQ.zTd894gU2gQ0JNWDH38eQUAPlmIv0pxQDJzb9fqXpgs

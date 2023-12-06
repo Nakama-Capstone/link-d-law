@@ -1,0 +1,7 @@
+### V1 AUTH/ME
+GET {{host}}/v1/test
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MywiZW1haWwiOiJleGFtcGxlMUBtYWlsLmNvbSIsImlhdCI6MTcwMTg0NjE3NiwiZXhwIjoxNzAxODQ2Nzc2fQ.bGu3SC1bGLFaJ_vXDXVuMOWfk1z_kQArlUbjI0s9qUM
+
+### V1
+GET {{host}}/hello
