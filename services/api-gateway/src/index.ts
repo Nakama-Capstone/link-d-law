@@ -90,6 +90,14 @@ createGroup(app, 'v1', (router) => {
       return newPath
     },
   }));
+  // TANYAKIM FEATURES
+  router.use("/tanyakim", createProxyMiddleware({
+    target: `http://localhost:${process.env.SERVICE_API_LAW_PORT || "3003"}/v1`,
+    changeOrigin: true,
+    pathRewrite: {
+      [`^/v1/tanyakim`]: "",
+    },
+  }))
 })
 
 
