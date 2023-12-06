@@ -1,4 +1,4 @@
-package com.nakama.capstone.linkdlaw.screen.auth.components
+package com.nakama.capstone.linkdlaw.screen.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
