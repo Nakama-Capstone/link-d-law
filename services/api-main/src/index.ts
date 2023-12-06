@@ -78,7 +78,7 @@ const AuthMiddleware = async (req: any, res: any, next: any) => {
     configurable: false
   })
 
-
+  // next request
   next()
 }
 export interface RequestAuthMiddleware extends express.Request {

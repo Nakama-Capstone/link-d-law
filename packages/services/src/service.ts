@@ -14,6 +14,13 @@ export interface MicroserviceServiceConfig {
 export interface MicroserviceServiceHttpServerConfig {
   port: number;
   apiVersion: string;
+  withDefaultExpressMiddlewares: boolean;
+}
+
+export const DEFAULT_CONFIG_HTTP_SERVER: MicroserviceServiceHttpServerConfig = {
+  apiVersion: "v1",
+  port: 3000,
+  withDefaultExpressMiddlewares: true,
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -97,12 +104,18 @@ export class MicroserviceService {
     return process.env[key] || defaultValue;
   }
 
-  createHttpServer(config: MicroserviceServiceHttpServerConfig) {
+  createHttpServer(config: Partial<MicroserviceServiceHttpServerConfig>) {
     const app = express();
+    config = {
+      ...DEFAULT_CONFIG_HTTP_SERVER,
+      ...config,
+    }
 
     // PLUGINS
-    app.use(express.urlencoded({ extended: true }));
-    app.use(express.json());
+    if (config.withDefaultExpressMiddlewares) {
+      app.use(express.urlencoded({ extended: true }));
+      app.use(express.json());
+    }
     
     // HEALTH CHECK
     app.get("/", (req, res) => {
