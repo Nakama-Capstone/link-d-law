@@ -41,11 +41,6 @@ def search_with_content(query):
     relevant_content = df.iloc[most_relevant_index]['Isi']
     return relevant_pasal, relevant_content
 
-# ROUTES
-@app.route("/v1/tanyakim/hello")
-def hello():
-  return "Hello, World!"
-
 #route fitur 1
 @app.route('/v1/tanyakim/search', methods=['POST']) #input search
 def search_page():
