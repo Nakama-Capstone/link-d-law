@@ -81,7 +81,7 @@ fun PengacaraProfileContent(){
         )
         Box(
             modifier = Modifier
-                .padding(horizontal = 28.dp),
+                .padding(horizontal = 28.dp) ,
             contentAlignment = Alignment.Center,
         ){
             Box(
