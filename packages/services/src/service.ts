@@ -76,6 +76,14 @@ export class MicroserviceService {
       } else {
         this.logger.debug(chalk.yellow(`[DEBUG]`), msg)
       }
+    },
+    error: (msg: any, ...args: any) => {
+      return this.logger.error(chalk.red(`[ERROR]`), msg, ...args)
+      if (args.length > 0) {
+        this.logger.error(chalk.red(`[ERROR]`) + msg, ...args)
+      } else {
+        this.logger.error(chalk.red(`[ERROR]`), msg)
+      }
     }
   }
 
