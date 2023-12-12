@@ -13,3 +13,4 @@ openapi==1.1.0
 jsonify==0.5
 tensorflow==2.14.0
 numpy==1.23.5
+gunicorn==21.2.0

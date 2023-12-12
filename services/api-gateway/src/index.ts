@@ -46,6 +46,14 @@ createGroup(app, 'v1', (router) => {
       [`^/v1/auth`]: "",
     },
   }))
+  // KIM-AI FEATURES
+  router.use("/kimai", createProxyMiddleware({
+    target: `http://localhost:${process.env.SERVICE_API_LAW_PORT || "3003"}/v1`,
+    changeOrigin: true,
+    pathRewrite: {
+      [`^/v1/kimai`]: "",
+    },
+  }))
   // MAIN ROUTE
   router.use("/", createProxyMiddleware({
     target: `http://localhost:${process.env.SERVICE_API_USER_PORT || "3002"}/v1`,
@@ -90,14 +98,6 @@ createGroup(app, 'v1', (router) => {
       return newPath
     },
   }));
-  // TANYAKIM FEATURES
-  router.use("/tanyakim", createProxyMiddleware({
-    target: `http://localhost:${process.env.SERVICE_API_LAW_PORT || "3003"}/v1`,
-    changeOrigin: true,
-    pathRewrite: {
-      [`^/v1/tanyakim`]: "",
-    },
-  }))
 })
 
 

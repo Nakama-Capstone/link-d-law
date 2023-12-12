@@ -1,6 +1,7 @@
 # use debian
 FROM oven/bun:debian as api-runtime
 ARG DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED TRUE
 # FROM debian:bullseye as api-runtime
 
 # packages updates
@@ -59,6 +60,7 @@ RUN bun install
 COPY . .
 
 # python dependencies
+RUN echo a
 RUN python -m pip install -r requirements.txt
 
 # run app
