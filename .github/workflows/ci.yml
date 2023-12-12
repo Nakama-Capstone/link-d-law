@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - dev
-      - dev/cc
-      - dev/md
-      - dev/ml
+      - dev-cc
+      - dev-md
+      - dev-ml
       # - '!main'
   pull_request:
     branches:
@@ -17,6 +17,8 @@ jobs:
   api-lint:
     name: (api) Perform lint check
     runs-on: ubuntu-latest
+    # only push branch dev, dev-cc
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/dev-cc'
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -43,6 +45,8 @@ jobs:
   apps-mobile-android-lint:
     name: (apps/mobile-android) Perform lint check
     runs-on: ubuntu-latest
+    # only push branch dev, dev-md
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/dev-md'
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -70,6 +74,8 @@ jobs:
   apps-mobile-android-build-debug-apk:
     name: (apps/mobile-android) Generate Debug Build APK
     runs-on: ubuntu-latest
+    # only push branch dev, dev-md
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/dev-md'
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
@@ -97,6 +103,8 @@ jobs:
   apps-mobile-android-build-release-apk:
     name: (apps/mobile-android) Generate Production Release Build APK
     runs-on: ubuntu-latest
+    # only push branch dev, dev-md
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/dev-md'
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
@@ -139,6 +147,11 @@ jobs:
   build-openapi-redocly:
     name: Build OpenAPI with Redocly
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    outputs:
+      deploymentUrl: ${{ steps.deploy.outputs.deploymentUrl }}
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
@@ -152,25 +165,74 @@ jobs:
         run: bun run build:openapi
       - name: list files
         run: |
-          ls && ls ./dist && ls ./dist/openapi-doc
+          ls && ls -R ./dist
       - name: archive openapi
         uses: actions/upload-artifact@v2
         with:
           name: link-d-law-openapi.html
           path: ./dist/openapi-doc/index.html
-      - name: HTML Preview
-        id: html_preview
-        uses: pavi2410/html-preview-action@v2
-        with:
-          html_file: ./dist/openapi-doc/index.html
       - name: Deploy redoc build to Vercel
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }} --cwd=./dist/openapi-doc
       - name: Build with Vercel
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }} --cwd=./dist/openapi-doc
-      - name: Deploy to Vercel
-        run: vercel deploy --prebuild --token=${{ secrets.VERCEL_TOKEN }} --cwd=./dist/openapi-doc
+      - id: deploy
+        name: Deploy to Vercel
+        run: |
+          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} --cwd=./dist/openapi-doc > deploy.log
+          URL=$(cat deploy.log | grep -o 'https://[^ ]*.vercel.app' | head -n1)
+          echo "deploymentUrl=$URL" >> $GITHUB_OUTPUT
+          cat $GITHUB_OUTPUT
+      - name: Comment URL to PR
+        uses: actions/github-script@v6
+        if : github.event_name == 'pull_request'
+        id: comment-deployment-url-script
+        env:
+          DEPLOYMENT_URL: ${{ steps.deploy.outputs.deploymentUrl }}
+        with:
+          script: |
+            // Get pull requests that are open for current ref.
+            const pullRequests = await github.rest.pulls.list({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'open',
+                head: `${context.repo.owner}:${context.ref.replace('refs/heads/', '')}`
+            })
+
+            // Set issue number for following calls from context (if on pull request event) or from above variable.
+            const issueNumber = context.issue.number || pullRequests.data[0].number
+
+            // Retrieve existing bot comments for the PR
+            const {data: comments} = await github.rest.issues.listComments({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+            })
+            const botComment = comments.find(comment => {
+                return comment.user.type === 'Bot' && comment.body.includes('OPENAPI Docs Deploy at')
+            })
+
+            const output = `OPENAPI Docs Deploy at : ${process.env.DEPLOYMENT_URL}\n\n_Deployed at: ${new Date().toUTCString()}_`
+
+            // If we have a comment, update it, otherwise create a new one
+            if (botComment) {
+                github.rest.issues.updateComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    comment_id: botComment.id,
+                    body: output
+                })
+            } else {
+                github.rest.issues.createComment({
+                    issue_number: issueNumber,
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    body: output
+                })
+            }
 
   artifacts-comment:
+    # only push branch dev, dev-md
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/dev-md'
     name: Generate artifacts and comment on PR
     runs-on: ubuntu-latest
     needs: [apps-mobile-android-lint, apps-mobile-android-build-debug-apk, apps-mobile-android-build-release-apk]
@@ -196,6 +258,11 @@ jobs:
         run: |
           mv app-debug.apk com.nakama.capstone.linkdlaw-debug.apk
           mv app-release-unsigned.apk com.nakama.capstone.linkdlaw-release-unsigned.apk
+      - name: Get branch name only
+        id: branch-name
+        run: echo "BRANCH_NAME=$(echo ${GITHUB_HEAD_REF#refs/heads/})" >> $GITHUB_ENV
+      - name: show branch name result
+        run: echo $BRANCH_NAME
       - name: Pull request artifacts
         if: github.event_name == 'pull_request'
         uses: gavv/pull-request-artifacts@v2
@@ -203,6 +270,8 @@ jobs:
           commit: ${{ github.event.pull_request.head.sha }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           inter-link: false
+          # prefix must be <branch_name>-
+          artifacts-prefix: ${{ env.BRANCH_NAME }}-
           artifacts-branch: artifacts
           artifacts: |
             com.nakama.capstone.linkdlaw-debug.apk
