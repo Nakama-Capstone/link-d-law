@@ -67,4 +67,4 @@ RUN python3.9 -m pip install -r requirements.txt
 
 # run app
 EXPOSE 80
-ENTRYPOINT ["/entrypoint.sh"]
+CMD ["make", "dev-api"]
