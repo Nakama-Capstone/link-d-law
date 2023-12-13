@@ -1,9 +1,11 @@
 import { Router } from 'express'
-import { getUserProfile } from '../controllers/userController'
+import { getUserProfile, updateUserProfile } from '@/controllers/userController'
+import { AuthMiddleware, RequestAuthMiddleware } from '@/middleware/middleware'
 
 const router: Router = Router()
 
 //TODO: get user profile
-router.get("/profile", getUserProfile)
+router.get("/profile", AuthMiddleware, getUserProfile)
+router.put("/profile", AuthMiddleware, updateUserProfile)
 
 export default router
