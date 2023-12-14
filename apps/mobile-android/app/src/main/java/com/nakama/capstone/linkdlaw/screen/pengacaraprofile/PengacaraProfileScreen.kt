@@ -6,6 +6,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -60,7 +61,8 @@ fun PengacaraProfileScreen(){
 @Composable
 fun PengacaraProfileContent(){
     Column(
-        modifier = Modifier,
+        modifier = Modifier
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TopAppBar(
@@ -141,36 +143,94 @@ fun PengacaraProfileContent(){
             }
         }
         Spacer(modifier = Modifier.height(40.dp))
-        Column(
-            modifier = Modifier
-                .padding(20.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        Box(modifier = Modifier){
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(129.dp)
-                    .background(color = Color(0xFFD9D9D9), shape = RoundedCornerShape(size = 10.dp))
-                    .padding(10.dp)
+                    .padding(20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Row(
+                Column(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                        .fillMaxWidth()
+                        .height(129.dp)
+                        .background(color = Color(0xFFD9D9D9), shape = RoundedCornerShape(size = 10.dp))
+                        .padding(10.dp)
                 ) {
                     Row(
-                        modifier = Modifier,
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(
-                            modifier = Modifier
-                                .size(24.dp),
-                            painter = painterResource(id = R.drawable.like),
-                            contentDescription = "like",
+                        Row(
+                            modifier = Modifier,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                modifier = Modifier
+                                    .size(24.dp),
+                                painter = painterResource(id = R.drawable.like),
+                                contentDescription = "like",
+                            )
+                            Text(
+                                text = "99% Puas",
+                                style = TextStyle(
+                                    fontSize = 14.sp,
+                                    fontFamily = FontFamily(Font(R.font.poppins_regular)),
+                                    color = Color(0xFF494949),
+                                )
+                            )
+                        }
+                        Text(
+                            text = "Semua (999)",
+                            style = TextStyle(
+                                fontSize = 14.sp,
+                                fontFamily = FontFamily(Font(R.font.poppins_regular)),
+                                color = Color(0xFF494949)
+                            )
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(66.dp)
+                            .background(
+                                color = Color(0xFFFFFFFF),
+                                shape = RoundedCornerShape(size = 10.dp)
+                            ),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "“Saya puas dengan pak hotman karena agresif”",
+                            style = TextStyle(
+                                fontSize = 12.sp,
+                                fontFamily = FontFamily(Font(R.font.poppins_regular)),
+                                color = Color(0xFF494949),
+                            )
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(15.dp))
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(63.dp)
+                        .background(color = Color(0xFFD9D9D9), shape = RoundedCornerShape(size = 10.dp))
+                        .padding(10.dp)
+                ) {
+                    Column {
+                        Text(
+                            text = "Nomer PERADI",
+                            style = TextStyle(
+                                fontSize = 14.sp,
+                                fontFamily = FontFamily(Font(R.font.poppins_regular)),
+                                color = Color(0xFF494949),
+                            )
                         )
                         Text(
-                            text = "99% Puas",
+                            text = "00000000000",
                             style = TextStyle(
                                 fontSize = 14.sp,
                                 fontFamily = FontFamily(Font(R.font.poppins_regular)),
@@ -178,228 +238,181 @@ fun PengacaraProfileContent(){
                             )
                         )
                     }
-                    Text(
-                        text = "Semua (999)",
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            fontFamily = FontFamily(Font(R.font.poppins_regular)),
-                            color = Color(0xFF494949)
-                        )
-                    )    
                 }
-                Spacer(modifier = Modifier.height(10.dp))
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(66.dp)
-                        .background(
-                            color = Color(0xFFFFFFFF),
-                            shape = RoundedCornerShape(size = 10.dp)
-                        ),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = "“Saya puas dengan pak hotman karena agresif”",
-                        style = TextStyle(
-                            fontSize = 12.sp,
-                            fontFamily = FontFamily(Font(R.font.poppins_regular)),
-                            color = Color(0xFF494949),
-                        )
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(15.dp))
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(63.dp)
-                    .background(color = Color(0xFFD9D9D9), shape = RoundedCornerShape(size = 10.dp))
-                    .padding(10.dp)
-            ) {
-                Column {
-                    Text(
-                        text = "Nomer PERADI",
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            fontFamily = FontFamily(Font(R.font.poppins_regular)),
-                            color = Color(0xFF494949),
-                        )
-                    )
-                    Text(
-                        text = "00000000000",
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            fontFamily = FontFamily(Font(R.font.poppins_regular)),
-                            color = Color(0xFF494949),
-                        )
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(15.dp))
-            var expandedState by remember { mutableStateOf(false) }
-            val rotationState by animateFloatAsState(
-                targetValue = if (expandedState) 180f else 0f, label = "Animation"
-            )
+                Spacer(modifier = Modifier.height(15.dp))
 
-            Card(
-                colors = CardDefaults.cardColors(Color(0xFFD9D9D9)),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .animateContentSize(
-                        animationSpec = tween(
-                            delayMillis = 300,
-                            easing = LinearOutSlowInEasing
-                        )
-                    ),
-                shape = RoundedCornerShape(10.dp),
-                onClick = {
-                    expandedState = !expandedState
-                }
-            ) {
-                Column(
+                var expandedState by remember { mutableStateOf(false) }
+                val rotationState by animateFloatAsState(
+                    targetValue = if (expandedState) 180f else 0f, label = "Animation"
+                )
+
+                Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(45.dp)
-                        .padding(12.dp)
+                        .animateContentSize(
+                            animationSpec = tween(
+                                delayMillis = 300,
+                                easing = LinearOutSlowInEasing
+                            )
+                        ),
+                    colors = CardDefaults.cardColors(Color(0xFFD9D9D9)),
+                    shape = RoundedCornerShape(10.dp),
+                    onClick = {
+                        expandedState = !expandedState
+                    }
                 ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            modifier = Modifier
-                                .weight(6f),
-                            text = "Riwayat Pendidikan",
-                            fontSize = 14.sp,
-                            fontFamily = FontFamily(Font(R.font.poppins_regular)),
-                            color = Color(0xFF494949),
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                        IconButton(
-                            modifier = Modifier
-                                .alpha(0.5f)
-                                .weight(1f)
-                                .rotate(rotationState),
-                            onClick = { expandedState = !expandedState }
-                        ) {
-                            Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = "Arrow drop down")
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 12.dp, vertical = 0.dp)
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(
+                                modifier = Modifier
+                                    .weight(6f),
+                                text = "Riwayat Pendidikan",
+                                fontSize = 14.sp,
+                                fontFamily = FontFamily(Font(R.font.poppins_regular)),
+                                color = Color(0xFF494949),
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                            IconButton(
+                                modifier = Modifier
+                                    .alpha(0.5f)
+                                    .weight(1f)
+                                    .rotate(rotationState),
+                                onClick = { expandedState = !expandedState }
+                            ) {
+                                Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = "Arrow drop down")
+                            }
+                        }
+                        if (expandedState){
+                            Text(
+                                text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry." +
+                                    "Lorem Ipsum has been the industry's standard dummy text ever since" +
+                                    "the 1500s, when an unknown printer took a galley of type and scrambled it" +
+                                    "to make a type specimen book. It has survived not only five centuries, but" +
+                                    "also the leap into electronic typesetting, remaining essentially unchanged.",
+                                fontSize = 14.sp,
+                                fontFamily = FontFamily(Font(R.font.poppins_regular)),
+                                color = Color(0xFF494949),
+                                maxLines = 4,
+                                overflow = TextOverflow.Ellipsis
+                            )
                         }
                     }
-                    if (expandedState){
-                        Text(
-                            text = "Lulusan Planet Luar 2010",
-                            fontSize = 14.sp,
-                            fontFamily = FontFamily(Font(R.font.poppins_regular)),
-                            color = Color(0xFF494949),
-                            maxLines = 4,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
                 }
-            }
-            Spacer(modifier = Modifier.height(15.dp))
-            Card(
-                colors = CardDefaults.cardColors(Color(0xFFD9D9D9)),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .animateContentSize(
-                        animationSpec = tween(
-                            delayMillis = 300,
-                            easing = LinearOutSlowInEasing
-                        )
-                    ),
-                shape = RoundedCornerShape(10.dp),
-                onClick = {
-                    expandedState = !expandedState
-                }
-            ) {
-                Column(
+                Spacer(modifier = Modifier.height(15.dp))
+                Card(
+                    colors = CardDefaults.cardColors(Color(0xFFD9D9D9)),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(45.dp)
-                        .padding(12.dp)
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            modifier = Modifier
-                                .weight(6f),
-                            text = "Firma Hukum",
-                            fontSize = 14.sp,
-                            fontFamily = FontFamily(Font(R.font.poppins_regular)),
-                            color = Color(0xFF494949),
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                        IconButton(
-                            modifier = Modifier
-                                .alpha(0.5f)
-                                .weight(1f)
-                                .rotate(rotationState),
-                            onClick = { expandedState = !expandedState }
-                        ) {
-                            Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = "Arrow drop down")
-                        }
+                        .animateContentSize(
+                            animationSpec = tween(
+                                delayMillis = 300,
+                                easing = LinearOutSlowInEasing
+                            )
+                        ),
+                    shape = RoundedCornerShape(10.dp),
+                    onClick = {
+                        expandedState = !expandedState
                     }
-                    if (expandedState){
-                        Text(
-                            text = "Lulusan Planet Luar 2010",
-                            fontSize = 14.sp,
-                            fontFamily = FontFamily(Font(R.font.poppins_regular)),
-                            color = Color(0xFF494949),
-                            maxLines = 4,
-                            overflow = TextOverflow.Ellipsis
-                        )
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 12.dp, vertical = 0.dp)
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(
+                                modifier = Modifier
+                                    .weight(6f),
+                                text = "Firma Hukum",
+                                fontSize = 14.sp,
+                                fontFamily = FontFamily(Font(R.font.poppins_regular)),
+                                color = Color(0xFF494949),
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                            IconButton(
+                                modifier = Modifier
+                                    .alpha(0.5f)
+                                    .weight(1f)
+                                    .rotate(rotationState),
+                                onClick = { expandedState = !expandedState }
+                            ) {
+                                Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = "Arrow drop down")
+                            }
+                        }
+                        if (expandedState){
+                            Text(
+                                text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry." +
+                                    "Lorem Ipsum has been the industry's standard dummy text ever since" +
+                                    "the 1500s, when an unknown printer took a galley of type and scrambled it" +
+                                    "to make a type specimen book. It has survived not only five centuries, but" +
+                                    "also the leap into electronic typesetting, remaining essentially unchanged.",
+                                fontSize = 14.sp,
+                                fontFamily = FontFamily(Font(R.font.poppins_regular)),
+                                color = Color(0xFF494949),
+                                maxLines = 4,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
                     }
                 }
             }
         }
-    }
-    Box(
-        modifier = Modifier,
-        contentAlignment = Alignment.BottomCenter
-    ){
-        Row(
+        Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(84.dp)
-                .background(color = Color(0xFF011429))
-                .padding(horizontal = 10.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
+                .fillMaxSize(),
+            contentAlignment = Alignment.BottomCenter
         ){
-            Column {
-                Text(
-                    text = "Biaya Konsultasi",
-                    style = TextStyle(
-                        fontSize = 12.sp,
-                        fontFamily = FontFamily(Font(R.font.poppins_regular)),
-                        color = Color(0xFFFDFAFA),
-                    )
-                )
-                Text(
-                    text = "RP.100.000",
-                    style = TextStyle(
-                        fontSize = 12.sp,
-                        fontFamily = FontFamily(Font(R.font.poppins_regular)),
-                        color = Color(0xFF79CC26),
-                    )
-                )
-            }
             Row(
                 modifier = Modifier
-                    .width(133.dp)
-                    .height(46.dp)
-                    .background(color = Color(0xFF91D8E4), shape = RoundedCornerShape(size = 10.dp)),
+                    .fillMaxWidth()
+                    .height(84.dp)
+                    .background(color = Color(0xFF011429))
+                    .padding(horizontal = 10.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = "Chat Sekarang",
-                    style = TextStyle(
-                        fontSize = 14.sp,
-                        fontFamily = FontFamily(Font(R.font.poppins_regular)),
-                        color = Color(0xFF494949),
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ){
+                Column {
+                    Text(
+                        text = "Biaya Konsultasi",
+                        style = TextStyle(
+                            fontSize = 12.sp,
+                            fontFamily = FontFamily(Font(R.font.poppins_regular)),
+                            color = Color(0xFFFDFAFA),
+                        )
                     )
-                )
+                    Text(
+                        text = "RP.100.000",
+                        style = TextStyle(
+                            fontSize = 12.sp,
+                            fontFamily = FontFamily(Font(R.font.poppins_regular)),
+                            color = Color(0xFF79CC26),
+                        )
+                    )
+                }
+                Row(
+                    modifier = Modifier
+                        .width(133.dp)
+                        .height(46.dp)
+                        .background(color = Color(0xFF91D8E4), shape = RoundedCornerShape(size = 10.dp))
+                        .clickable {  },
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "Chat Sekarang",
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            fontFamily = FontFamily(Font(R.font.poppins_regular)),
+                            color = Color(0xFF494949),
+                        )
+                    )
+                }
             }
         }
     }
