@@ -1,4 +1,4 @@
-package com.nakama.capstone.linkdlaw.screen.auth.pengacaraprofile
+package com.nakama.capstone.linkdlaw.screen.pengacaraprofile
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -49,6 +49,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.nakama.capstone.linkdlaw.R
 
 @Composable
 fun PengacaraProfileScreen(){
@@ -97,8 +98,8 @@ fun PengacaraProfileContent(){
                     Image(
                         modifier = Modifier
                             .fillMaxSize(),
-                        painter = painterResource(id = com.nakama.capstone.linkdlaw.R.drawable.brock_lesnar),
-                        contentDescription = "brock lesnar",
+                        painter = painterResource(id = R.drawable.profile),
+                        contentDescription = "Pengacara",
                         contentScale = ContentScale.Crop
                     )
                 }
@@ -122,7 +123,7 @@ fun PengacaraProfileContent(){
                                 text = "Dr. Hotman Paris Hutapea, S.H., LL.M., M.Hum.",
                                 style = TextStyle(
                                     fontSize = 12.sp,
-                                    fontFamily = FontFamily(Font(com.nakama.capstone.linkdlaw.R.font.poppins_regular)),
+                                    fontFamily = FontFamily(Font(R.font.poppins_regular)),
                                     color = Color(0xFFFFFFFF),
                                 )
                             )
@@ -130,7 +131,7 @@ fun PengacaraProfileContent(){
                                 text = "Pengacara Specialis Hukum Perdata",
                                 style = TextStyle(
                                     fontSize = 12.sp,
-                                    fontFamily = FontFamily(Font(com.nakama.capstone.linkdlaw.R.font.poppins_regular)),
+                                    fontFamily = FontFamily(Font(R.font.poppins_regular)),
                                     color = Color(0xFFFFFFFF),
                                 )
                             )
@@ -165,14 +166,14 @@ fun PengacaraProfileContent(){
                         Icon(
                             modifier = Modifier
                                 .size(24.dp),
-                            painter = painterResource(id = com.nakama.capstone.linkdlaw.R.drawable.like),
+                            painter = painterResource(id = R.drawable.like),
                             contentDescription = "like",
                         )
                         Text(
                             text = "99% Puas",
                             style = TextStyle(
                                 fontSize = 14.sp,
-                                fontFamily = FontFamily(Font(com.nakama.capstone.linkdlaw.R.font.poppins_regular)),
+                                fontFamily = FontFamily(Font(R.font.poppins_regular)),
                                 color = Color(0xFF494949),
                             )
                         )
@@ -181,10 +182,10 @@ fun PengacaraProfileContent(){
                         text = "Semua (999)",
                         style = TextStyle(
                             fontSize = 14.sp,
-                            fontFamily = FontFamily(Font(com.nakama.capstone.linkdlaw.R.font.poppins_regular)),
-                            color = Color(0xFF494949),
+                            fontFamily = FontFamily(Font(R.font.poppins_regular)),
+                            color = Color(0xFF494949)
                         )
-                    )
+                    )    
                 }
                 Spacer(modifier = Modifier.height(10.dp))
                 Column(
@@ -202,7 +203,7 @@ fun PengacaraProfileContent(){
                         text = "“Saya puas dengan pak hotman karena agresif”",
                         style = TextStyle(
                             fontSize = 12.sp,
-                            fontFamily = FontFamily(Font(com.nakama.capstone.linkdlaw.R.font.poppins_regular)),
+                            fontFamily = FontFamily(Font(R.font.poppins_regular)),
                             color = Color(0xFF494949),
                         )
                     )
@@ -221,7 +222,7 @@ fun PengacaraProfileContent(){
                         text = "Nomer PERADI",
                         style = TextStyle(
                             fontSize = 14.sp,
-                            fontFamily = FontFamily(Font(com.nakama.capstone.linkdlaw.R.font.poppins_regular)),
+                            fontFamily = FontFamily(Font(R.font.poppins_regular)),
                             color = Color(0xFF494949),
                         )
                     )
@@ -229,7 +230,7 @@ fun PengacaraProfileContent(){
                         text = "00000000000",
                         style = TextStyle(
                             fontSize = 14.sp,
-                            fontFamily = FontFamily(Font(com.nakama.capstone.linkdlaw.R.font.poppins_regular)),
+                            fontFamily = FontFamily(Font(R.font.poppins_regular)),
                             color = Color(0xFF494949),
                         )
                     )
@@ -259,7 +260,7 @@ fun PengacaraProfileContent(){
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(63.dp)
+                        .height(45.dp)
                         .padding(12.dp)
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -268,7 +269,7 @@ fun PengacaraProfileContent(){
                                 .weight(6f),
                             text = "Riwayat Pendidikan",
                             fontSize = 14.sp,
-                            fontFamily = FontFamily(Font(com.nakama.capstone.linkdlaw.R.font.poppins_regular)),
+                            fontFamily = FontFamily(Font(R.font.poppins_regular)),
                             color = Color(0xFF494949),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
@@ -287,7 +288,7 @@ fun PengacaraProfileContent(){
                         Text(
                             text = "Lulusan Planet Luar 2010",
                             fontSize = 14.sp,
-                            fontFamily = FontFamily(Font(com.nakama.capstone.linkdlaw.R.font.poppins_regular)),
+                            fontFamily = FontFamily(Font(R.font.poppins_regular)),
                             color = Color(0xFF494949),
                             maxLines = 4,
                             overflow = TextOverflow.Ellipsis
@@ -314,7 +315,7 @@ fun PengacaraProfileContent(){
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(63.dp)
+                        .height(45.dp)
                         .padding(12.dp)
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -323,7 +324,7 @@ fun PengacaraProfileContent(){
                                 .weight(6f),
                             text = "Firma Hukum",
                             fontSize = 14.sp,
-                            fontFamily = FontFamily(Font(com.nakama.capstone.linkdlaw.R.font.poppins_regular)),
+                            fontFamily = FontFamily(Font(R.font.poppins_regular)),
                             color = Color(0xFF494949),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
@@ -342,13 +343,63 @@ fun PengacaraProfileContent(){
                         Text(
                             text = "Lulusan Planet Luar 2010",
                             fontSize = 14.sp,
-                            fontFamily = FontFamily(Font(com.nakama.capstone.linkdlaw.R.font.poppins_regular)),
+                            fontFamily = FontFamily(Font(R.font.poppins_regular)),
                             color = Color(0xFF494949),
                             maxLines = 4,
                             overflow = TextOverflow.Ellipsis
                         )
                     }
                 }
+            }
+        }
+    }
+    Box(
+        modifier = Modifier,
+        contentAlignment = Alignment.BottomCenter
+    ){
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(84.dp)
+                .background(color = Color(0xFF011429))
+                .padding(horizontal = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ){
+            Column {
+                Text(
+                    text = "Biaya Konsultasi",
+                    style = TextStyle(
+                        fontSize = 12.sp,
+                        fontFamily = FontFamily(Font(R.font.poppins_regular)),
+                        color = Color(0xFFFDFAFA),
+                    )
+                )
+                Text(
+                    text = "RP.100.000",
+                    style = TextStyle(
+                        fontSize = 12.sp,
+                        fontFamily = FontFamily(Font(R.font.poppins_regular)),
+                        color = Color(0xFF79CC26),
+                    )
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .width(133.dp)
+                    .height(46.dp)
+                    .background(color = Color(0xFF91D8E4), shape = RoundedCornerShape(size = 10.dp)),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "Chat Sekarang",
+                    style = TextStyle(
+                        fontSize = 14.sp,
+                        fontFamily = FontFamily(Font(R.font.poppins_regular)),
+                        color = Color(0xFF494949),
+                    )
+                )
             }
         }
     }
