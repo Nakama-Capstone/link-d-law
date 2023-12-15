@@ -13,7 +13,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,6 +29,7 @@ import androidx.navigation.compose.rememberNavController
 
 import com.nakama.capstone.linkdlaw.screen.auth.login.AppIcon
 import com.nakama.capstone.linkdlaw.screen.components.TextField
+import com.nakama.capstone.linkdlaw.ui.theme.Poppins
 
 @OptIn(ExperimentalMaterial3Api::class)
 
@@ -45,20 +45,26 @@ fun RegisterContent(
     navController: NavController,
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter){
+    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Spacer(modifier = modifier.height(50.dp))
             Text(
                 text = "Link D Law",
-                style = MaterialTheme.typography.headlineMedium,
+                fontSize = 26.sp,
+                fontFamily = Poppins,
                 fontWeight = FontWeight.Bold
             )
             AppIcon(
                 modifier
             )
             Spacer(modifier = Modifier.height(50.dp))
-            Text(text = "Register", fontWeight = FontWeight.Bold, fontSize = 24.sp)
-            TextField(label = "Name", text = "", modifier = Modifier.padding(top = 8.dp))
+            Text(
+                text = "Register",
+                fontFamily = Poppins,
+                fontWeight = FontWeight.Bold,
+                fontSize = 24.sp
+            )
+            TextField(label = "Name", text = "")
             TextField(label = "Email", text = "")
             TextField(label = "Password", text = "")
             Button(
@@ -85,5 +91,5 @@ fun RegisterContent(
 )
 @Composable
 fun RegisterContentPreview() {
-    RegisterContent( rememberNavController(),modifier = Modifier)
+    RegisterContent(rememberNavController(), modifier = Modifier)
 }
