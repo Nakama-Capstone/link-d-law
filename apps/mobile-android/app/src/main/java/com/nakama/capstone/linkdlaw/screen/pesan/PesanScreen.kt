@@ -59,7 +59,7 @@ fun PesanContent(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
-                painter = painterResource(id = R.drawable.brock_lesnar),
+                painter = painterResource(id = R.drawable.profile),
                 contentDescription = "Brock Lesnar",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -104,7 +104,7 @@ fun PesanContent(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
-                painter = painterResource(id = R.drawable.brock_lesnar),
+                painter = painterResource(id = R.drawable.profile),
                 contentDescription = "Brock Lesnar",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
