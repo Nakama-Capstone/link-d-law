@@ -8,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,22 +26,22 @@ import com.nakama.capstone.linkdlaw.R
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun SearchBar(modifier: Modifier = Modifier){
+fun SearchBar(labelText: String, modifier: Modifier = Modifier){
     var text by remember { mutableStateOf("") }
     var active by remember { mutableStateOf(false) }
 
     androidx.compose.material3.SearchBar(
         modifier = modifier
             .fillMaxWidth(),
-        colors = SearchBarDefaults.colors(Color(0xFFD9D9D9)),
+        colors = SearchBarDefaults.colors(MaterialTheme.colorScheme.background),
         query = text,
         onQueryChange = { text = it },
         onSearch = { active = false },
         active = active,
         onActiveChange = { active = it },
-        placeholder = { Text(text = "Search") },
+        placeholder = { Text(text = labelText) },
         leadingIcon = {
-            Icon(painterResource(id = R.drawable.ic_search), contentDescription = "Search", modifier = Modifier.size(24.dp))
+            Icon(painterResource(id = R.drawable.ic_search), tint = Color.Black, contentDescription = "Search", modifier = Modifier.size(24.dp))
         },
         trailingIcon = {
             if (active){
@@ -52,7 +53,7 @@ fun SearchBar(modifier: Modifier = Modifier){
                             active = false
                         }
                     },
-                    imageVector = Icons.Default.Clear, contentDescription = "Clear Icon"
+                    imageVector = Icons.Default.Clear, tint = Color.Black,contentDescription = "Clear Icon"
                 )
             }
         }
@@ -62,5 +63,5 @@ fun SearchBar(modifier: Modifier = Modifier){
 @Preview
 @Composable
 fun SearchBarPreview(){
-    SearchBar()
+    SearchBar("")
 }

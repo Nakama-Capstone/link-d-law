@@ -20,7 +20,7 @@ import com.nakama.capstone.linkdlaw.R
 
 @Composable
 fun SettingScreen() {
-
+    SettingScreenContent()
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,7 +39,9 @@ fun SettingScreenContent(
         Text(
             text = "Account",
             fontSize = 24.sp,
-            modifier = Modifier.padding(horizontal = 16.dp).align(Alignment.Start)
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .align(Alignment.Start)
         )
         SettingSection(
             icon = painterResource(id = R.drawable.img_preview),
@@ -51,7 +53,9 @@ fun SettingScreenContent(
         Text(
             text = "Preferences",
             fontSize = 24.sp,
-            modifier = Modifier.padding(horizontal = 16.dp).align(Alignment.Start)
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .align(Alignment.Start)
         )
 
         SettingSection(
