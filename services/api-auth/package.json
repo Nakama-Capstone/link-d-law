@@ -12,8 +12,10 @@
     "express": "^4.18.2"
   },
   "devDependencies": {
-    "bun-types": "latest",
+    "@law-d-link/service": "workspace:*",
+    "@law-d-link/schema": "workspace:*",
     "@types/express": "^4.17.21",
-    "@law-d-link/service": "workspace:*"
+    "bun-types": "latest",
+    "zod": "^3.22.4"
   }
 }

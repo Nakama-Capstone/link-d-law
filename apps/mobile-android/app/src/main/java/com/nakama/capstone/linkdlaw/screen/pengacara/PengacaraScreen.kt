@@ -67,7 +67,7 @@ fun PengacaraContent(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
-                painter = painterResource(id = com.nakama.capstone.linkdlaw.R.drawable.brock_lesnar),
+                painter = painterResource(id = com.nakama.capstone.linkdlaw.R.drawable.profile),
                 contentDescription = "Brock Lesnar",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -105,7 +105,7 @@ fun PengacaraContent(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
-                painter = painterResource(id = com.nakama.capstone.linkdlaw.R.drawable.brock_lesnar),
+                painter = painterResource(id = com.nakama.capstone.linkdlaw.R.drawable.profile),
                 contentDescription = "Brock Lesnar",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier

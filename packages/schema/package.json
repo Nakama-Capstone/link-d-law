@@ -1,0 +1,16 @@
+{
+  "name": "@law-d-link/schema",
+  "module": "src/index.ts",
+  "type": "module",
+  "types": "src/index.ts",
+  "typings": "src/index.ts",
+  "scripts": {
+    "lint": "eslint --config ../../.eslintrc --ext .ts src"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "dependencies": {
+    "zod": "^3.22.4"
+  }
+}
