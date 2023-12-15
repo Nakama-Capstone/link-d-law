@@ -23,10 +23,14 @@ const {
   port: Number(service.getEnv("SERVICE_API_AUTH_PORT", "3002")),
   apiVersion: "v1",
 })
-// connect cache
-await cache.connect()
-// eslint-disable-next-line no-console
-service.log.info("🚀 redis connected")
+// connect cache with redis
+try {
+  await cache.connect()
+  // eslint-disable-next-line no-console
+  service.log.info("🚀  redis connected")
+} catch (error) {
+  service.log.error("🚀  redis connection error:", error)
+}
 
 // LISTING ROUTES
 // creategroup is a helper function to create a group of routes with a prefix
