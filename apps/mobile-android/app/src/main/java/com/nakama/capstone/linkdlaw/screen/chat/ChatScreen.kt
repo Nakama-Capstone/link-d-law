@@ -29,7 +29,7 @@ import com.nakama.capstone.linkdlaw.R
 
 @Composable
 fun ChatScreen() {
-    
+    ChatContent()
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -64,15 +64,21 @@ fun ChatContent() {
                         label = {
                             Text(text = "Ketik....")
                         },
-                        modifier = Modifier.padding(8.dp).width(310.dp)
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .width(310.dp)
                     )
                     Box(
                         modifier = Modifier
                             .size(50.dp)
-                            .background(shape = RoundedCornerShape(10.dp), color = Color(0xFF001D36))
+                            .background(
+                                shape = RoundedCornerShape(10.dp),
+                                color = Color(0xFF001D36)
+                            )
                             .clickable {
 
-                            }.padding(8.dp),
+                            }
+                            .padding(8.dp),
                         contentAlignment = Alignment.Center
                     ){
                         Icon(

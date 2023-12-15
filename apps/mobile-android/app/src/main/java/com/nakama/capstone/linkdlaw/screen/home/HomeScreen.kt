@@ -7,15 +7,18 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Search
@@ -23,13 +26,16 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -43,46 +49,188 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.dicoding.sampleui.components.HomeSection
 import com.nakama.capstone.linkdlaw.R
+import com.nakama.capstone.linkdlaw.navigation.model.BottomBarScreen
+import com.nakama.capstone.linkdlaw.navigation.navgraph.HomeNavGraph
+import com.nakama.capstone.linkdlaw.screen.components.SearchBar
 import com.nakama.capstone.linkdlaw.ui.theme.LinkDLawTheme
+import com.nakama.capstone.linkdlaw.ui.theme.Poppins
 
 @Composable
-fun HomeScreen() {
-    
+fun HomeScreen(navController: NavHostController = rememberNavController()) {
+    Scaffold(
+        bottomBar = {
+            BottomBar(navController = navController)
+        }
+    ) {
+//        HomeContent(
+//            item = listOf("text1", "text2", "text3")
+//        )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
+        ) {
+            HomeNavGraph(navController = navController)
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeContent(item: List<String>, modifier: Modifier = Modifier) {
-    Column {
-
-        TopAppBar(title = {
-            Search(query = "", modifier = modifier)
-        }, actions = {
+fun TopBar(
+    onSearch: () -> Unit,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    TopAppBar(
+        title =
+        {
+            SearchBar("Cari hukum, pengacara ...", modifier = modifier)
+        },
+        actions = {
             Box(
-                modifier.size(40.dp),
+                modifier
+                    .size(40.dp)
+                    .clickable {
+                        onClick()
+                    },
                 contentAlignment = Alignment.Center
-            ){
-                Icon(imageVector = Icons.Default.AccountCircle, contentDescription = null, modifier.fillMaxSize())
+            ) {
+                Icon(
+                    imageVector = Icons.Default.AccountCircle,
+                    contentDescription = null,
+                    modifier.fillMaxSize()
+                )
             }
         },
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = MaterialTheme.colorScheme.background
+        )
+    )
+}
+
+@Composable
+fun BottomBar(navController: NavHostController) {
+    val screens = listOf(
+        BottomBarScreen.Home,
+        BottomBarScreen.Law,
+        BottomBarScreen.Lawyer,
+        BottomBarScreen.Chat
+    )
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+
+    val bottomDestination = screens.any { it.route == currentDestination?.route }
+    if (bottomDestination) {
+        BottomNavigation {
+            screens.forEach { screen ->
+                AddItem(
+                    screen = screen,
+                    currentDestination = currentDestination,
+                    navController = navController
+                )
+            }
+        }
+    }
+
+}
+
+@Composable
+fun RowScope.AddItem(
+    screen: BottomBarScreen,
+    currentDestination: NavDestination?,
+    navController: NavHostController
+) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
+    BottomNavigationItem(
+        icon = {
+            Icon(
+                painter = painterResource(id = screen.icon),
+                contentDescription = screen.title,
+                tint = if (currentRoute == screen.route) {
+                    MaterialTheme.colorScheme.primary
+                } else {
+                    Color.Gray
+                }
+            )
+        },
+        onClick = {
+            navController.navigate(screen.route) {
+                popUpTo(navController.graph.findStartDestination().id)
+                launchSingleTop = true
+            }
+        },
+        selected = currentDestination?.hierarchy?.any {
+            it.route == screen.route
+        } == true,
+        modifier = Modifier.background(MaterialTheme.colorScheme.background),
+        selectedContentColor = MaterialTheme.colorScheme.primary,
+    )
+}
+
+@Composable
+fun HomeContent(
+    item: List<String>,
+    onSearch: () -> Unit,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column {
+
+        TopBar(
+            onSearch,
+            onClick
         )
 
         CardWithConstraint()
 
         HomeSection(
-            title = "Hukum Tersesuai",
+            title = "Fitur Kim",
             modifier = modifier
         ) {
-            LazyRow(
-                contentPadding = PaddingValues(10.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ){
-                items(item){
-                    HomeListItem(
-                        text = it,
-                        modifier = modifier
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.img_classified_law),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(5.dp)
+                            .size(80.dp)
+                    )
+                    Text(
+                        text = "Klasifikasi Hukum", fontFamily = Poppins,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.img_coming_soon),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .padding(10.dp)
+                            .size(70.dp)
+                    )
+                    Text(
+                        text = "Coming soon", fontFamily = Poppins,
+                        fontWeight = FontWeight.Bold
                     )
                 }
             }
@@ -95,8 +243,8 @@ fun HomeContent(item: List<String>, modifier: Modifier = Modifier) {
             LazyRow(
                 contentPadding = PaddingValues(10.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ){
-                items(item){
+            ) {
+                items(item) {
                     HomeListItem(
                         text = it,
                         modifier = modifier
@@ -126,7 +274,7 @@ fun Search(
             )
         },
         placeholder = {
-            Text("Search", color = Color.Black)
+            Text("Cari hukum, pengacara ...", color = Color.Black)
         },
         shape = MaterialTheme.shapes.large,
         colors = SearchBarDefaults.colors(
@@ -134,7 +282,6 @@ fun Search(
         ),
         modifier = modifier
             .padding(end = 8.dp)
-            .heightIn(min = 48.dp)
     ) {
 
     }
@@ -148,7 +295,7 @@ fun HomeListItem(text: String, modifier: Modifier) {
             modifier = modifier
                 .size(100.dp),
             contentAlignment = Alignment.Center
-        ){
+        ) {
             Text(text = text)
         }
     }
@@ -175,7 +322,7 @@ fun CardWithConstraint() {
                 painter = painterResource(id = R.drawable.img_ask),
                 contentDescription = null,
                 modifier = Modifier
-                    .constrainAs(image){
+                    .constrainAs(image) {
                         top.linkTo(parent.top, margin = 8.dp)
                         start.linkTo(parent.start, margin = 16.dp)
                     }
@@ -187,7 +334,7 @@ fun CardWithConstraint() {
                 fontSize = MaterialTheme.typography.headlineMedium.fontSize,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
-                    .constrainAs(header){
+                    .constrainAs(header) {
                         top.linkTo(parent.top, margin = 16.dp)
                         end.linkTo(parent.end, margin = 16.dp)
                     },
@@ -202,7 +349,7 @@ fun CardWithConstraint() {
                 color = MaterialTheme.colorScheme.onPrimary,
                 textAlign = TextAlign.Right,
                 modifier = Modifier
-                    .constrainAs(body){
+                    .constrainAs(body) {
                         top.linkTo(header.bottom, margin = 4.dp)
                         end.linkTo(parent.end, margin = 16.dp)
                     },
@@ -213,7 +360,7 @@ fun CardWithConstraint() {
                 value = "",
                 onValueChange = {},
                 modifier = Modifier
-                    .constrainAs(textField){
+                    .constrainAs(textField) {
                         top.linkTo(image.bottom, margin = 8.dp)
                         start.linkTo(parent.start, margin = 16.dp)
                     },
@@ -266,10 +413,10 @@ fun HomeItemPreview() {
     HomeListItem(text = "text", modifier = Modifier)
 }
 
-@Preview(showBackground = true, device = Devices.PIXEL_4, showSystemUi = true, )
+@Preview(showBackground = true, device = Devices.PIXEL_4, showSystemUi = true)
 @Composable
 fun GreetingPreview() {
     LinkDLawTheme {
-        HomeContent(item = listOf("text1", "text2", "text3"))
+        HomeContent(item = listOf("text1", "text2", "text3"), {}, {})
     }
 }

@@ -96,7 +96,7 @@ fun DetailHukumContent() {
             modifier = Modifier
                 .padding(horizontal = 15.dp)
         ) {
-            SearchBar(modifier = Modifier)
+            SearchBar("Cari",modifier = Modifier)
             Spacer(modifier = Modifier.height(15.dp))
             Row(
                 modifier = Modifier

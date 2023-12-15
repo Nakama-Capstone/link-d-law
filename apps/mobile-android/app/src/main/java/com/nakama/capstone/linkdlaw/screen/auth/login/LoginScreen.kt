@@ -26,24 +26,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.nakama.capstone.linkdlaw.R
-import com.nakama.capstone.linkdlaw.navigation.Screen
 import com.nakama.capstone.linkdlaw.screen.components.TextField
 import com.nakama.capstone.linkdlaw.ui.theme.Poppins
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
-    navController: NavController
+    onClick: () -> Unit,
+    onRegisterClick: () -> Unit
 ) {
-    LoginContent(navController = navController, modifier = Modifier)
+    LoginContent(onClick, onRegisterClick, modifier = Modifier)
 }
 
 @Composable
 fun LoginContent(
-    navController: NavController,
+    onClick: () -> Unit,
+    onRegisterClick: () -> Unit,
     modifier: Modifier
 ) {
     Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter){
@@ -59,12 +58,17 @@ fun LoginContent(
                 modifier
             )
             Spacer(modifier = Modifier.height(50.dp))
-            Text(text = "Login", fontWeight = FontWeight.Bold, fontSize = 24.sp)
+            Text(
+                text = "Login",
+                fontFamily = Poppins,
+                fontWeight = FontWeight.Bold,
+                fontSize = 24.sp
+            )
             TextField(label = "Email", text = "")
             TextField(label = "Password", text = "")
             Button(
                 onClick = {
-
+                    onClick()
                 },
                 modifier = Modifier
                     .width(300.dp)
@@ -74,17 +78,31 @@ fun LoginContent(
                     containerColor = Color(0xFF00396B)
                 )
             ) {
-                Text(text = "Login")
+                Text(text = "Login",fontFamily = Poppins,
+                    fontWeight = FontWeight.Bold)
             }
-            Text(text = "Or", modifier = Modifier.padding(8.dp))
+            Text(
+                text = "Or",
+                fontFamily = Poppins,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(8.dp)
+            )
             LoginOption()
             Row(
                 modifier = Modifier.padding(4.dp)
             ) {
-                Text(text = "Don't have account?", fontSize = 12.sp)
-                Text(text = " Register now!", color = MaterialTheme.colorScheme.primary, fontSize = 12.sp, modifier = Modifier.clickable {
-                    navController.navigate(route = Screen.Register.route)
-                })
+                Text(text = "Don't have account?", fontSize = 12.sp, fontFamily = Poppins,
+                    fontWeight = FontWeight.Bold)
+                Text(
+                    text = " Register now!",
+                    color = MaterialTheme.colorScheme.primary,
+                    fontFamily = Poppins,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 12.sp,
+                    modifier = Modifier.clickable {
+                        onRegisterClick()
+                    }
+                )
             }
         }
     }
@@ -129,5 +147,5 @@ fun LoginOption() {
 )
 @Composable
 fun LoginContentPreview() {
-    LoginContent(navController = rememberNavController(),modifier = Modifier)
+    LoginContent(onRegisterClick = {}, onClick = {}, modifier = Modifier)
 }
