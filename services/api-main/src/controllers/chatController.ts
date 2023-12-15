@@ -52,7 +52,7 @@ const getAllMessage = async (req: Request, res: Response) => {
 
 const sendMessage = async (req: Request, res: Response) => {
     const { id } = req.params
-    const { message, from, to } = req.body
+    const { message, to } = req.body
     const { auth } = req as RequestAuthMiddleware
 
     const chat = await db.chat.findFirst({

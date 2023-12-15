@@ -4,7 +4,6 @@ import lawRoute from "./routes/lawRoute"
 import userProfileRoute from "./routes/userProfileRoute"
 import chatRoute from "./routes/chatRoute"
 import lawyerRoute from "./routes/lawyerRoute"
-import express from "express"
 import { AuthMiddleware, RequestAuthMiddleware } from "@/middleware/middleware"
 
 // prepare all service needed
