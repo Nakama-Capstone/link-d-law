@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-1.1.x"]
 }
 
 datasource db {
@@ -49,6 +50,7 @@ model User {
   lastName   String?
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
+  image      String?
   chat1      Chat[]    @relation("user1_id")
   chat2      Chat[]    @relation("user2_id")
   from       Message[] @relation("from")

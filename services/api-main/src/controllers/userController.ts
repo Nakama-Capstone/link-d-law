@@ -29,7 +29,7 @@ const getUserProfile = async (req: Request, res: Response) => {
 
 const updateUserProfile = async (req: Request, res: Response) => {
     const { auth } = req as RequestAuthMiddleware
-    const { firstName, middleName, lastName, email, password } = req.body
+    const { firstName, middleName, lastName, email, password, image } = req.body
     
     // validate user data
     const validated = validateWithZod(userUpdateSchema, req.body)
@@ -50,7 +50,8 @@ const updateUserProfile = async (req: Request, res: Response) => {
                 middleName: middleName,
                 lastName: lastName,
                 email: email,
-                password: hashedPassword
+                password: hashedPassword,
+                image: image
             }
         })
     
@@ -69,6 +70,7 @@ const updateUserProfile = async (req: Request, res: Response) => {
                 middleName: middleName,
                 lastName: lastName,
                 email: email,
+                image: image
             }
         })
     
