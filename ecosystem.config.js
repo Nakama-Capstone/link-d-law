@@ -1,8 +1,8 @@
 module.exports = [
   {
     name: "service-redis",
-    cwd: "~",
-    script: "redis-server",
+    cwd: "/root",
+    script: "/usr/bin/redis-server",
   },
   {
     name: "service-api-gateway",

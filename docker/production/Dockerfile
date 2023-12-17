@@ -1,5 +1,5 @@
 # use debian
-FROM oven/bun:debian as api-runtime
+FROM oven/bun:debian as base
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED TRUE
@@ -25,10 +25,17 @@ RUN echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://
 RUN apt update
 RUN apt install -y redis-server screen
 
-RUN bun install -g concurrently
+RUN bun install -g concurrently pm2
 
 # install pyton from apt
 RUN apt install -y python3.9 python3-pip
+
+
+
+
+
+# layer deps
+FROM base as deps-bun
 
 # change workdir
 WORKDIR /app
@@ -49,6 +56,13 @@ COPY services/ services/
 # bun install
 RUN bun install
 
+
+
+
+
+# layer deps
+FROM deps-bun as deps-python
+
 # copy files
 COPY . .
 
@@ -56,9 +70,21 @@ COPY . .
 RUN python3.9 -m pip install tensorflow==2.14
 RUN python3.9 -m pip install -r requirements.txt
 
+
+
+
+
+# layer deploy
+FROM deps-python as deploy
+
+# echo aja
+RUN echo "nice!"
+
 # run app
 EXPOSE 80
 EXPOSE 6379
+
 # CMD ["make", "prod-api"]
 # keep running in background
-CMD ["bunx", "pm2-runtime", "start", "ecosystem.config.js"]
+# CMD ["bun", "pm2-runtime", "start", "ecosystem.config.js"]
+CMD ["bun", "prod-start"]
