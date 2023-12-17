@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '#root/prisma/prisma-client'
 
 export const initPrisma = (DATABASE_URL?: string) => {
   const db = new PrismaClient({

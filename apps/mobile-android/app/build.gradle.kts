@@ -58,7 +58,8 @@ dependencies {
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material3:material3:1.1.2")
+    implementation("androidx.compose.material:material:1.5.4")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -67,11 +68,20 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     
+
+    // Navigation
     implementation("androidx.navigation:navigation-compose:2.7.5")
+    
+    //Coil
     implementation("io.coil-kt:coil-compose:2.2.2")
+    
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.okhttp3:okhttp")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
     implementation("androidx.lifecycle:lifecycle-livedata-core-ktx:2.6.2")
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+
+    // Search Bar
+    implementation("androidx.compose.material3:material3-window-size-class:1.1.2")
+
 }

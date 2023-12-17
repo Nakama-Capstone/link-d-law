@@ -36,9 +36,10 @@ export const LoadConfigEnv = (envPath?: string) => {
       [path.resolve(process.cwd(), '../', '.env.development'), 3],
       [path.resolve(process.cwd(), '../../', '.env.development'), 3],
 
-      [path.resolve(process.cwd(), '.env.production'), 1],
-      [path.resolve(process.cwd(), '../', '.env.production'), 1],
-      [path.resolve(process.cwd(), '../../', '.env.production'), 1],
+      // check if NODE_ENV is production, make priority in 4
+      [path.resolve(process.cwd(), '.env.production'), (import.meta.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'production') ? 4 : 1],
+      [path.resolve(process.cwd(), '../', '.env.production'), (import.meta.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'production') ? 4 : 1],
+      [path.resolve(process.cwd(), '../../', '.env.production'), (import.meta.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'production') ? 4 : 1],
     ]
     
     // search and check folder exists per priority, if found, return path
@@ -75,6 +76,14 @@ export class MicroserviceService {
         this.logger.debug(chalk.yellow(`[DEBUG]`) + msg, ...args)
       } else {
         this.logger.debug(chalk.yellow(`[DEBUG]`), msg)
+      }
+    },
+    error: (msg: any, ...args: any) => {
+      return this.logger.error(chalk.red(`[ERROR]`), msg, ...args)
+      if (args.length > 0) {
+        this.logger.error(chalk.red(`[ERROR]`) + msg, ...args)
+      } else {
+        this.logger.error(chalk.red(`[ERROR]`), msg)
       }
     }
   }
