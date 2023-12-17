@@ -2,6 +2,7 @@ package com.dicoding.sampleui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,12 +35,16 @@ fun SettingSection(
     icon: Painter,
     head: String,
     body: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
 ) {
     ElevatedCard(
         modifier = modifier
             .width(360.dp)
             .wrapContentHeight(Alignment.CenterVertically)
+            .clickable { 
+                onClick()
+            }
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
