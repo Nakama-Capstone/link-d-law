@@ -36,9 +36,10 @@ export const LoadConfigEnv = (envPath?: string) => {
       [path.resolve(process.cwd(), '../', '.env.development'), 3],
       [path.resolve(process.cwd(), '../../', '.env.development'), 3],
 
-      [path.resolve(process.cwd(), '.env.production'), 1],
-      [path.resolve(process.cwd(), '../', '.env.production'), 1],
-      [path.resolve(process.cwd(), '../../', '.env.production'), 1],
+      // check if NODE_ENV is production, make priority in 4
+      [path.resolve(process.cwd(), '.env.production'), (import.meta.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'production') ? 4 : 1],
+      [path.resolve(process.cwd(), '../', '.env.production'), (import.meta.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'production') ? 4 : 1],
+      [path.resolve(process.cwd(), '../../', '.env.production'), (import.meta.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'production') ? 4 : 1],
     ]
     
     // search and check folder exists per priority, if found, return path

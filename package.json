@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "bunx --bun concurrently -c \"auto\" -n api-gateway,api-auth,api-main,kim-ai \"cd services/api-gateway && bun run dev\" \"cd services/api-auth && bun run dev\" \"cd services/api-main && bun run dev\" \"cd services/kim-ai && python3.9 src/main.py\"",
+    "start": "bunx --bun concurrently -c \"auto\" -n api-gateway,api-auth,api-main,kim-ai \"cd services/api-gateway && bun run start\" \"cd services/api-auth && bun run start\" \"cd services/api-main && bun run start\" \"cd services/kim-ai && python3.9 src/main.py\"",
     "lint": "bunx --bun concurrently -c \"auto\" -n api-gateway,api-auth,api-main \"cd services/api-gateway && bun run lint\" \"cd services/api-auth && bun run lint\" \"cd services/api-main && bun run lint\"",
     "build:bin": "bunx --bun concurrently -c \"auto\" -n api-gateway,api-auth,api-main \"cd services/api-gateway && bun run build:bin\" \"cd services/api-auth && bun run build:bin\" \"cd services/api-main && bun run build:bin\"",
     "build:openapi": "mkdir -p dist/openapi-doc && ./node_modules/.bin/redocly build-docs docs/OpenAPI/link-d-law.json --config infrastructures/redoc/redocly.yaml -o dist/openapi-doc/index.html",
@@ -13,20 +14,21 @@
     "db:setup": "bun db:migrate:dev"
   },
   "dependencies": {
+    "@prisma/client": "^5.5.2",
     "@redocly/cli": "^1.4.1",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
     "@typescript-eslint/parser": "^6.10.0",
     "bun-types": "latest",
     "concurrently": "^8.2.2",
+    "dotenv": "^16.3.1",
     "dotenv-cli": "^7.3.0",
     "eslint": "^8.53.0",
-    "@prisma/client": "^5.5.2",
-    "dotenv": "^16.3.1",
     "express-rate-limit": "^7.1.5",
     "express-validator": "^7.0.1",
     "jose": "^5.1.3",
     "method-override": "^3.0.0",
     "nodemon": "^3.0.1",
+    "pm2": "^5.3.0",
     "prisma": "^5.5.2",
     "redis": "^4.6.11",
     "typescript": "^5.0.0"
