@@ -19,13 +19,18 @@ import com.dicoding.sampleui.components.SettingSection
 import com.nakama.capstone.linkdlaw.R
 
 @Composable
-fun SettingScreen() {
-    SettingScreenContent()
+fun SettingScreen(
+    logoutClick: () -> Unit
+) {
+    SettingScreenContent(
+        logoutClick = logoutClick,
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingScreenContent(
+    logoutClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -82,6 +87,13 @@ fun SettingScreenContent(
             body = "Melihat detail tentang aplikasi",
             modifier = modifier.padding(vertical = 4.dp)
         )
+        SettingSection(
+            icon = painterResource(id = R.drawable.ic_signout),
+            head = "Logout",
+            body = "Keluar dari aplikasi",
+            modifier = modifier.padding(vertical = 4.dp),
+            onClick = logoutClick
+        )
         
     }
 }
@@ -92,5 +104,7 @@ fun SettingScreenContent(
 )
 @Composable
 fun SettingScreenPreview() {
-    SettingScreenContent()
+    SettingScreenContent({
+        
+    })
 }

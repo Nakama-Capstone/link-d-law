@@ -49,6 +49,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -64,21 +65,21 @@ import com.nakama.capstone.linkdlaw.ui.theme.LinkDLawTheme
 import com.nakama.capstone.linkdlaw.ui.theme.Poppins
 
 @Composable
-fun HomeScreen(navController: NavHostController = rememberNavController()) {
+fun HomeScreen(
+    rootNavController: NavController,
+    navController: NavHostController = rememberNavController()
+) {
     Scaffold(
         bottomBar = {
             BottomBar(navController = navController)
         }
     ) {
-//        HomeContent(
-//            item = listOf("text1", "text2", "text3")
-//        )
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
         ) {
-            HomeNavGraph(navController = navController)
+            HomeNavGraph(rootNavController ,navController = navController)
         }
     }
 }

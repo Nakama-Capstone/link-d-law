@@ -64,9 +64,9 @@ fun RegisterContent(
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp
             )
-            TextField(label = "Name", text = "")
-            TextField(label = "Email", text = "")
-            TextField(label = "Password", text = "")
+            TextField(label = "Name", textValue = "")
+            TextField(label = "Email", textValue = "")
+            TextField(label = "Password", textValue = "")
             Button(
                 onClick = {
                     navController.navigateUp()
