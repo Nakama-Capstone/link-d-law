@@ -1,6 +1,7 @@
 package com.nakama.capstone.linkdlaw.screen.pesan
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,14 +31,28 @@ import com.nakama.capstone.linkdlaw.R
 import com.nakama.capstone.linkdlaw.ui.theme.Poppins
 
 @Composable
-fun PesanScreen() {
-    PesanContent()
+fun PesanScreen(
+    toDetailChat: () -> Unit
+) {
+    PesanContent(
+        toDetailChat
+    )
 }
 
 @Composable
 fun PesanContent(
+    toDetailChat: () -> Unit
+) {
+    //Dummy data for preview
+    val listLawyer = listOf<String>(
+        "Jokowo",
+        "Prabowi"
+    )
+    val listMessage = listOf<String>(
+        "Jika saya terpilih, akan saya buka 1jt lapangan kerja",
+        "Jika bukan karena saya, kamu tidak akan jadi gubernur Jakarta!"
+    )
 
-){
     Column(
         modifier = Modifier
             .padding(vertical = 18.dp, horizontal = 22.dp),
@@ -53,94 +69,77 @@ fun PesanContent(
             )
         )
         Spacer(modifier = Modifier.height(25.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.profile),
-                contentDescription = "Brock Lesnar",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(75.dp)
-                    .clip(CircleShape)
-            )
-            Column(
-                modifier = Modifier
-                    .padding(12.dp),
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = "Brock Lesnar",
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        fontFamily = FontFamily(Font(R.font.poppins_medium)),
-                        color = Color(0xFF242B32),
-                    )
-                )
-                Text(
-                    text = "Pengacara Spesialis Kriminalis Korea",
-                    style = TextStyle(
-                        fontSize = 12.sp,
-                        fontFamily = FontFamily(Font(R.font.poppins_light)),
-                        color = Color(0xFF242B32),
-                    )
-                )
-                Text(
-                    text = "13.15",
-                    style = TextStyle(
-                        fontSize = 10.sp,
-                        fontFamily = FontFamily(Font(R.font.poppins_medium)),
-                        color = Color(0xFF242B32),
-                    )
+
+        LazyColumn() {
+            items(listLawyer.size) { index ->
+                PesanScreenItem(
+                    image = R.drawable.profile,
+                    lawyerName = listLawyer[index],
+                    latestMessage = listMessage[index],
+                    latestMessageTime = "12.00",
+                    modifier = Modifier.fillMaxWidth(),
+                    toDetailChat = {
+                        toDetailChat()
+                    }
                 )
             }
         }
-        Spacer(modifier = Modifier.height(20.dp))
-        Row(
+    }
+}
+
+@Composable
+fun PesanScreenItem(
+    image: Int,
+    lawyerName: String,
+    latestMessage: String,
+    latestMessageTime: String,
+    modifier: Modifier = Modifier,
+    toDetailChat: () -> Unit
+) {
+    Row(
+        modifier = modifier.clickable {
+            toDetailChat()
+        },
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Image(
+            painter = painterResource(id = image),
+            contentDescription = "lawyer profile picture",
+            contentScale = ContentScale.Crop,
             modifier = Modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
+                .size(75.dp)
+                .clip(CircleShape)
+        )
+        Column(
+            modifier = Modifier
+                .padding(12.dp),
+            verticalArrangement = Arrangement.Center
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.profile),
-                contentDescription = "Brock Lesnar",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(75.dp)
-                    .clip(CircleShape)
+            Text(
+                text = lawyerName,
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    fontFamily = FontFamily(Font(R.font.poppins_medium)),
+                    color = Color(0xFF242B32),
+                )
             )
-            Column(
-                modifier = Modifier
-                    .padding(12.dp),
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = "Brock Lesnar",
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        fontFamily = FontFamily(Font(R.font.poppins_medium)),
-                        color = Color(0xFF242B32),
-                    )
+            Text(
+                text = latestMessage,
+                style = TextStyle(
+                    fontSize = 12.sp,
+                    fontFamily = FontFamily(Font(R.font.poppins_light)),
+                    color = Color(0xFF242B32),
+                ),
+                maxLines = 1
+            )
+            Text(
+                text = latestMessageTime,
+                style = TextStyle(
+                    fontSize = 10.sp,
+                    fontFamily = FontFamily(Font(R.font.poppins_medium)),
+                    color = Color(0xFF242B32),
                 )
-                Text(
-                    text = "Pengacara Spesialis Kriminalis Korea",
-                    style = TextStyle(
-                        fontSize = 12.sp,
-                        fontFamily = FontFamily(Font(R.font.poppins_light)),
-                        color = Color(0xFF242B32),
-                    )
-                )
-                Text(
-                    text = "13.15",
-                    style = TextStyle(
-                        fontSize = 10.sp,
-                        fontFamily = FontFamily(Font(R.font.poppins_medium)),
-                        color = Color(0xFF242B32),
-                    )
-                )
-            }
+            )
         }
     }
 }
@@ -150,6 +149,6 @@ fun PesanContent(
     showBackground = true
 )
 @Composable
-fun PesanScreenPreview(){
-    PesanScreen()
+fun PesanScreenPreview() {
+    PesanScreen(toDetailChat = {})
 }

@@ -1,5 +1,6 @@
 package com.nakama.capstone.linkdlaw.screen.home
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -40,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -185,16 +187,21 @@ fun HomeContent(
     item: List<String>,
     onSearch: () -> Unit,
     onClick: () -> Unit,
+    toChatKimScreen: () -> Unit,
+    toClassificationScreen: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column {
+        val context = LocalContext.current
 
         TopBar(
             onSearch,
             onClick
         )
 
-        CardWithConstraint()
+        CardWithConstraint(
+            toChatKimScreen = toChatKimScreen
+        )
 
         HomeSection(
             title = "Fitur Kim",
@@ -205,14 +212,17 @@ fun HomeContent(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.clickable { 
+                        toClassificationScreen()
+                    }
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.img_classified_law),
                         contentDescription = null,
                         modifier = Modifier
                             .padding(5.dp)
-                            .size(80.dp)
+                            .size(70.dp)
                     )
                     Text(
                         text = "Klasifikasi Hukum", fontFamily = Poppins,
@@ -220,14 +230,17 @@ fun HomeContent(
                     )
                 }
                 Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.clickable {
+                        Toast.makeText(context, "Coming soon", Toast.LENGTH_SHORT).show()
+                    }
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.img_coming_soon),
                         contentDescription = null,
                         modifier = Modifier
                             .padding(10.dp)
-                            .size(70.dp)
+                            .size(60.dp)
                     )
                     Text(
                         text = "Coming soon", fontFamily = Poppins,
@@ -303,7 +316,9 @@ fun HomeListItem(text: String, modifier: Modifier) {
 }
 
 @Composable
-fun CardWithConstraint() {
+fun CardWithConstraint(
+    toChatKimScreen: () -> Unit
+) {
     Box(
         modifier = Modifier
             .padding(8.dp)
@@ -383,7 +398,7 @@ fun CardWithConstraint() {
                     .size(50.dp)
                     .background(shape = RoundedCornerShape(10.dp), color = Color(0xFF001D36))
                     .clickable {
-
+                        toChatKimScreen()
                     }
                     .constrainAs(button) {
                         top.linkTo(textField.top, margin = 0.dp)
@@ -418,6 +433,6 @@ fun HomeItemPreview() {
 @Composable
 fun GreetingPreview() {
     LinkDLawTheme {
-        HomeContent(item = listOf("text1", "text2", "text3"), {}, {})
+        HomeContent(item = listOf("text1", "text2", "text3"), {}, {}, {}, {})
     }
 }

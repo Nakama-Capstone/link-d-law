@@ -20,10 +20,12 @@ import com.nakama.capstone.linkdlaw.R
 
 @Composable
 fun SettingScreen(
-    logoutClick: () -> Unit
+    logoutClick: () -> Unit,
+    onProfileClick: () -> Unit
 ) {
     SettingScreenContent(
         logoutClick = logoutClick,
+        onProfileClick = onProfileClick
     )
 }
 
@@ -31,6 +33,7 @@ fun SettingScreen(
 @Composable
 fun SettingScreenContent(
     logoutClick: () -> Unit,
+    onProfileClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -49,10 +52,11 @@ fun SettingScreenContent(
                 .align(Alignment.Start)
         )
         SettingSection(
-            icon = painterResource(id = R.drawable.img_preview),
+            icon = painterResource(id = R.drawable.profile),
             head = "Nama User",
             body = "Detail Profil",
-            modifier = modifier.padding(vertical = 4.dp)
+            modifier = modifier.padding(vertical = 4.dp),
+            onClick = onProfileClick
         )
         Spacer(modifier = modifier.padding(vertical = 12.dp))
         Text(
@@ -104,7 +108,5 @@ fun SettingScreenContent(
 )
 @Composable
 fun SettingScreenPreview() {
-    SettingScreenContent({
-        
-    })
+    SettingScreenContent({}, {})
 }
