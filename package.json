@@ -2,6 +2,7 @@
   "name": "law-d-link",
   "private": true,
   "scripts": {
+    "dev-api-pm": "bun pm2-runtime start ecosystem.config.dev.js",
     "prod-start": "bun pm2-runtime start ecosystem.config.js",
     "dev": "bunx --bun concurrently -c \"auto\" -n api-gateway,api-auth,api-main,kim-ai \"cd services/api-gateway && bun run dev\" \"cd services/api-auth && bun run dev\" \"cd services/api-main && bun run dev\" \"cd services/kim-ai && python3.9 src/main.py\"",
     "start": "bunx --bun concurrently -c \"auto\" -n api-gateway,api-auth,api-main,kim-ai \"cd services/api-gateway && bun run start\" \"cd services/api-auth && bun run start\" \"cd services/api-main && bun run start\" \"cd services/kim-ai && python3.9 src/main.py\"",

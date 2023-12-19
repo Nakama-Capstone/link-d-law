@@ -13,7 +13,6 @@ services:
       - linkdlaw
     depends_on:
       - db
-      - cache
 
   db:
     image: postgres:13.12
@@ -28,12 +27,12 @@ services:
     networks:
       - linkdlaw
 
-  cache:
-    image: redis:7.2.3
-    ports:
-      - '${REDIS_PORT:-6379}:6379'
-    networks:
-      - linkdlaw
+  # cache:
+  #   image: redis:7.2.3
+  #   ports:
+  #     - '${REDIS_PORT:-6379}:6379'
+  #   networks:
+  #     - linkdlaw
 
 volumes:
   lawdlink_db:
