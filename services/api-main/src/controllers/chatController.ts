@@ -83,4 +83,48 @@ const sendMessage = async (req: Request, res: Response) => {
     })
 }
 
-export { getAllUserChat, getAllMessage, sendMessage }
+const newChat = async (req: Request, res: Response) => {
+    const { auth } = req as RequestAuthMiddleware
+    const { user2_id } = req.body
+
+    // Check whether the chat already exists before
+    const chat = await db.chat.findFirst({
+        where: {
+            OR: [
+                {
+                    user1_id: auth.user.id, user2_id: user2_id
+                },
+                {
+                    user1_id: user2_id, user2_id: auth.user.id
+                }
+            ]
+        }
+    })
+
+    if (chat) {
+        res.json({
+            ok: false,
+            message: "Chat is available",
+            data: {
+                chatId: chat.id
+            }
+        })
+    }
+
+    const newChat = await db.chat.create({
+        data: {
+            user1_id: auth.user.id,
+            user2_id: user2_id
+        }
+    })
+
+    res.json({
+        ok: true,
+        message: "Success create new chat",
+        data: {
+            chatId: newChat.id
+        }
+    })
+}
+
+export { getAllUserChat, getAllMessage, sendMessage, newChat }

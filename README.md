@@ -46,20 +46,27 @@ available command:
 - `make dev-docker` - run development environment with docker
 - `make dev-api` - run all api services
 - `make build` - build all the services into bin
+- `make build-docker-images-prod` - build all the services into docker images for production
 - `make run <service_name>` - run a builded bin service
 
 ### Monorepo Structure
 ```
 packages/
 ├─ services/
-├─ loggers/
+├─ schema/
 services/
 ├─ api-gateway/
-│  ├─ index.ts
+│  ├─ src
+|  |  ├─ index.ts
 ├─ api-main/
+│  ├─ src
+|  |  ├─ index.ts
 ├─ api-auth/
-├─ api-consult/
-│  ├─ main.py
+│  ├─ src
+|  |  ├─ index.ts
+├─ kim-ai/
+│  ├─ src
+|  |  ├─ main.py
 ```
 this project using monorepo structure, so all the services and packages are in the same repository.
 - `packages` - contains all the packages that can be used by all the services, like for reusable code, etc.
