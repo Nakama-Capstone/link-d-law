@@ -7,6 +7,10 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$PROJECT_ID/linkdlaw:latest']
 
+    # Langkah ketiga: Deploy ke Cloud Run
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['run', 'deploy', 'link-d-law', '--image', 'gcr.io/$PROJECT_ID/linkdlaw:latest', '--region', 'asia-southeast2', '--port', '80', '--project', 'link-d-law', '--allow-unauthenticated', '--concurrency', '160', '--min-instances', '1', '--max-instances', '1', '--cpu-boost', '--service-account', '175947024354-compute@developer.gserviceaccount.com']
+
 # Setelah steps, tag images yang akan di-push
 images:
   - 'gcr.io/$PROJECT_ID/linkdlaw:latest'
