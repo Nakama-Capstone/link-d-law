@@ -1,0 +1,16 @@
+steps:
+  # Langkah pertama: Build container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/linkdlaw:latest', '-f', './docker/production/Dockerfile', '.']
+
+  # Langkah kedua: Push image ke Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/linkdlaw:latest']
+
+# Setelah steps, tag images yang akan di-push
+images:
+  - 'gcr.io/$PROJECT_ID/linkdlaw:latest'
+
+# (Opsional) Trigger berdasarkan branch tertentu atau tag di GitHub
+trigger:
+ - branch: main
