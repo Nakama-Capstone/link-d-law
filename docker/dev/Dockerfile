@@ -1,5 +1,5 @@
 # use debian
-FROM oven/bun:debian as api-runtime
+FROM oven/bun:debian as base
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED TRUE
@@ -18,9 +18,14 @@ RUN apt update
 RUN apt install nodejs -y
 # RUN curl -fsSl https://bun.sh/install | BUN_INSTALL=/usr bash -s "bun-v1.0.14"
 
-RUN apt install -y unzip build-essential libssl-dev make gcc wget zlib1g-dev curl git
+RUN apt install -y unzip build-essential libssl-dev make gcc wget zlib1g-dev git lsb-release
 
-RUN bun install -g concurrently
+RUN curl -fsSL https://packages.redis.io/gpg | gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
+RUN echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/redis.list
+RUN apt update
+RUN apt install -y redis-server screen
+
+RUN bun install -g concurrently pm2
 
 # # install python with pyenv
 # ENV PYENV_ROOT /root/.pyenv
@@ -38,6 +43,10 @@ RUN apt install -y python3.9 python3-pip
 
 # install pip
 # RUN python -m pip install --upgrade pip
+
+
+
+FROM base as deps-bun
 
 # change workdir
 WORKDIR /app
@@ -61,10 +70,20 @@ RUN bun install
 # copy files
 COPY . .
 
+
+
+FROM deps-bun as deps-python
+
+RUN echo "nice"
+
 # python dependencies
 RUN python3.9 -m pip install tensorflow==2.14
 RUN python3.9 -m pip install -r requirements.txt
 
+FROM deps-python as dev
+
+RUN echo "nice"
+
 # run app
 EXPOSE 80
-CMD ["make", "dev-api"]
+CMD ["bun", "dev-api-pm"]
