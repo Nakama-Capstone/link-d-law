@@ -14,7 +14,3 @@ steps:
 # Setelah steps, tag images yang akan di-push
 images:
   - 'gcr.io/$PROJECT_ID/linkdlaw:latest'
-
-# (Opsional) Trigger berdasarkan branch tertentu atau tag di GitHub
-trigger:
- - branch: main
