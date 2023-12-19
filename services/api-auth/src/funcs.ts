@@ -16,21 +16,21 @@ export async function generateToken(
   }
 ) {
   // 10 minutes in seconds
-  const accessTokenMaxAge = 60 * 10
+  const accessTokenMaxAge = 60 * 864000 * 10
   // 1 days in seconds
-  const refreshTokenMaxAge = 60 * 60 * 24
+  const refreshTokenMaxAge = 60 * 60 * 24 * 100
 
   const accessToken = await (new jose.SignJWT(payload))
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
-    .setExpirationTime('10m')
+    .setExpirationTime('100d')
     .sign(Buffer.from(process.env.JWT_SECRET || ''))
   
   // TODO: @feat/refresh-token
   const refreshToken = await (new jose.SignJWT(payload))
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
-    .setExpirationTime('1d')
+    .setExpirationTime('100d')
     .sign(Buffer.from(process.env.JWT_SECRET || ''))
 
   // TODO: @feat/refresh-token
