@@ -4,7 +4,7 @@ import * as jose from "jose"
 import { AuthUnauthorizedError } from "@/errors/auth"
 import { isUserTokenValid } from "@/utils/store"
 import { db } from "./utils/db"
-import { exceptObjectKeys } from "./utils/obj"
+import { exceptObjectKeys } from "@law-d-link/service"
 
 // const jwt_expiration = 60 * 10;
 // const jwt_refresh_expiration = 60 * 60 * 24 * 30;

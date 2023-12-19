@@ -35,6 +35,7 @@ i recommend to use this text editor for development:
 [Contribute Guide](CONTRIBUTING.md)
 
 ## Architecture
+![CICD](./assets/arch.png)
 
 ### Continuous Integration & Continuous Deployment Architecture
 ![CICD](./assets/cicd.png)
