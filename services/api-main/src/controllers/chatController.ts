@@ -109,22 +109,22 @@ const newChat = async (req: Request, res: Response) => {
                 chatId: chat.id
             }
         })
+    } else {
+        const newChat = await db.chat.create({
+            data: {
+                user1_id: auth.user.id,
+                user2_id: user2_id
+            }
+        })
+    
+        res.json({
+            ok: true,
+            message: "Success create new chat",
+            data: {
+                chatId: newChat.id
+            }
+        })
     }
-
-    const newChat = await db.chat.create({
-        data: {
-            user1_id: auth.user.id,
-            user2_id: user2_id
-        }
-    })
-
-    res.json({
-        ok: true,
-        message: "Success create new chat",
-        data: {
-            chatId: newChat.id
-        }
-    })
 }
 
 export { getAllUserChat, getAllMessage, sendMessage, newChat }
