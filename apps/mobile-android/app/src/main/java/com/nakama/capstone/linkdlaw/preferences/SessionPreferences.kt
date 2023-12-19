@@ -35,6 +35,17 @@ class SessionPreferences(private val context: Context) {
         }
     }
     
+    suspend fun saveUserId(id: String){
+        context.dataStore.edit { preferences ->
+            preferences[ID_KEY] = id
+        }
+    }
+    
+    suspend fun getUserId(): String {
+        val preferences = context.dataStore.data.first()
+        return preferences[ID_KEY] ?: ""
+    }
+    
     suspend fun clearUserSession() {
         context.dataStore.edit { preferences ->
             preferences.clear()
@@ -44,7 +55,7 @@ class SessionPreferences(private val context: Context) {
     companion object {
         private val TOKEN_KEY = stringPreferencesKey("token_key")
         private val IS_LOGIN = booleanPreferencesKey("login_key")
-        
+        private val ID_KEY = stringPreferencesKey("id_key")
     }
     
 }

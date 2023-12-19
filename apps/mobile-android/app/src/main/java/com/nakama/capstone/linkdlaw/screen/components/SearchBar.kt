@@ -36,7 +36,7 @@ fun SearchBar(labelText: String, modifier: Modifier = Modifier){
         onQueryChange = { text = it },
         onSearch = { active = false },
         active = active,
-        onActiveChange = { active = it },
+        onActiveChange = {  },
         placeholder = { Text(text = labelText) },
         leadingIcon = {
             Icon(painterResource(id = R.drawable.ic_search), tint = Color.Black, contentDescription = "Search", modifier = Modifier.size(24.dp))

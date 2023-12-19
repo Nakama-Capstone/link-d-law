@@ -1,6 +1,9 @@
+@file:OptIn(ExperimentalFoundationApi::class)
+
 package com.nakama.capstone.linkdlaw.screen.detailhukum
 
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -66,65 +69,68 @@ fun DetailHukumContent(
         "Pasal 4",
         "Pasal 5"
     )
-    
-    Column(
-        modifier = Modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-        ) {
-            Image(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                painter = painterResource(id = R.drawable.banner_listpasal),
-                contentDescription = "Banner",
-                contentScale = ContentScale.Crop
-            )
+
+    LazyColumn(){
+        item {
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color(0x941986EE))
-            )
-            Box(
-                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
             ) {
-                Row(
+                Image(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 10.dp, start = 10.dp)
-                    ,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                        .fillMaxWidth(),
+                    painter = painterResource(id = R.drawable.banner_listpasal),
+                    contentDescription = "Banner",
+                    contentScale = ContentScale.Crop
+                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color(0x941986EE))
+                )
+                Box(
+                    modifier = Modifier
                 ) {
-                    IconButton(onClick = { navigateBack() }) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Arrow Back",
-                        )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 10.dp, start = 10.dp)
+                        ,
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        IconButton(onClick = { navigateBack() }) {
+                            Icon(
+                                imageVector = Icons.Default.ArrowBack,
+                                contentDescription = "Arrow Back",
+                            )
+                        }
                     }
                 }
             }
         }
-        Spacer(modifier = Modifier.height(15.dp))
-        Text(
-            text = "KUH PERDATA",
-            style = TextStyle(
-                fontFamily = Poppins,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFF242B32)
-            )
-        )
-        SearchBar("Cari",modifier = Modifier.padding(horizontal = 12.dp))
-        Spacer(modifier = Modifier.height(6.dp))
-        LazyColumn(){
-            items(listPasal){ item -> 
-                PasalItem(pasalTitle = item, pasalBody = "", modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 12.dp, vertical = 6.dp))
+        stickyHeader {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Spacer(modifier = Modifier.height(15.dp))
+                Text(
+                    text = "KUH PERDATA",
+                    style = TextStyle(
+                        fontFamily = Poppins,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF242B32)
+                    )
+                )
+                SearchBar("Cari",modifier = Modifier.padding(horizontal = 12.dp))
+                Spacer(modifier = Modifier.height(6.dp))
             }
+        }
+        items(listPasal){ item ->
+            PasalItem(pasalTitle = item, pasalBody = "", modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 6.dp))
         }
     }
 }

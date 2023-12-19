@@ -62,18 +62,21 @@ import com.nakama.capstone.linkdlaw.ui.theme.Poppins
 
 @Composable
 fun PengacaraProfileScreen(
-    navigateBack: () -> Unit
-){
+    navigateBack: () -> Unit,
+    toChatScreen: () -> Unit
+) {
     PengacaraProfileContent(
-        navigateBack
+        navigateBack = navigateBack,
+        toChatScreen = toChatScreen
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PengacaraProfileContent(
-    navigateBack: () -> Unit
-){
+    navigateBack: () -> Unit,
+    toChatScreen: () -> Unit
+) {
     val scrollState = rememberScrollState()
 
     Scaffold(
@@ -108,15 +111,15 @@ fun PengacaraProfileContent(
         ) {
             Box(
                 modifier = Modifier
-                    .padding(horizontal = 28.dp) ,
+                    .padding(horizontal = 28.dp),
                 contentAlignment = Alignment.Center,
-            ){
+            ) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(200.dp),
                     contentAlignment = Alignment.BottomCenter
-                ){
+                ) {
                     Card(
                         modifier = Modifier,
                         shape = RoundedCornerShape(15.dp)
@@ -136,7 +139,7 @@ fun PengacaraProfileContent(
                             .width(300.dp)
                             .height(100.dp)
                             .offset(0.dp, 45.dp),
-                    ){
+                    ) {
                         Card(
                             modifier = Modifier
                         ) {
@@ -171,7 +174,7 @@ fun PengacaraProfileContent(
                 }
             }
             Spacer(modifier = Modifier.height(40.dp))
-            Box(modifier = Modifier){
+            Box(modifier = Modifier) {
                 Column(
                     modifier = Modifier
                         .padding(20.dp),
@@ -229,7 +232,8 @@ fun PengacaraProfileContent(
                                 .background(
                                     color = Color(0xFFFFFFFF),
                                     shape = RoundedCornerShape(size = 10.dp)
-                                ).padding(16.dp),
+                                )
+                                .padding(16.dp),
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
@@ -275,20 +279,28 @@ fun PengacaraProfileContent(
                     }
                     Spacer(modifier = Modifier.height(15.dp))
 
-                    DropDownItem(textHeader = "Riwayat Pendidikan", textBody = "", modifier = Modifier.fillMaxWidth())
+                    DropDownItem(
+                        textHeader = "Riwayat Pendidikan",
+                        textBody = "",
+                        modifier = Modifier.fillMaxWidth()
+                    )
                     Spacer(modifier = Modifier.height(15.dp))
-                    DropDownItem(textHeader = "Firma Hukum", textBody = "", modifier = Modifier.fillMaxWidth())
+                    DropDownItem(
+                        textHeader = "Firma Hukum",
+                        textBody = "",
+                        modifier = Modifier.fillMaxWidth()
+                    )
 
                 }
             }
-            
+
             Spacer(modifier = Modifier.weight(1f))
-            
+
             Box(
                 modifier = Modifier
                     .fillMaxSize(),
                 contentAlignment = Alignment.BottomCenter
-            ){
+            ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -297,7 +309,7 @@ fun PengacaraProfileContent(
                         .padding(horizontal = 10.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween,
-                ){
+                ) {
                     Column {
                         Text(
                             text = "Biaya Konsultasi",
@@ -316,7 +328,7 @@ fun PengacaraProfileContent(
                             )
                         )
                     }
-                    Row(
+                    Box(
                         modifier = Modifier
                             .width(133.dp)
                             .height(46.dp)
@@ -324,9 +336,10 @@ fun PengacaraProfileContent(
                                 color = Color(0xFF91D8E4),
                                 shape = RoundedCornerShape(size = 10.dp)
                             )
-                            .clickable { },
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
+                            .clickable {
+                                toChatScreen()
+                            },
+                        contentAlignment = Alignment.Center
                     ) {
                         Text(
                             text = "Chat Sekarang",
@@ -354,7 +367,7 @@ fun DropDownItem(
     val rotationState by animateFloatAsState(
         targetValue = if (expandedState) 180f else 0f, label = "Animation"
     )
-    
+
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -393,10 +406,13 @@ fun DropDownItem(
                         .rotate(rotationState),
                     onClick = { expandedState = !expandedState }
                 ) {
-                    Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = "Arrow drop down")
+                    Icon(
+                        imageVector = Icons.Default.ArrowDropDown,
+                        contentDescription = "Arrow drop down"
+                    )
                 }
             }
-            if (expandedState){
+            if (expandedState) {
                 Text(
                     text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry." +
                         "Lorem Ipsum has been the industry's standard dummy text ever since" +
@@ -419,8 +435,9 @@ fun DropDownItem(
     showSystemUi = true
 )
 @Composable
-fun PengacaraProfilePreview(){
+fun PengacaraProfilePreview() {
     PengacaraProfileScreen(
-        navigateBack = {}
+        navigateBack = {},
+        toChatScreen = {}
     )
 }

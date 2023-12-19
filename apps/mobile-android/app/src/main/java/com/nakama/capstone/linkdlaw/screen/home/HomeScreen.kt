@@ -20,6 +20,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Search
@@ -31,8 +33,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -81,7 +81,7 @@ fun HomeScreen(
                 .fillMaxSize()
                 .padding(it)
         ) {
-            HomeNavGraph(rootNavController ,navController = navController)
+            HomeNavGraph(rootNavController, navController = navController)
         }
     }
 }
@@ -213,7 +213,7 @@ fun HomeContent(
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.clickable { 
+                    modifier = Modifier.clickable {
                         toClassificationScreen()
                     }
                 ) {
@@ -372,25 +372,24 @@ fun CardWithConstraint(
                 maxLines = 3
             )
 
-            TextField(
+            OutlinedTextField(
                 value = "",
                 onValueChange = {},
-                modifier = Modifier
-                    .constrainAs(textField) {
-                        top.linkTo(image.bottom, margin = 8.dp)
-                        start.linkTo(parent.start, margin = 16.dp)
-                    },
+                modifier = Modifier.constrainAs(textField) {
+                    top.linkTo(image.bottom, margin = 8.dp)
+                    start.linkTo(parent.start, margin = 16.dp)
+                },
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    backgroundColor = Color.White,
+                    unfocusedBorderColor = Color.Gray, // Warna border saat tidak fokus
+                    focusedBorderColor = MaterialTheme.colorScheme.primary, // Warna border saat fokus
+
+                ),
                 label = {
                     Text(
                         text = "Ceritakan masalahmu"
                     )
-                },
-                colors = TextFieldDefaults.colors(
-                    unfocusedContainerColor = MaterialTheme.colorScheme.background,
-                    focusedContainerColor = MaterialTheme.colorScheme.background,
-                    focusedTextColor = MaterialTheme.colorScheme.background
-                ),
-                shape = RoundedCornerShape(10.dp)
+                }
             )
 
             Box(

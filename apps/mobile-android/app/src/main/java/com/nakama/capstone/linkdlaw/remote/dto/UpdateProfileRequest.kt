@@ -10,9 +10,6 @@ data class UpdateProfileRequest(
 	@field:SerializedName("lastName")
 	val lastName: String,
 
-	@field:SerializedName("middleName")
-	val middleName: String = "",
-
 	@field:SerializedName("email")
 	val email: String
 )
