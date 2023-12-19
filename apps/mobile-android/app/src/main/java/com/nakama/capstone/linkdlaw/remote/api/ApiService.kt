@@ -1,5 +1,7 @@
 package com.nakama.capstone.linkdlaw.remote.api
 
+import com.nakama.capstone.linkdlaw.remote.dto.GetPredictRequest
+import com.nakama.capstone.linkdlaw.remote.dto.GetPredictResponse
 import com.nakama.capstone.linkdlaw.remote.dto.GetProfileResponse
 import com.nakama.capstone.linkdlaw.remote.dto.LoginRequest
 import com.nakama.capstone.linkdlaw.remote.dto.LoginResponse
@@ -49,4 +51,9 @@ interface ApiService {
     
     @POST("/v1/chats/")
     suspend fun sendMessage()
+    
+    @POST("/v1/kimai/role/predict")
+    suspend fun getPredictResult(
+        @Body getPredictRequest: GetPredictRequest
+    ):GetPredictResponse
 }
