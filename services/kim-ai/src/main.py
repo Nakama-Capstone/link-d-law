@@ -14,6 +14,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import pandas as pd
 import re
 
+
 try:
   # CONFIG 
   # set config from env, and set default value if not exist
@@ -62,8 +63,8 @@ except Exception as e:
 #Fitur 1
 try:
   # Akses ke dataset
-  UPLOAD_FITUR1 = r'/../datasets\dataset_fitur 1.csv'
-
+  dirname = os.path.dirname(os.path.abspath(__file__))
+  datapath = dirname + '/../datasets/dataset_fitur1.csv'
 
   # Fungsi pra-pemrosesan teks
   def preprocess_text(text):
@@ -72,7 +73,7 @@ try:
       return text
 
   # Baca dataset
-  df = pd.read_csv(UPLOAD_FITUR1, encoding='ISO-8859-1')
+  df = pd.read_csv(datapath, encoding='ISO-8859-1')
   df['processed_text'] = df['Isi'].apply(preprocess_text)
 
   # Membuat matriks TF-IDF
