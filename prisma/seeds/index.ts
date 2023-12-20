@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { Password } from "../../packages/services/src/utils/password"
-import { PrismaClient } from "#root/prisma/prisma-client"
+import { PrismaClient } from "../../prisma/prisma-client"
 import { faker } from "@faker-js/faker"
 import { parse } from "csv-parse"
 import fs from "fs"
