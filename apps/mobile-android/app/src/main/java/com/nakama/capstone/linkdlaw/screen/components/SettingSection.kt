@@ -2,11 +2,13 @@ package com.dicoding.sampleui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -21,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
@@ -34,19 +37,23 @@ fun SettingSection(
     icon: Painter,
     head: String,
     body: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
 ) {
     ElevatedCard(
         modifier = modifier
-            .width(360.dp)
+            .width(350.dp)
             .wrapContentHeight(Alignment.CenterVertically)
+            .clickable { 
+                onClick()
+            }
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
                 modifier = modifier
-                    .size(80.dp)
+                    .size(60.dp)
                     .weight(1f)
                     .background(color = Color(0xfff3f2fb), shape = CircleShape),
                 contentAlignment = Alignment.Center
@@ -54,7 +61,7 @@ fun SettingSection(
                 Image(
                     painter = icon,
                     contentDescription = null,
-                    modifier = modifier.size(60.dp).padding(8.dp)
+                    modifier = modifier.size(60.dp).padding(8.dp).clip(CircleShape)
                 )
             }
             Column(
@@ -66,7 +73,7 @@ fun SettingSection(
                     fontSize = 20.sp,
                     color = MaterialTheme.colorScheme.onSurface
                 )
-                Spacer(modifier = Modifier.padding(4.dp))
+                Spacer(modifier = Modifier.height(2.dp))
                 Text(text = body)
             }
             Box(

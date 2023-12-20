@@ -1,9 +1,10 @@
 package com.nakama.capstone.linkdlaw.screen.chat
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -14,12 +15,20 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -28,29 +37,57 @@ import androidx.compose.ui.unit.dp
 import com.nakama.capstone.linkdlaw.R
 
 @Composable
-fun ChatScreen() {
-    ChatContent()
+fun ChatClassificationScreen(
+    navigateBack: () -> Unit,
+    sendMessage:(String) -> Unit,
+    predictResult: State<String?>,
+    loadingState: State<Boolean?>
+) {
+    val messageList = remember {
+        mutableStateListOf<Message>()
+    }
+
+    LaunchedEffect(key1 = loadingState.value, key2 = predictResult.value) {
+        if (loadingState.value == false){
+            Log.d("LaunchedEffect", "New predict result: ${predictResult.value}")
+            predictResult.value?.let {
+                messageList.add(Message(it, false))
+            }
+        }
+    }
+
+    ChatClassificationContent(navigateBack, sendMessage,messageList,)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChatContent() {
+fun ChatClassificationContent(
+    navigateBack: () -> Unit,
+    sendMessage: (String) -> Unit,
+    messageList: SnapshotStateList<Message>
+) {
+    val message = remember {
+        mutableStateOf("")
+    }
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = "Tanya k!m",
+                        text = "Klasifikasi Hukum",
                         modifier = Modifier,
                         fontWeight = FontWeight.Bold
                     )
                 },
                 navigationIcon = {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = null,
-                        modifier = Modifier.padding(8.dp)
-                    )
+                    IconButton(onClick = { navigateBack() }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = null,
+                            modifier = Modifier.padding(8.dp)
+                        )
+                    }
                 },
                 actions = {},
             )
@@ -59,8 +96,8 @@ fun ChatContent() {
             BottomAppBar(
                 actions = {
                     OutlinedTextField(
-                        value = "",
-                        onValueChange = {},
+                        value = message.value,
+                        onValueChange = { message.value = it },
                         label = {
                             Text(text = "Ketik....")
                         },
@@ -71,16 +108,17 @@ fun ChatContent() {
                     Box(
                         modifier = Modifier
                             .size(50.dp)
+                            .clip(shape = RoundedCornerShape(10.dp))
                             .background(
-                                shape = RoundedCornerShape(10.dp),
                                 color = Color(0xFF001D36)
                             )
                             .clickable {
-
+                                messageList.add(Message(message.value, true))
+                                sendMessage(message.value)
                             }
                             .padding(8.dp),
                         contentAlignment = Alignment.Center
-                    ){
+                    ) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_arrow),
                             contentDescription = null,
@@ -93,14 +131,24 @@ fun ChatContent() {
             )
         }
     ) {
-        Column(modifier = Modifier.padding(it)) {
-
-        }
+        ChatUI(
+            messages = messageList, modifier = Modifier
+                .fillMaxWidth()
+                .padding(4.dp)
+                .padding(it)
+        )
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+
+@Preview(
+    showSystemUi = true,
+    showBackground = true
+)
 @Composable
-fun ChatContentPreview() {
-    ChatContent()
+fun ChatClassificationContentPreview() {
+    val data = remember {
+        mutableStateListOf<Message>()
+    }
+    ChatClassificationContent({}, {},messageList = data)
 }

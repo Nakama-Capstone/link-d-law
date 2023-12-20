@@ -9,6 +9,14 @@ import androidx.compose.ui.Modifier
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TextField(label: String, text: String, modifier: Modifier = Modifier) {
-    OutlinedTextField(value = text, onValueChange = {}, label = { Text(text = label) }, modifier = modifier)
+fun TextField(label: String, textValue: String, modifier: Modifier = Modifier) {
+
+    OutlinedTextField(
+        value = textValue,
+        onValueChange = {
+            
+        },
+        label = { Text(text = label) },
+        modifier = modifier
+    )
 }

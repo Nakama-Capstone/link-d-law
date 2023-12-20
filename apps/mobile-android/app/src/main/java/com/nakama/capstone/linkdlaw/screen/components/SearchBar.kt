@@ -2,7 +2,6 @@ package com.nakama.capstone.linkdlaw.screen.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
@@ -31,14 +30,13 @@ fun SearchBar(labelText: String, modifier: Modifier = Modifier){
     var active by remember { mutableStateOf(false) }
 
     androidx.compose.material3.SearchBar(
-        modifier = modifier
-            .fillMaxWidth(),
+        modifier = modifier,
         colors = SearchBarDefaults.colors(MaterialTheme.colorScheme.background),
         query = text,
         onQueryChange = { text = it },
         onSearch = { active = false },
         active = active,
-        onActiveChange = { active = it },
+        onActiveChange = {  },
         placeholder = { Text(text = labelText) },
         leadingIcon = {
             Icon(painterResource(id = R.drawable.ic_search), tint = Color.Black, contentDescription = "Search", modifier = Modifier.size(24.dp))
