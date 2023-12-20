@@ -58,6 +58,8 @@ model User {
   chat2      Chat[]    @relation("user2_id")
   from       Message[] @relation("from")
   to         Message[] @relation("to")
+
+  Lawyer Lawyer?
 }
 
 model Chat {
@@ -83,14 +85,16 @@ model Message {
 
 model Lawyer {
   id                    Int                     @id @default(autoincrement())
-  name                  String
+  userId                Int                     @unique
   specialist            String
   rate                  Int
   nomorPerandi          String
-  image                 String
   fee                   Int
   educationalBackground educationalBackground[]
   firmaHukum            firmaHukum[]
+
+  // set references user one to one lawyer, wen lawyter deleted relation set null
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model educationalBackground {
@@ -98,12 +102,12 @@ model educationalBackground {
   lawyerId   Int
   university String
   major      String
-  lawyer     Lawyer @relation(fields: [lawyerId], references: [id])
+  lawyer     Lawyer @relation(fields: [lawyerId], references: [id], onDelete: Cascade)
 }
 
 model firmaHukum {
   id       Int    @id @default(autoincrement())
   lawyerId Int
   name     String
-  lawyer   Lawyer @relation(fields: [lawyerId], references: [id])
+  lawyer   Lawyer @relation(fields: [lawyerId], references: [id], onDelete: Cascade)
 }
