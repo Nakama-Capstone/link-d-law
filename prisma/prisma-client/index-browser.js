@@ -16,12 +16,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 5.5.2
- * Query Engine version: e95e739751f42d8ca026f6b910f5a2dc5adeaeee
+ * Prisma Client JS version: 5.7.1
+ * Query Engine version: 0ca5ccbcfa6bdc81c003cf549abe4269f59c41e5
  */
 Prisma.prismaVersion = {
-  client: "5.5.2",
-  engine: "e95e739751f42d8ca026f6b910f5a2dc5adeaeee"
+  client: "5.7.1",
+  engine: "0ca5ccbcfa6bdc81c003cf549abe4269f59c41e5"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -162,11 +162,10 @@ exports.Prisma.MessageScalarFieldEnum = {
 
 exports.Prisma.LawyerScalarFieldEnum = {
   id: 'id',
-  name: 'name',
+  userId: 'userId',
   specialist: 'specialist',
   rate: 'rate',
   nomorPerandi: 'nomorPerandi',
-  image: 'image',
   fee: 'fee'
 };
 

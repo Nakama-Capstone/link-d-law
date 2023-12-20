@@ -327,8 +327,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 5.5.2
-   * Query Engine version: e95e739751f42d8ca026f6b910f5a2dc5adeaeee
+   * Prisma Client JS version: 5.7.1
+   * Query Engine version: 0ca5ccbcfa6bdc81c003cf549abe4269f59c41e5
    */
   export type PrismaVersion = {
     client: string
@@ -4892,6 +4892,7 @@ export namespace Prisma {
     chat2?: boolean | User$chat2Args<ExtArgs>
     from?: boolean | User$fromArgs<ExtArgs>
     to?: boolean | User$toArgs<ExtArgs>
+    Lawyer?: boolean | User$LawyerArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -4912,6 +4913,7 @@ export namespace Prisma {
     chat2?: boolean | User$chat2Args<ExtArgs>
     from?: boolean | User$fromArgs<ExtArgs>
     to?: boolean | User$toArgs<ExtArgs>
+    Lawyer?: boolean | User$LawyerArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -4923,6 +4925,7 @@ export namespace Prisma {
       chat2: Prisma.$ChatPayload<ExtArgs>[]
       from: Prisma.$MessagePayload<ExtArgs>[]
       to: Prisma.$MessagePayload<ExtArgs>[]
+      Lawyer: Prisma.$LawyerPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -5306,6 +5309,8 @@ export namespace Prisma {
     from<T extends User$fromArgs<ExtArgs> = {}>(args?: Subset<T, User$fromArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, 'findMany'> | Null>;
 
     to<T extends User$toArgs<ExtArgs> = {}>(args?: Subset<T, User$toArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    Lawyer<T extends User$LawyerArgs<ExtArgs> = {}>(args?: Subset<T, User$LawyerArgs<ExtArgs>>): Prisma__LawyerClient<$Result.GetResult<Prisma.$LawyerPayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -5736,6 +5741,22 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MessageScalarFieldEnum | MessageScalarFieldEnum[]
+  }
+
+
+  /**
+   * User.Lawyer
+   */
+  export type User$LawyerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Lawyer
+     */
+    select?: LawyerSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: LawyerInclude<ExtArgs> | null
+    where?: LawyerWhereInput
   }
 
 
@@ -7725,43 +7746,42 @@ export namespace Prisma {
 
   export type LawyerAvgAggregateOutputType = {
     id: number | null
+    userId: number | null
     rate: number | null
     fee: number | null
   }
 
   export type LawyerSumAggregateOutputType = {
     id: number | null
+    userId: number | null
     rate: number | null
     fee: number | null
   }
 
   export type LawyerMinAggregateOutputType = {
     id: number | null
-    name: string | null
+    userId: number | null
     specialist: string | null
     rate: number | null
     nomorPerandi: string | null
-    image: string | null
     fee: number | null
   }
 
   export type LawyerMaxAggregateOutputType = {
     id: number | null
-    name: string | null
+    userId: number | null
     specialist: string | null
     rate: number | null
     nomorPerandi: string | null
-    image: string | null
     fee: number | null
   }
 
   export type LawyerCountAggregateOutputType = {
     id: number
-    name: number
+    userId: number
     specialist: number
     rate: number
     nomorPerandi: number
-    image: number
     fee: number
     _all: number
   }
@@ -7769,43 +7789,42 @@ export namespace Prisma {
 
   export type LawyerAvgAggregateInputType = {
     id?: true
+    userId?: true
     rate?: true
     fee?: true
   }
 
   export type LawyerSumAggregateInputType = {
     id?: true
+    userId?: true
     rate?: true
     fee?: true
   }
 
   export type LawyerMinAggregateInputType = {
     id?: true
-    name?: true
+    userId?: true
     specialist?: true
     rate?: true
     nomorPerandi?: true
-    image?: true
     fee?: true
   }
 
   export type LawyerMaxAggregateInputType = {
     id?: true
-    name?: true
+    userId?: true
     specialist?: true
     rate?: true
     nomorPerandi?: true
-    image?: true
     fee?: true
   }
 
   export type LawyerCountAggregateInputType = {
     id?: true
-    name?: true
+    userId?: true
     specialist?: true
     rate?: true
     nomorPerandi?: true
-    image?: true
     fee?: true
     _all?: true
   }
@@ -7898,11 +7917,10 @@ export namespace Prisma {
 
   export type LawyerGroupByOutputType = {
     id: number
-    name: string
+    userId: number
     specialist: string
     rate: number
     nomorPerandi: string
-    image: string
     fee: number
     _count: LawyerCountAggregateOutputType | null
     _avg: LawyerAvgAggregateOutputType | null
@@ -7927,30 +7945,30 @@ export namespace Prisma {
 
   export type LawyerSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    name?: boolean
+    userId?: boolean
     specialist?: boolean
     rate?: boolean
     nomorPerandi?: boolean
-    image?: boolean
     fee?: boolean
     educationalBackground?: boolean | Lawyer$educationalBackgroundArgs<ExtArgs>
     firmaHukum?: boolean | Lawyer$firmaHukumArgs<ExtArgs>
+    User?: boolean | UserDefaultArgs<ExtArgs>
     _count?: boolean | LawyerCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["lawyer"]>
 
   export type LawyerSelectScalar = {
     id?: boolean
-    name?: boolean
+    userId?: boolean
     specialist?: boolean
     rate?: boolean
     nomorPerandi?: boolean
-    image?: boolean
     fee?: boolean
   }
 
   export type LawyerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     educationalBackground?: boolean | Lawyer$educationalBackgroundArgs<ExtArgs>
     firmaHukum?: boolean | Lawyer$firmaHukumArgs<ExtArgs>
+    User?: boolean | UserDefaultArgs<ExtArgs>
     _count?: boolean | LawyerCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -7960,14 +7978,14 @@ export namespace Prisma {
     objects: {
       educationalBackground: Prisma.$educationalBackgroundPayload<ExtArgs>[]
       firmaHukum: Prisma.$firmaHukumPayload<ExtArgs>[]
+      User: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
-      name: string
+      userId: number
       specialist: string
       rate: number
       nomorPerandi: string
-      image: string
       fee: number
     }, ExtArgs["result"]["lawyer"]>
     composites: {}
@@ -8338,6 +8356,8 @@ export namespace Prisma {
 
     firmaHukum<T extends Lawyer$firmaHukumArgs<ExtArgs> = {}>(args?: Subset<T, Lawyer$firmaHukumArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$firmaHukumPayload<ExtArgs>, T, 'findMany'> | Null>;
 
+    User<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8367,11 +8387,10 @@ export namespace Prisma {
    */ 
   interface LawyerFieldRefs {
     readonly id: FieldRef<"Lawyer", 'Int'>
-    readonly name: FieldRef<"Lawyer", 'String'>
+    readonly userId: FieldRef<"Lawyer", 'Int'>
     readonly specialist: FieldRef<"Lawyer", 'String'>
     readonly rate: FieldRef<"Lawyer", 'Int'>
     readonly nomorPerandi: FieldRef<"Lawyer", 'String'>
-    readonly image: FieldRef<"Lawyer", 'String'>
     readonly fee: FieldRef<"Lawyer", 'Int'>
   }
     
@@ -10708,11 +10727,10 @@ export namespace Prisma {
 
   export const LawyerScalarFieldEnum: {
     id: 'id',
-    name: 'name',
+    userId: 'userId',
     specialist: 'specialist',
     rate: 'rate',
     nomorPerandi: 'nomorPerandi',
-    image: 'image',
     fee: 'fee'
   };
 
@@ -11027,6 +11045,7 @@ export namespace Prisma {
     chat2?: ChatListRelationFilter
     from?: MessageListRelationFilter
     to?: MessageListRelationFilter
+    Lawyer?: XOR<LawyerNullableRelationFilter, LawyerWhereInput> | null
   }
 
   export type UserOrderByWithRelationInput = {
@@ -11043,6 +11062,7 @@ export namespace Prisma {
     chat2?: ChatOrderByRelationAggregateInput
     from?: MessageOrderByRelationAggregateInput
     to?: MessageOrderByRelationAggregateInput
+    Lawyer?: LawyerOrderByWithRelationInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -11062,6 +11082,7 @@ export namespace Prisma {
     chat2?: ChatListRelationFilter
     from?: MessageListRelationFilter
     to?: MessageListRelationFilter
+    Lawyer?: XOR<LawyerNullableRelationFilter, LawyerWhereInput> | null
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -11222,50 +11243,49 @@ export namespace Prisma {
     OR?: LawyerWhereInput[]
     NOT?: LawyerWhereInput | LawyerWhereInput[]
     id?: IntFilter<"Lawyer"> | number
-    name?: StringFilter<"Lawyer"> | string
+    userId?: IntFilter<"Lawyer"> | number
     specialist?: StringFilter<"Lawyer"> | string
     rate?: IntFilter<"Lawyer"> | number
     nomorPerandi?: StringFilter<"Lawyer"> | string
-    image?: StringFilter<"Lawyer"> | string
     fee?: IntFilter<"Lawyer"> | number
     educationalBackground?: EducationalBackgroundListRelationFilter
     firmaHukum?: FirmaHukumListRelationFilter
+    User?: XOR<UserRelationFilter, UserWhereInput>
   }
 
   export type LawyerOrderByWithRelationInput = {
     id?: SortOrder
-    name?: SortOrder
+    userId?: SortOrder
     specialist?: SortOrder
     rate?: SortOrder
     nomorPerandi?: SortOrder
-    image?: SortOrder
     fee?: SortOrder
     educationalBackground?: educationalBackgroundOrderByRelationAggregateInput
     firmaHukum?: firmaHukumOrderByRelationAggregateInput
+    User?: UserOrderByWithRelationInput
   }
 
   export type LawyerWhereUniqueInput = Prisma.AtLeast<{
     id?: number
+    userId?: number
     AND?: LawyerWhereInput | LawyerWhereInput[]
     OR?: LawyerWhereInput[]
     NOT?: LawyerWhereInput | LawyerWhereInput[]
-    name?: StringFilter<"Lawyer"> | string
     specialist?: StringFilter<"Lawyer"> | string
     rate?: IntFilter<"Lawyer"> | number
     nomorPerandi?: StringFilter<"Lawyer"> | string
-    image?: StringFilter<"Lawyer"> | string
     fee?: IntFilter<"Lawyer"> | number
     educationalBackground?: EducationalBackgroundListRelationFilter
     firmaHukum?: FirmaHukumListRelationFilter
-  }, "id">
+    User?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id" | "userId">
 
   export type LawyerOrderByWithAggregationInput = {
     id?: SortOrder
-    name?: SortOrder
+    userId?: SortOrder
     specialist?: SortOrder
     rate?: SortOrder
     nomorPerandi?: SortOrder
-    image?: SortOrder
     fee?: SortOrder
     _count?: LawyerCountOrderByAggregateInput
     _avg?: LawyerAvgOrderByAggregateInput
@@ -11279,11 +11299,10 @@ export namespace Prisma {
     OR?: LawyerScalarWhereWithAggregatesInput[]
     NOT?: LawyerScalarWhereWithAggregatesInput | LawyerScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Lawyer"> | number
-    name?: StringWithAggregatesFilter<"Lawyer"> | string
+    userId?: IntWithAggregatesFilter<"Lawyer"> | number
     specialist?: StringWithAggregatesFilter<"Lawyer"> | string
     rate?: IntWithAggregatesFilter<"Lawyer"> | number
     nomorPerandi?: StringWithAggregatesFilter<"Lawyer"> | string
-    image?: StringWithAggregatesFilter<"Lawyer"> | string
     fee?: IntWithAggregatesFilter<"Lawyer"> | number
   }
 
@@ -11578,6 +11597,7 @@ export namespace Prisma {
     chat2?: ChatCreateNestedManyWithoutUser2Input
     from?: MessageCreateNestedManyWithoutFromIdInput
     to?: MessageCreateNestedManyWithoutToIdInput
+    Lawyer?: LawyerCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -11594,6 +11614,7 @@ export namespace Prisma {
     chat2?: ChatUncheckedCreateNestedManyWithoutUser2Input
     from?: MessageUncheckedCreateNestedManyWithoutFromIdInput
     to?: MessageUncheckedCreateNestedManyWithoutToIdInput
+    Lawyer?: LawyerUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -11609,6 +11630,7 @@ export namespace Prisma {
     chat2?: ChatUpdateManyWithoutUser2NestedInput
     from?: MessageUpdateManyWithoutFromIdNestedInput
     to?: MessageUpdateManyWithoutToIdNestedInput
+    Lawyer?: LawyerUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -11625,6 +11647,7 @@ export namespace Prisma {
     chat2?: ChatUncheckedUpdateManyWithoutUser2NestedInput
     from?: MessageUncheckedUpdateManyWithoutFromIdNestedInput
     to?: MessageUncheckedUpdateManyWithoutToIdNestedInput
+    Lawyer?: LawyerUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -11762,46 +11785,42 @@ export namespace Prisma {
   }
 
   export type LawyerCreateInput = {
-    name: string
     specialist: string
     rate: number
     nomorPerandi: string
-    image: string
     fee: number
     educationalBackground?: educationalBackgroundCreateNestedManyWithoutLawyerInput
     firmaHukum?: firmaHukumCreateNestedManyWithoutLawyerInput
+    User: UserCreateNestedOneWithoutLawyerInput
   }
 
   export type LawyerUncheckedCreateInput = {
     id?: number
-    name: string
+    userId: number
     specialist: string
     rate: number
     nomorPerandi: string
-    image: string
     fee: number
     educationalBackground?: educationalBackgroundUncheckedCreateNestedManyWithoutLawyerInput
     firmaHukum?: firmaHukumUncheckedCreateNestedManyWithoutLawyerInput
   }
 
   export type LawyerUpdateInput = {
-    name?: StringFieldUpdateOperationsInput | string
     specialist?: StringFieldUpdateOperationsInput | string
     rate?: IntFieldUpdateOperationsInput | number
     nomorPerandi?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
     fee?: IntFieldUpdateOperationsInput | number
     educationalBackground?: educationalBackgroundUpdateManyWithoutLawyerNestedInput
     firmaHukum?: firmaHukumUpdateManyWithoutLawyerNestedInput
+    User?: UserUpdateOneRequiredWithoutLawyerNestedInput
   }
 
   export type LawyerUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
+    userId?: IntFieldUpdateOperationsInput | number
     specialist?: StringFieldUpdateOperationsInput | string
     rate?: IntFieldUpdateOperationsInput | number
     nomorPerandi?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
     fee?: IntFieldUpdateOperationsInput | number
     educationalBackground?: educationalBackgroundUncheckedUpdateManyWithoutLawyerNestedInput
     firmaHukum?: firmaHukumUncheckedUpdateManyWithoutLawyerNestedInput
@@ -11809,30 +11828,26 @@ export namespace Prisma {
 
   export type LawyerCreateManyInput = {
     id?: number
-    name: string
+    userId: number
     specialist: string
     rate: number
     nomorPerandi: string
-    image: string
     fee: number
   }
 
   export type LawyerUpdateManyMutationInput = {
-    name?: StringFieldUpdateOperationsInput | string
     specialist?: StringFieldUpdateOperationsInput | string
     rate?: IntFieldUpdateOperationsInput | number
     nomorPerandi?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
     fee?: IntFieldUpdateOperationsInput | number
   }
 
   export type LawyerUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
+    userId?: IntFieldUpdateOperationsInput | number
     specialist?: StringFieldUpdateOperationsInput | string
     rate?: IntFieldUpdateOperationsInput | number
     nomorPerandi?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
     fee?: IntFieldUpdateOperationsInput | number
   }
 
@@ -12190,6 +12205,11 @@ export namespace Prisma {
     none?: MessageWhereInput
   }
 
+  export type LawyerNullableRelationFilter = {
+    is?: LawyerWhereInput | null
+    isNot?: LawyerWhereInput | null
+  }
+
   export type ChatOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -12345,42 +12365,41 @@ export namespace Prisma {
 
   export type LawyerCountOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
+    userId?: SortOrder
     specialist?: SortOrder
     rate?: SortOrder
     nomorPerandi?: SortOrder
-    image?: SortOrder
     fee?: SortOrder
   }
 
   export type LawyerAvgOrderByAggregateInput = {
     id?: SortOrder
+    userId?: SortOrder
     rate?: SortOrder
     fee?: SortOrder
   }
 
   export type LawyerMaxOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
+    userId?: SortOrder
     specialist?: SortOrder
     rate?: SortOrder
     nomorPerandi?: SortOrder
-    image?: SortOrder
     fee?: SortOrder
   }
 
   export type LawyerMinOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
+    userId?: SortOrder
     specialist?: SortOrder
     rate?: SortOrder
     nomorPerandi?: SortOrder
-    image?: SortOrder
     fee?: SortOrder
   }
 
   export type LawyerSumOrderByAggregateInput = {
     id?: SortOrder
+    userId?: SortOrder
     rate?: SortOrder
     fee?: SortOrder
   }
@@ -12609,6 +12628,12 @@ export namespace Prisma {
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
   }
 
+  export type LawyerCreateNestedOneWithoutUserInput = {
+    create?: XOR<LawyerCreateWithoutUserInput, LawyerUncheckedCreateWithoutUserInput>
+    connectOrCreate?: LawyerCreateOrConnectWithoutUserInput
+    connect?: LawyerWhereUniqueInput
+  }
+
   export type ChatUncheckedCreateNestedManyWithoutUser1Input = {
     create?: XOR<ChatCreateWithoutUser1Input, ChatUncheckedCreateWithoutUser1Input> | ChatCreateWithoutUser1Input[] | ChatUncheckedCreateWithoutUser1Input[]
     connectOrCreate?: ChatCreateOrConnectWithoutUser1Input | ChatCreateOrConnectWithoutUser1Input[]
@@ -12635,6 +12660,12 @@ export namespace Prisma {
     connectOrCreate?: MessageCreateOrConnectWithoutToIdInput | MessageCreateOrConnectWithoutToIdInput[]
     createMany?: MessageCreateManyToIdInputEnvelope
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+  }
+
+  export type LawyerUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<LawyerCreateWithoutUserInput, LawyerUncheckedCreateWithoutUserInput>
+    connectOrCreate?: LawyerCreateOrConnectWithoutUserInput
+    connect?: LawyerWhereUniqueInput
   }
 
   export type ChatUpdateManyWithoutUser1NestedInput = {
@@ -12693,6 +12724,16 @@ export namespace Prisma {
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
+  export type LawyerUpdateOneWithoutUserNestedInput = {
+    create?: XOR<LawyerCreateWithoutUserInput, LawyerUncheckedCreateWithoutUserInput>
+    connectOrCreate?: LawyerCreateOrConnectWithoutUserInput
+    upsert?: LawyerUpsertWithoutUserInput
+    disconnect?: LawyerWhereInput | boolean
+    delete?: LawyerWhereInput | boolean
+    connect?: LawyerWhereUniqueInput
+    update?: XOR<XOR<LawyerUpdateToOneWithWhereWithoutUserInput, LawyerUpdateWithoutUserInput>, LawyerUncheckedUpdateWithoutUserInput>
+  }
+
   export type ChatUncheckedUpdateManyWithoutUser1NestedInput = {
     create?: XOR<ChatCreateWithoutUser1Input, ChatUncheckedCreateWithoutUser1Input> | ChatCreateWithoutUser1Input[] | ChatUncheckedCreateWithoutUser1Input[]
     connectOrCreate?: ChatCreateOrConnectWithoutUser1Input | ChatCreateOrConnectWithoutUser1Input[]
@@ -12747,6 +12788,16 @@ export namespace Prisma {
     update?: MessageUpdateWithWhereUniqueWithoutToIdInput | MessageUpdateWithWhereUniqueWithoutToIdInput[]
     updateMany?: MessageUpdateManyWithWhereWithoutToIdInput | MessageUpdateManyWithWhereWithoutToIdInput[]
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
+  }
+
+  export type LawyerUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<LawyerCreateWithoutUserInput, LawyerUncheckedCreateWithoutUserInput>
+    connectOrCreate?: LawyerCreateOrConnectWithoutUserInput
+    upsert?: LawyerUpsertWithoutUserInput
+    disconnect?: LawyerWhereInput | boolean
+    delete?: LawyerWhereInput | boolean
+    connect?: LawyerWhereUniqueInput
+    update?: XOR<XOR<LawyerUpdateToOneWithWhereWithoutUserInput, LawyerUpdateWithoutUserInput>, LawyerUncheckedUpdateWithoutUserInput>
   }
 
   export type UserCreateNestedOneWithoutChat1Input = {
@@ -12875,6 +12926,12 @@ export namespace Prisma {
     connect?: firmaHukumWhereUniqueInput | firmaHukumWhereUniqueInput[]
   }
 
+  export type UserCreateNestedOneWithoutLawyerInput = {
+    create?: XOR<UserCreateWithoutLawyerInput, UserUncheckedCreateWithoutLawyerInput>
+    connectOrCreate?: UserCreateOrConnectWithoutLawyerInput
+    connect?: UserWhereUniqueInput
+  }
+
   export type educationalBackgroundUncheckedCreateNestedManyWithoutLawyerInput = {
     create?: XOR<educationalBackgroundCreateWithoutLawyerInput, educationalBackgroundUncheckedCreateWithoutLawyerInput> | educationalBackgroundCreateWithoutLawyerInput[] | educationalBackgroundUncheckedCreateWithoutLawyerInput[]
     connectOrCreate?: educationalBackgroundCreateOrConnectWithoutLawyerInput | educationalBackgroundCreateOrConnectWithoutLawyerInput[]
@@ -12915,6 +12972,14 @@ export namespace Prisma {
     update?: firmaHukumUpdateWithWhereUniqueWithoutLawyerInput | firmaHukumUpdateWithWhereUniqueWithoutLawyerInput[]
     updateMany?: firmaHukumUpdateManyWithWhereWithoutLawyerInput | firmaHukumUpdateManyWithWhereWithoutLawyerInput[]
     deleteMany?: firmaHukumScalarWhereInput | firmaHukumScalarWhereInput[]
+  }
+
+  export type UserUpdateOneRequiredWithoutLawyerNestedInput = {
+    create?: XOR<UserCreateWithoutLawyerInput, UserUncheckedCreateWithoutLawyerInput>
+    connectOrCreate?: UserCreateOrConnectWithoutLawyerInput
+    upsert?: UserUpsertWithoutLawyerInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutLawyerInput, UserUpdateWithoutLawyerInput>, UserUncheckedUpdateWithoutLawyerInput>
   }
 
   export type educationalBackgroundUncheckedUpdateManyWithoutLawyerNestedInput = {
@@ -13405,6 +13470,30 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type LawyerCreateWithoutUserInput = {
+    specialist: string
+    rate: number
+    nomorPerandi: string
+    fee: number
+    educationalBackground?: educationalBackgroundCreateNestedManyWithoutLawyerInput
+    firmaHukum?: firmaHukumCreateNestedManyWithoutLawyerInput
+  }
+
+  export type LawyerUncheckedCreateWithoutUserInput = {
+    id?: number
+    specialist: string
+    rate: number
+    nomorPerandi: string
+    fee: number
+    educationalBackground?: educationalBackgroundUncheckedCreateNestedManyWithoutLawyerInput
+    firmaHukum?: firmaHukumUncheckedCreateNestedManyWithoutLawyerInput
+  }
+
+  export type LawyerCreateOrConnectWithoutUserInput = {
+    where: LawyerWhereUniqueInput
+    create: XOR<LawyerCreateWithoutUserInput, LawyerUncheckedCreateWithoutUserInput>
+  }
+
   export type ChatUpsertWithWhereUniqueWithoutUser1Input = {
     where: ChatWhereUniqueInput
     update: XOR<ChatUpdateWithoutUser1Input, ChatUncheckedUpdateWithoutUser1Input>
@@ -13490,6 +13579,36 @@ export namespace Prisma {
     data: XOR<MessageUpdateManyMutationInput, MessageUncheckedUpdateManyWithoutToIdInput>
   }
 
+  export type LawyerUpsertWithoutUserInput = {
+    update: XOR<LawyerUpdateWithoutUserInput, LawyerUncheckedUpdateWithoutUserInput>
+    create: XOR<LawyerCreateWithoutUserInput, LawyerUncheckedCreateWithoutUserInput>
+    where?: LawyerWhereInput
+  }
+
+  export type LawyerUpdateToOneWithWhereWithoutUserInput = {
+    where?: LawyerWhereInput
+    data: XOR<LawyerUpdateWithoutUserInput, LawyerUncheckedUpdateWithoutUserInput>
+  }
+
+  export type LawyerUpdateWithoutUserInput = {
+    specialist?: StringFieldUpdateOperationsInput | string
+    rate?: IntFieldUpdateOperationsInput | number
+    nomorPerandi?: StringFieldUpdateOperationsInput | string
+    fee?: IntFieldUpdateOperationsInput | number
+    educationalBackground?: educationalBackgroundUpdateManyWithoutLawyerNestedInput
+    firmaHukum?: firmaHukumUpdateManyWithoutLawyerNestedInput
+  }
+
+  export type LawyerUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    specialist?: StringFieldUpdateOperationsInput | string
+    rate?: IntFieldUpdateOperationsInput | number
+    nomorPerandi?: StringFieldUpdateOperationsInput | string
+    fee?: IntFieldUpdateOperationsInput | number
+    educationalBackground?: educationalBackgroundUncheckedUpdateManyWithoutLawyerNestedInput
+    firmaHukum?: firmaHukumUncheckedUpdateManyWithoutLawyerNestedInput
+  }
+
   export type UserCreateWithoutChat1Input = {
     email: string
     password: string
@@ -13502,6 +13621,7 @@ export namespace Prisma {
     chat2?: ChatCreateNestedManyWithoutUser2Input
     from?: MessageCreateNestedManyWithoutFromIdInput
     to?: MessageCreateNestedManyWithoutToIdInput
+    Lawyer?: LawyerCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutChat1Input = {
@@ -13517,6 +13637,7 @@ export namespace Prisma {
     chat2?: ChatUncheckedCreateNestedManyWithoutUser2Input
     from?: MessageUncheckedCreateNestedManyWithoutFromIdInput
     to?: MessageUncheckedCreateNestedManyWithoutToIdInput
+    Lawyer?: LawyerUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutChat1Input = {
@@ -13536,6 +13657,7 @@ export namespace Prisma {
     chat1?: ChatCreateNestedManyWithoutUser1Input
     from?: MessageCreateNestedManyWithoutFromIdInput
     to?: MessageCreateNestedManyWithoutToIdInput
+    Lawyer?: LawyerCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutChat2Input = {
@@ -13551,6 +13673,7 @@ export namespace Prisma {
     chat1?: ChatUncheckedCreateNestedManyWithoutUser1Input
     from?: MessageUncheckedCreateNestedManyWithoutFromIdInput
     to?: MessageUncheckedCreateNestedManyWithoutToIdInput
+    Lawyer?: LawyerUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutChat2Input = {
@@ -13606,6 +13729,7 @@ export namespace Prisma {
     chat2?: ChatUpdateManyWithoutUser2NestedInput
     from?: MessageUpdateManyWithoutFromIdNestedInput
     to?: MessageUpdateManyWithoutToIdNestedInput
+    Lawyer?: LawyerUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutChat1Input = {
@@ -13621,6 +13745,7 @@ export namespace Prisma {
     chat2?: ChatUncheckedUpdateManyWithoutUser2NestedInput
     from?: MessageUncheckedUpdateManyWithoutFromIdNestedInput
     to?: MessageUncheckedUpdateManyWithoutToIdNestedInput
+    Lawyer?: LawyerUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutChat2Input = {
@@ -13646,6 +13771,7 @@ export namespace Prisma {
     chat1?: ChatUpdateManyWithoutUser1NestedInput
     from?: MessageUpdateManyWithoutFromIdNestedInput
     to?: MessageUpdateManyWithoutToIdNestedInput
+    Lawyer?: LawyerUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutChat2Input = {
@@ -13661,6 +13787,7 @@ export namespace Prisma {
     chat1?: ChatUncheckedUpdateManyWithoutUser1NestedInput
     from?: MessageUncheckedUpdateManyWithoutFromIdNestedInput
     to?: MessageUncheckedUpdateManyWithoutToIdNestedInput
+    Lawyer?: LawyerUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutChatInput = {
@@ -13707,6 +13834,7 @@ export namespace Prisma {
     chat1?: ChatCreateNestedManyWithoutUser1Input
     chat2?: ChatCreateNestedManyWithoutUser2Input
     to?: MessageCreateNestedManyWithoutToIdInput
+    Lawyer?: LawyerCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFromInput = {
@@ -13722,6 +13850,7 @@ export namespace Prisma {
     chat1?: ChatUncheckedCreateNestedManyWithoutUser1Input
     chat2?: ChatUncheckedCreateNestedManyWithoutUser2Input
     to?: MessageUncheckedCreateNestedManyWithoutToIdInput
+    Lawyer?: LawyerUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFromInput = {
@@ -13741,6 +13870,7 @@ export namespace Prisma {
     chat1?: ChatCreateNestedManyWithoutUser1Input
     chat2?: ChatCreateNestedManyWithoutUser2Input
     from?: MessageCreateNestedManyWithoutFromIdInput
+    Lawyer?: LawyerCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutToInput = {
@@ -13756,6 +13886,7 @@ export namespace Prisma {
     chat1?: ChatUncheckedCreateNestedManyWithoutUser1Input
     chat2?: ChatUncheckedCreateNestedManyWithoutUser2Input
     from?: MessageUncheckedCreateNestedManyWithoutFromIdInput
+    Lawyer?: LawyerUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutToInput = {
@@ -13808,6 +13939,7 @@ export namespace Prisma {
     chat1?: ChatUpdateManyWithoutUser1NestedInput
     chat2?: ChatUpdateManyWithoutUser2NestedInput
     to?: MessageUpdateManyWithoutToIdNestedInput
+    Lawyer?: LawyerUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFromInput = {
@@ -13823,6 +13955,7 @@ export namespace Prisma {
     chat1?: ChatUncheckedUpdateManyWithoutUser1NestedInput
     chat2?: ChatUncheckedUpdateManyWithoutUser2NestedInput
     to?: MessageUncheckedUpdateManyWithoutToIdNestedInput
+    Lawyer?: LawyerUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutToInput = {
@@ -13848,6 +13981,7 @@ export namespace Prisma {
     chat1?: ChatUpdateManyWithoutUser1NestedInput
     chat2?: ChatUpdateManyWithoutUser2NestedInput
     from?: MessageUpdateManyWithoutFromIdNestedInput
+    Lawyer?: LawyerUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutToInput = {
@@ -13863,6 +13997,7 @@ export namespace Prisma {
     chat1?: ChatUncheckedUpdateManyWithoutUser1NestedInput
     chat2?: ChatUncheckedUpdateManyWithoutUser2NestedInput
     from?: MessageUncheckedUpdateManyWithoutFromIdNestedInput
+    Lawyer?: LawyerUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type educationalBackgroundCreateWithoutLawyerInput = {
@@ -13903,6 +14038,42 @@ export namespace Prisma {
   export type firmaHukumCreateManyLawyerInputEnvelope = {
     data: firmaHukumCreateManyLawyerInput | firmaHukumCreateManyLawyerInput[]
     skipDuplicates?: boolean
+  }
+
+  export type UserCreateWithoutLawyerInput = {
+    email: string
+    password: string
+    firstName: string
+    middleName?: string | null
+    lastName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    image?: string | null
+    chat1?: ChatCreateNestedManyWithoutUser1Input
+    chat2?: ChatCreateNestedManyWithoutUser2Input
+    from?: MessageCreateNestedManyWithoutFromIdInput
+    to?: MessageCreateNestedManyWithoutToIdInput
+  }
+
+  export type UserUncheckedCreateWithoutLawyerInput = {
+    id?: number
+    email: string
+    password: string
+    firstName: string
+    middleName?: string | null
+    lastName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    image?: string | null
+    chat1?: ChatUncheckedCreateNestedManyWithoutUser1Input
+    chat2?: ChatUncheckedCreateNestedManyWithoutUser2Input
+    from?: MessageUncheckedCreateNestedManyWithoutFromIdInput
+    to?: MessageUncheckedCreateNestedManyWithoutToIdInput
+  }
+
+  export type UserCreateOrConnectWithoutLawyerInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutLawyerInput, UserUncheckedCreateWithoutLawyerInput>
   }
 
   export type educationalBackgroundUpsertWithWhereUniqueWithoutLawyerInput = {
@@ -13956,23 +14127,63 @@ export namespace Prisma {
     name?: StringFilter<"firmaHukum"> | string
   }
 
+  export type UserUpsertWithoutLawyerInput = {
+    update: XOR<UserUpdateWithoutLawyerInput, UserUncheckedUpdateWithoutLawyerInput>
+    create: XOR<UserCreateWithoutLawyerInput, UserUncheckedCreateWithoutLawyerInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutLawyerInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutLawyerInput, UserUncheckedUpdateWithoutLawyerInput>
+  }
+
+  export type UserUpdateWithoutLawyerInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    middleName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    chat1?: ChatUpdateManyWithoutUser1NestedInput
+    chat2?: ChatUpdateManyWithoutUser2NestedInput
+    from?: MessageUpdateManyWithoutFromIdNestedInput
+    to?: MessageUpdateManyWithoutToIdNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutLawyerInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    middleName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    chat1?: ChatUncheckedUpdateManyWithoutUser1NestedInput
+    chat2?: ChatUncheckedUpdateManyWithoutUser2NestedInput
+    from?: MessageUncheckedUpdateManyWithoutFromIdNestedInput
+    to?: MessageUncheckedUpdateManyWithoutToIdNestedInput
+  }
+
   export type LawyerCreateWithoutEducationalBackgroundInput = {
-    name: string
     specialist: string
     rate: number
     nomorPerandi: string
-    image: string
     fee: number
     firmaHukum?: firmaHukumCreateNestedManyWithoutLawyerInput
+    User: UserCreateNestedOneWithoutLawyerInput
   }
 
   export type LawyerUncheckedCreateWithoutEducationalBackgroundInput = {
     id?: number
-    name: string
+    userId: number
     specialist: string
     rate: number
     nomorPerandi: string
-    image: string
     fee: number
     firmaHukum?: firmaHukumUncheckedCreateNestedManyWithoutLawyerInput
   }
@@ -13994,43 +14205,39 @@ export namespace Prisma {
   }
 
   export type LawyerUpdateWithoutEducationalBackgroundInput = {
-    name?: StringFieldUpdateOperationsInput | string
     specialist?: StringFieldUpdateOperationsInput | string
     rate?: IntFieldUpdateOperationsInput | number
     nomorPerandi?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
     fee?: IntFieldUpdateOperationsInput | number
     firmaHukum?: firmaHukumUpdateManyWithoutLawyerNestedInput
+    User?: UserUpdateOneRequiredWithoutLawyerNestedInput
   }
 
   export type LawyerUncheckedUpdateWithoutEducationalBackgroundInput = {
     id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
+    userId?: IntFieldUpdateOperationsInput | number
     specialist?: StringFieldUpdateOperationsInput | string
     rate?: IntFieldUpdateOperationsInput | number
     nomorPerandi?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
     fee?: IntFieldUpdateOperationsInput | number
     firmaHukum?: firmaHukumUncheckedUpdateManyWithoutLawyerNestedInput
   }
 
   export type LawyerCreateWithoutFirmaHukumInput = {
-    name: string
     specialist: string
     rate: number
     nomorPerandi: string
-    image: string
     fee: number
     educationalBackground?: educationalBackgroundCreateNestedManyWithoutLawyerInput
+    User: UserCreateNestedOneWithoutLawyerInput
   }
 
   export type LawyerUncheckedCreateWithoutFirmaHukumInput = {
     id?: number
-    name: string
+    userId: number
     specialist: string
     rate: number
     nomorPerandi: string
-    image: string
     fee: number
     educationalBackground?: educationalBackgroundUncheckedCreateNestedManyWithoutLawyerInput
   }
@@ -14052,22 +14259,20 @@ export namespace Prisma {
   }
 
   export type LawyerUpdateWithoutFirmaHukumInput = {
-    name?: StringFieldUpdateOperationsInput | string
     specialist?: StringFieldUpdateOperationsInput | string
     rate?: IntFieldUpdateOperationsInput | number
     nomorPerandi?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
     fee?: IntFieldUpdateOperationsInput | number
     educationalBackground?: educationalBackgroundUpdateManyWithoutLawyerNestedInput
+    User?: UserUpdateOneRequiredWithoutLawyerNestedInput
   }
 
   export type LawyerUncheckedUpdateWithoutFirmaHukumInput = {
     id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
+    userId?: IntFieldUpdateOperationsInput | number
     specialist?: StringFieldUpdateOperationsInput | string
     rate?: IntFieldUpdateOperationsInput | number
     nomorPerandi?: StringFieldUpdateOperationsInput | string
-    image?: StringFieldUpdateOperationsInput | string
     fee?: IntFieldUpdateOperationsInput | number
     educationalBackground?: educationalBackgroundUncheckedUpdateManyWithoutLawyerNestedInput
   }
