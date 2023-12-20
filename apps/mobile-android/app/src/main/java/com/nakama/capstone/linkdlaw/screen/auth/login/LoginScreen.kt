@@ -1,5 +1,6 @@
 package com.nakama.capstone.linkdlaw.screen.auth.login
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -7,32 +8,44 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
-
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nakama.capstone.linkdlaw.R
-import com.nakama.capstone.linkdlaw.screen.components.TextField
 import com.nakama.capstone.linkdlaw.ui.theme.Poppins
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,16 +53,51 @@ fun LoginScreen(
     onClick: () -> Unit,
     onRegisterClick: () -> Unit
 ) {
-    LoginContent(onClick, onRegisterClick, modifier = Modifier)
+    val loginViewModel: LoginViewModel = koinViewModel()
+    val loginState by loginViewModel.loginStatus.observeAsState()
+    val loading by loginViewModel.loading.observeAsState()
+
+    LoginContent(
+        loginState,
+        loading,
+        loginViewModel::login,
+        onClick,
+        onRegisterClick,
+        modifier = Modifier
+    )
 }
 
 @Composable
 fun LoginContent(
+    loginState: Boolean?,
+    loading: Boolean?,
+    loginCLick: (String, String) -> Unit,
     onClick: () -> Unit,
     onRegisterClick: () -> Unit,
     modifier: Modifier
 ) {
-    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter){
+    var email by remember {
+        mutableStateOf("")
+    }
+    var password by remember {
+        mutableStateOf("")
+    }
+    var showPassword by remember {
+        mutableStateOf(true)
+    }
+
+    val localFocusManager = LocalFocusManager.current
+
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        if (loading == true) {
+            CircularProgressIndicator()
+        }
+    }
+
+    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Spacer(modifier = Modifier.height(50.dp))
             Text(
@@ -61,19 +109,71 @@ fun LoginContent(
             AppIcon(
                 modifier
             )
-            Spacer(modifier = Modifier.height(50.dp))
+            Spacer(modifier = Modifier.height(30.dp))
             Text(
                 text = "Login",
                 fontFamily = Poppins,
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp
             )
-            TextField(label = "Email", text = "")
-            TextField(label = "Password", text = "")
+            OutlinedTextField(
+                value = email,
+                onValueChange = { email = it },
+                label = { Text(text = "Email") },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Done,
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        localFocusManager.moveFocus(FocusDirection.Down)
+                    }
+                ),
+                singleLine = true
+            )
+            OutlinedTextField(
+                value = password,
+                onValueChange = { password = it },
+                label = { Text(text = "Password") },
+                visualTransformation = if (showPassword) {
+                    androidx.compose.ui.text.input.PasswordVisualTransformation()
+                } else {
+                    androidx.compose.ui.text.input.VisualTransformation.None
+                },
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        localFocusManager.clearFocus()
+                    }
+                ),
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Done,
+                    keyboardType = KeyboardType.Password
+                ),
+                trailingIcon = {
+                    if (showPassword) {
+                        IconButton(onClick = { showPassword = false }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_showed),
+                                contentDescription = "hide password"
+                            )
+                        }
+                    } else {
+                        IconButton(onClick = { showPassword = true }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_hided),
+                                contentDescription = "show password"
+                            )
+                        }
+                    }
+                },
+                singleLine = true
+            )
+            Spacer(modifier = Modifier.height(10.dp))
             Button(
                 onClick = {
-                    onClick()
+                    loginCLick(email, password)
+                    Log.d("Login", "LoginContent: Clicked")
                 },
+                enabled = true,
                 modifier = Modifier
                     .width(300.dp)
                     .padding(8.dp),
@@ -82,8 +182,10 @@ fun LoginContent(
                     containerColor = Color(0xFF00396B)
                 )
             ) {
-                Text(text = "Login",fontFamily = Poppins,
-                    fontWeight = FontWeight.Bold)
+                Text(
+                    text = "Login", fontFamily = Poppins,
+                    fontWeight = FontWeight.Bold
+                )
             }
             Text(
                 text = "Or",
@@ -95,8 +197,10 @@ fun LoginContent(
             Row(
                 modifier = Modifier.padding(4.dp)
             ) {
-                Text(text = "Don't have account?", fontSize = 12.sp, fontFamily = Poppins,
-                    fontWeight = FontWeight.Bold)
+                Text(
+                    text = "Don't have account?", fontSize = 12.sp, fontFamily = Poppins,
+                    fontWeight = FontWeight.Bold
+                )
                 Text(
                     text = " Register now!",
                     color = MaterialTheme.colorScheme.primary,
@@ -107,6 +211,11 @@ fun LoginContent(
                         onRegisterClick()
                     }
                 )
+            }
+            LaunchedEffect(loginState) {
+                if (loginState == true) {
+                    onClick()
+                }
             }
         }
     }
@@ -151,5 +260,12 @@ fun LoginOption() {
 )
 @Composable
 fun LoginContentPreview() {
-    LoginContent(onRegisterClick = {}, onClick = {}, modifier = Modifier)
+    LoginContent(
+        loading = true,
+        loginState = false,
+        loginCLick = { _, _ -> /*TODO*/ },
+        onClick = { /*TODO*/ },
+        onRegisterClick = { /*TODO*/ },
+        modifier = Modifier
+    )
 }

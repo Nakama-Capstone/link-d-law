@@ -10,13 +10,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,25 +28,35 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.nakama.capstone.linkdlaw.R
 import com.nakama.capstone.linkdlaw.screen.components.SearchBar
 import com.nakama.capstone.linkdlaw.ui.theme.Poppins
 
 @Composable
-fun PengacaraScreen() {
-    PengacaraContent()
+fun PengacaraScreen(
+    toDetailLawyer: () -> Unit
+) {
+    PengacaraContent(
+        toDetailLawyer
+    )
 }
 
 @Composable
 fun PengacaraContent(
-
+    toDetailLawyer: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .padding(vertical = 18.dp, horizontal = 22.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        var rating by remember { mutableFloatStateOf(2f) }
-        
+//        var rating by remember { mutableFloatStateOf(2f) }
+
+        val lawyerData = listOf<String>(
+            "Brock Lesnar",
+            "Jokowo Prabowi"
+        )
+
         Text(
             modifier = Modifier.align(Alignment.Start),
             text = "Pengacara",
@@ -59,97 +67,88 @@ fun PengacaraContent(
                 color = Color(0xFF242B32),
             )
         )
-        SearchBar("Cari",modifier = Modifier)
-        Spacer(modifier = Modifier.height(25.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Image(
-                painter = painterResource(id = com.nakama.capstone.linkdlaw.R.drawable.profile),
-                contentDescription = "Brock Lesnar",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(75.dp)
-                    .clip(CircleShape)
-            )
-            Column(
-                modifier = Modifier
-                    .padding(12.dp),
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = "Brock Lesnar",
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        fontFamily = FontFamily(Font(com.nakama.capstone.linkdlaw.R.font.poppins_medium)),
-                        color = Color(0xFF242B32),
-                    )
+        SearchBar("Cari", modifier = Modifier)
+        Spacer(modifier = Modifier.height(10.dp))
+
+        LazyColumn() {
+            items(lawyerData) { lawyerName ->
+                LawyerItem(
+                    name = lawyerName,
+                    specialization = "YTTA",
+                    rating = 3f,
+                    toDetailLawyer = { toDetailLawyer() },
+                    modifier = Modifier.fillMaxWidth()
                 )
-                Text(
-                    text = "Pengacara Spesialis Kriminalis Korea",
-                    style = TextStyle(
-                        fontSize = 12.sp,
-                        fontFamily = FontFamily(Font(com.nakama.capstone.linkdlaw.R.font.poppins_light)),
-                        color = Color(0xFF242B32),
-                    )
-                )
-                RatingBar(rating = rating, onRatingChanged = {newRating -> rating = newRating})
             }
         }
-        Spacer(modifier = Modifier.height(22.dp))
-        Row(
+
+    }
+}
+
+@Composable
+fun LawyerItem(
+    name: String,
+    specialization: String,
+    rating: Float,
+    modifier: Modifier = Modifier,
+    toDetailLawyer: () -> Unit,
+) {
+    Row(
+        modifier = modifier
+            .clickable {
+                toDetailLawyer()
+            },
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.profile),
+            contentDescription = "Lawyer Image",
+            contentScale = ContentScale.Crop,
             modifier = Modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
+                .size(75.dp)
+                .clip(CircleShape)
+        )
+        Column(
+            modifier = Modifier
+                .padding(12.dp),
+            verticalArrangement = Arrangement.Center
         ) {
-            Image(
-                painter = painterResource(id = com.nakama.capstone.linkdlaw.R.drawable.profile),
-                contentDescription = "Brock Lesnar",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(75.dp)
-                    .clip(CircleShape)
+            Text(
+                text = name,
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    fontFamily = FontFamily(Font(R.font.poppins_medium)),
+                    color = Color(0xFF242B32),
+                )
             )
-            Column(
-                modifier = Modifier
-                    .padding(12.dp),
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = "Brock Lesnar",
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        fontFamily = FontFamily(Font(com.nakama.capstone.linkdlaw.R.font.poppins_medium)),
-                        color = Color(0xFF242B32),
-                    )
+            Text(
+                text = specialization,
+                style = TextStyle(
+                    fontSize = 12.sp,
+                    fontFamily = FontFamily(Font(R.font.poppins_light)),
+                    color = Color(0xFF242B32),
                 )
-                Text(
-                    text = "Pengacara Spesialis Kriminalis Korea",
-                    style = TextStyle(
-                        fontSize = 12.sp,
-                        fontFamily = FontFamily(Font(com.nakama.capstone.linkdlaw.R.font.poppins_light)),
-                        color = Color(0xFF242B32),
-                    )
-                )
-                RatingBar(rating = rating, onRatingChanged = {newRating -> rating = newRating})
-            }
+            )
+            RatingBar(rating = rating)
         }
     }
 }
 
 @Composable
-fun RatingBar(rating: Float, onRatingChanged: (Float) -> Unit) {
+fun RatingBar(
+    rating: Float,
+//    onRatingChanged: (Float) -> Unit,
+
+) {
     Row {
         for (i in 1..5) {
-            val icon = if (i <= rating) com.nakama.capstone.linkdlaw.R.drawable.gold_star else com.nakama.capstone.linkdlaw.R.drawable.grey_star
+            val icon = if (i <= rating) R.drawable.gold_star else R.drawable.grey_star
             Image(
                 painter = painterResource(id = icon),
                 contentDescription = "Rating Star",
                 modifier = Modifier
                     .size(15.dp)
-                    .clickable { onRatingChanged(i.toFloat()) }
+//                    .clickable { onRatingChanged(i.toFloat()) }
             )
         }
     }
@@ -160,6 +159,8 @@ fun RatingBar(rating: Float, onRatingChanged: (Float) -> Unit) {
     showSystemUi = true
 )
 @Composable
-fun PengacaraScreenPreview(){
-    PengacaraScreen()
+fun PengacaraScreenPreview() {
+    PengacaraScreen(
+        toDetailLawyer = {}
+    )
 }
