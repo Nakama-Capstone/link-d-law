@@ -1,3 +1,5 @@
+![Link D Law](./assets/banner.png)
+
 # L!nk D' Law
 L!nk D' Law is a web and mobile application that can be used to find the best lawyer and what kind of lawyer you need based on your case.
 
@@ -34,8 +36,22 @@ i recommend to use this text editor for development:
 ## Contributing Guide
 [Contribute Guide](CONTRIBUTING.md)
 
-## Architecture
+## Architecture Design
+
+### Service Architecture
 ![CICD](./assets/arch.png)
+Note :
+- `api-gateway` - api service for handling all the api request
+    - `proxy` - proxy all the request to the right service
+    - `auth` - handle authentication for all the request, if request has token, it will be validated first to the `api-auth` service
+    - `security` - handle security for all the request
+        - `rate-limit` - handle rate limit for all the request
+        - `cors` - handle cors for all the request (for now it's disabled, because we handle mobile app)
+- `api-auth` - api service for handling authentication
+- `api-main` - api service for handling main features
+- `kim-ai` - ai service for handling all the ai request
+- `postgres` - database service for handling all the data
+- `redis` - cache service for handling authentication token (for now)
 
 ### Continuous Integration & Continuous Deployment Architecture
 ![CICD](./assets/cicd.png)
