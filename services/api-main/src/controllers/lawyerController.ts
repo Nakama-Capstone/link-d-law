@@ -3,10 +3,18 @@ import { db } from '../connection/database'
 
 const getAllLawyer = async (req: Request, res: Response) => {
     try {
+        // get all user with have lawyer reelation
+        const data = await db.lawyer.findMany({
+            include: {
+                educationalBackground: true,
+                firmaHukum: true,
+                User: true
+            }
+        })
         res.json({
             ok: true,
             message: "Success get all lawyers",
-            data: await db.lawyer.findMany()
+            data
         })
     } catch (error) {
         res.status(400).json({
@@ -29,7 +37,8 @@ const getDetailLawyer = async (req: Request, res: Response) => {
                 },
                 include: {
                     educationalBackground: true,
-                    firmaHukum: true
+                    firmaHukum: true,
+                    User: true
                 }
             })
         })
