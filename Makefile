@@ -37,11 +37,27 @@ dev-api:
 	@echo "Running Dev - API Service"
 	@bun dev
 
+prod-api:
+	@make show-banner
+	@echo "Running Prod ..."
+	@echo "Running Prod - API Service"
+	@bun start
+
+docker-build-images:
+	@make show-banner
+	@echo "Building Docker Images ..."
+
 build:
 	@make show-banner
 	@echo "Building Prod ..."
 	@echo "Building Prod - API Service"
 	@bun run build:bin
+
+build-docker-images-prod:
+	@make show-banner
+	@echo "Building Docker Images ..."
+	@echo "Building Docker Images - API Service"
+	@docker build -t linkdlaw:latest -f ./docker/production/Dockerfile .
 
 run:
 	@make show-banner

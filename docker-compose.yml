@@ -9,6 +9,11 @@ services:
       - '${SERVICE_API_GATEWAY_PORT:-80}:80'
     volumes:
       - .:/app
+    networks:
+      - linkdlaw
+    depends_on:
+      - db
+
   db:
     image: postgres:13.12
     environment:
@@ -19,11 +24,20 @@ services:
       - '${DB_PORT:-5432}:5432'
     volumes:
       - lawdlink_db:/var/lib/postgresql/data
+    networks:
+      - linkdlaw
+
   cache:
     image: redis:7.2.3
     ports:
-      - '${CACHE_PORT:-6379}:6379'
+      - '${REDIS_PORT:-6379}:6379'
+    networks:
+      - linkdlaw
 
 volumes:
   lawdlink_db:
     driver: local
+
+networks:
+  linkdlaw:
+    driver: bridge

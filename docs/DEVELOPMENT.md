@@ -12,7 +12,7 @@ this project built in linux environment, so make sure to use linux based OS or W
     ```bash
     cd link-d-law
     ```
-- run `make dev-setip`
+- run `make dev-setup`
     ```bash
     make dev-setup
     ```

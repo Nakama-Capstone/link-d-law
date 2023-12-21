@@ -1,3 +1,5 @@
+![Link D Law](./assets/banner.png)
+
 # L!nk D' Law
 L!nk D' Law is a web and mobile application that can be used to find the best lawyer and what kind of lawyer you need based on your case.
 
@@ -34,7 +36,22 @@ i recommend to use this text editor for development:
 ## Contributing Guide
 [Contribute Guide](CONTRIBUTING.md)
 
-## Architecture
+## Architecture Design
+
+### Service Architecture
+![CICD](./assets/arch.png)
+Note :
+- `api-gateway` - api service for handling all the api request
+    - `proxy` - proxy all the request to the right service
+    - `auth` - handle authentication for all the request, if request has token, it will be validated first to the `api-auth` service
+    - `security` - handle security for all the request
+        - `rate-limit` - handle rate limit for all the request
+        - `cors` - handle cors for all the request (for now it's disabled, because we handle mobile app)
+- `api-auth` - api service for handling authentication
+- `api-main` - api service for handling main features
+- `kim-ai` - ai service for handling all the ai request
+- `postgres` - database service for handling all the data
+- `redis` - cache service for handling authentication token (for now)
 
 ### Continuous Integration & Continuous Deployment Architecture
 ![CICD](./assets/cicd.png)
@@ -43,22 +60,30 @@ i recommend to use this text editor for development:
 ![Makefile](./assets/makefile.png)
 available command:
 - `make setup-dev` - setup development environment with docker
-- `make dev` - run development environment
+- `make dev-docker` - run development environment with docker
+- `make dev-api` - run all api services
 - `make build` - build all the services into bin
+- `make build-docker-images-prod` - build all the services into docker images for production
 - `make run <service_name>` - run a builded bin service
 
 ### Monorepo Structure
 ```
 packages/
 ├─ services/
-├─ loggers/
+├─ schema/
 services/
 ├─ api-gateway/
-│  ├─ index.ts
+│  ├─ src
+|  |  ├─ index.ts
 ├─ api-main/
+│  ├─ src
+|  |  ├─ index.ts
 ├─ api-auth/
-├─ api-consult/
-│  ├─ main.py
+│  ├─ src
+|  |  ├─ index.ts
+├─ kim-ai/
+│  ├─ src
+|  |  ├─ main.py
 ```
 this project using monorepo structure, so all the services and packages are in the same repository.
 - `packages` - contains all the packages that can be used by all the services, like for reusable code, etc.

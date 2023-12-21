@@ -1,13 +1,47 @@
-import { LoadConfigEnv, initPrisma, Password } from "@law-d-link/service"
+/* eslint-disable no-console */
+import { Password } from "../../packages/services/src/utils/password"
+import { PrismaClient } from "../../prisma/prisma-client"
+import { faker } from "@faker-js/faker"
+import { parse } from "csv-parse"
+import fs from "fs"
+import path from "path"
 
-// load config env
-LoadConfigEnv()
+
+// Read and process the CSV file
+const processFile = async (p: string) => {
+  const records = [];
+  const parser = fs
+    .createReadStream(p)
+    .pipe(parse({
+      // example data to parse is : "Pasal 1", "Isi dari pasal 1"
+      delimiter: ",",
+      columns: false,
+      skipEmptyLines: true,
+      trim: true,
+      autoParse: true,
+    }));
+  for await (const record of parser) {
+    // Work with each record
+    records.push(record);
+  }
+  return records;
+};
+
+
 
 // init prisma db
-const db = initPrisma()
+const db = new PrismaClient({
+  datasources: {
+    db: {
+      url: process.env.DATABASE_URL,
+    }
+  }
+});
 
-// user seeder
-await db.user.create({
+
+// seed
+console.log("Seeding user...")
+if (!await db.user.findFirst({ where: { email: "example1@mail.com" } })) await db.user.create({
   data: {
     firstName: "Gojoh",
     middleName: undefined,
@@ -16,7 +50,7 @@ await db.user.create({
     password: Password.hash("password"),
   }
 })
-await db.user.create({
+if (!await db.user.findFirst({ where: { email: "example2@mail.com" } })) await db.user.create({
   data: {
     firstName: "Uzumaki",
     middleName: undefined,
@@ -25,88 +59,139 @@ await db.user.create({
     password: Password.hash("password"),
   }
 })
+if (parseInt(`${await db.lawyer.count()}`) < 10) {
+  for (let i = 0; i < 10; i++) {
+    await db.user.create({
+      data: {
+        firstName: faker.person.firstName(),
+        middleName: undefined,
+        lastName: faker.person.lastName(),
+        email: faker.internet.email(),
+        password: Password.hash("password"),
+        image: faker.image.avatar(),
+      }
+    })
+  }
+}
 
-// law seeder
-await db.law.create({
-  data: {
-    title: "Kitab Hukum Perdata",
-    description: "Kitab Hukum Perdata adalah kitab hukum yang mengatur mengenai hukum perdata",
-    LawBab: {
-      create: {
-        name: "Bab I",
-        LawData: {
-          create: [
-            { pasal: '1', content: 'isi dari pasal 1' },
-            { pasal: '2', content: 'isi dari pasal 2' },
-            { pasal: '3', content: 'isi dari pasal 3' },
-          ]
+
+// seed lawyer
+console.log("Seeding lawyer...")
+// create user with relation to lawyer table
+if (parseInt(`${await db.lawyer.count()}`) < 50) {
+  for (let i = 0; i < 50; i++) {
+    await db.user.create({
+      data: {
+        email: faker.internet.email(),
+        firstName: faker.person.firstName(),
+        lastName: faker.person.lastName(),
+        password: Password.hash("password"),
+        Lawyer: {
+          create: {
+            // fee random between 100000 - 1000000
+            fee: Math.floor(Math.random() * 1000000) + 100000,
+            nomorPerandi: `${faker.number.bigInt()}`,
+            // random between 0 - 5 float
+            rate: Math.random() * 5,
+            specialist: faker.lorem.words(3),
+            educationalBackground: {
+              createMany: {
+                // looping depens random between 1 - 3
+                data: Array.from({ length: Math.floor(Math.random() * 3) + 1 }).map(() => ({
+                  major: faker.lorem.words(3),
+                  university: faker.lorem.words(3),
+                }))
+              }
+            },
+            firmaHukum: {
+              // looping depens random between 1 - 2
+              createMany: {
+                data: Array.from({ length: Math.floor(Math.random() * 2) + 1 }).map(() => ({
+                  name: faker.company.name(),
+                }))
+              }
+            },
+          }
+        }
+      }
+    })
+  }
+}
+
+
+// seed law
+console.log("Seeding law...")
+if (!await db.law.findFirst({ where: { title: "Kitab Hukum Perdata" } })) {
+  console.log("Seeding law kitab hukum perdata...")
+  const records = await processFile(path.join(__dirname, "../../datasets/kitab-hukum-perdata/dataset_clean.csv"));
+  await db.law.create({
+    data: {
+      title: "Kitab Hukum Perdata",
+      description: "Kitab Hukum Perdata adalah kitab hukum yang mengatur mengenai hukum perdata",
+      LawBab: {
+        create: {
+          name: "General",
+          LawData: {
+            create: records
+              // remove header
+              .slice(1)
+              .map((record) => ({
+                pasal: `${record[0]}`.replace("Pasal ", ""),
+                content: record[1],
+              }))
+          }
         }
       }
     }
-  },
-})
-
-// chat seeder
-await db.chat.create({
-  data: {
-    user1_id: 1,
-    user2_id: 2,
+  })
+}
+if (!await db.law.findFirst({ where: { title: "Undang-Undang Dasar 1945" } })) {
+  console.log("Seeding law uud 1945...")
+  const records = await processFile(path.join(__dirname, "../../datasets/uud1945/uud1945.csv"));
+  // data like :
+  // [ ['bab', 'judul bab', 'pasal', 'isi'], ... ]
+  const perBab: {
+    nomorBab: string,
+    pasals: {
+      pasal: string,
+      content: string,
+    }[]
+  }[] = []
+  for (let i = 0; i < records.length; i++) {
+    // skip header
+    if (i === 0) continue;
+    const record = records[i];
+    const name = `${record[0]} ${record[1]}`
+    if (perBab.find((bab) => bab.nomorBab === name)) {
+      perBab.find((bab) => bab.nomorBab === name)?.pasals.push({
+        pasal: `${record[2]}`,
+        content: record[3],
+      })
+    } else {
+      perBab.push({
+        nomorBab: name,
+        pasals: [{
+          pasal: `${record[2]}`,
+          content: record[3],
+        }]
+      })
+    }
   }
-})
-
-// message seeder
-await db.message.create({
-  data: {
-    chatId: 1,
-    from: 1,
-    to: 2,
-    message: "hallo apa kabar ?",
-  }
-})
-await db.message.create({
-  data: {
-    chatId: 1,
-    from: 2,
-    to: 1,
-    message: "kabar baik, luar biasa",
-  }
-})
-
-// lawyer seeder
-await db.lawyer.create({
-  data: {
-    name: "hotman paris",
-    specialist: "hukum bisnis internasional",
-    rate: 10,
-    nomorPerandi: "007",
-    image: "https://israilrahmatullah.files.wordpress.com/2018/09/biografi-hotman-paris-hutapea.jpg?w=584",
-    fee: 1000000000
-  }
-})
-
-// educational background seeder
-await db.educationalBackground.create({
-  data: {
-    lawyerId: 1,
-    university: "Universitas Teknologi Sydney",
-    major: "Master of Law"
-  }
-})
-await db.educationalBackground.create({
-  data: {
-    lawyerId: 1,
-    university: "Universitas Katolik Parahyangan",
-    major: "Sarjana Hukum"
-  }
-})
-
-// firma hukum seeder
-await db.firmaHukum.create({
-  data: {
-    lawyerId: 1,
-    name: "firma Australia"
-  }
-})
-
-// done
-console.log("seeding done")
+  await db.law.create({
+    data: {
+      title: "Undang-Undang Dasar 1945",
+      description: "Undang-Undang Dasar 1945 adalah undang-undang dasar yang mengatur mengenai hukum dasar",
+      LawBab: {
+        create: perBab.map((bab) => ({
+          name: bab.nomorBab,
+          LawData: {
+            create: bab.pasals.map((pasal) => ({
+              pasal: pasal.pasal,
+              content: pasal.content,
+            }))
+          }
+        }))
+      }
+    }
+  })
+}
