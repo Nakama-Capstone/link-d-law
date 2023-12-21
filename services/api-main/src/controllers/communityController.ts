@@ -6,6 +6,16 @@ const getAllPost = async (req: Request, res: Response) => {
     try {    
         const data = await db.post.findMany({
             include: {
+                user: {
+                    select: {
+                        id: true,
+                        firstName: true,
+                        middleName: true,
+                        lastName: true,
+                        email: true,
+                        image: true
+                    }
+                },
                 _count: {
                     select: {
                         PostComment: true
@@ -58,6 +68,18 @@ const getAllComment = async (req: Request, res: Response) => {
         const { id } = req.params
 
         const comments = await db.postComment.findMany({
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        firstName: true,
+                        middleName: true,
+                        lastName: true,
+                        email: true,
+                        image: true
+                    }
+                }
+            },
             where: {
                 postId: parseInt(id)
             }
