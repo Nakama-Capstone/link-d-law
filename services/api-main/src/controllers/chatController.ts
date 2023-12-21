@@ -17,6 +17,8 @@ const getAllUserChat = async (req: Request, res: Response) => {
                         select: {
                             id: true,
                             firstName: true,
+                            middleName: true,
+                            lastName: true,
                             image: true
                         }
                     },

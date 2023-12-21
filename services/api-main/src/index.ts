@@ -5,6 +5,7 @@ import userProfileRoute from "./routes/userProfileRoute"
 import chatRoute from "./routes/chatRoute"
 import lawyerRoute from "./routes/lawyerRoute"
 import communityRoute from "./routes/comunityRoute"
+import imageRouter from "./routes/imageRoute"
 import newRoute from "./routes/newRoute"
 import { AuthMiddleware, RequestAuthMiddleware } from "@/middleware/middleware"
 
@@ -33,6 +34,7 @@ createGroup(app, 'v1', (router) => {
   router.use('/', chatRoute)
   router.use('/', lawyerRoute)
   router.use('/', communityRoute)
+  router.use('/', imageRouter)
   router.use('/', newRoute)
 
   router.get('/test', AuthMiddleware, (req, res) => {
