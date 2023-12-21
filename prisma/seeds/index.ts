@@ -195,3 +195,56 @@ if (!await db.law.findFirst({ where: { title: "Undang-Undang Dasar 1945" } })) {
     }
   })
 }
+
+// seed message
+console.log("Seeding message...")
+for (let index = 1; index <= 12; index++) {
+  const lawyerId = Math.floor(Math.random() * (62 - 13 + 1)) + 13
+  await db.chat.create({
+    data: {
+      user1_id: index,
+      user2_id: lawyerId
+    }
+  })
+
+  await db.message.create({
+    data: {
+      chatId: index,
+      from: index,
+      to: lawyerId,
+      message: "Hallo"
+    }
+  })
+
+  await db.message.create({
+    data: {
+      chatId: index,
+      from: lawyerId,
+      to: index,
+      message: "Ya hallo, ada yang bisa dibantu ?"
+    }
+  })
+}
+
+// seed posting
+console.log("Seeding post...")
+for (let index = 1; index <= 10; index++) {
+  const comment = Math.floor(Math.random() * (5 - 1 + 1)) + 1
+  await db.post.create({
+    data: {
+      title: faker.lorem.sentence(5),
+      content: faker.lorem.paragraphs(),
+      userId: index
+    }
+  })
+
+  for (let i = 1; i <= comment; i++) {
+    await db.postComment.create({
+      data: {
+        postId: index,
+        userId: Math.floor(Math.random() * (25 - 1 + 1)) + 1,
+        content: faker.lorem.paragraphs()
+      }
+    })
+  }
+}

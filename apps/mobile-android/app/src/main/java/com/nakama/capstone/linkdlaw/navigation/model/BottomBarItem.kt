@@ -30,4 +30,10 @@ sealed class BottomBarScreen(
         title = "Chat",
         icon = R.drawable.ic_chat
     )
+
+    object Forum: BottomBarScreen(
+        route = "FORUM",
+        title = "Forum",
+        icon = R.drawable.ic_chat
+    )
 }
