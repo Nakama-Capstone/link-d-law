@@ -195,3 +195,33 @@ if (!await db.law.findFirst({ where: { title: "Undang-Undang Dasar 1945" } })) {
     }
   })
 }
+
+// seed message
+console.log("Seeding message...")
+for (let index = 1; index <= 12; index++) {
+  const lawyerId = Math.floor(Math.random() * (62 - 13 + 1)) + 13
+  await db.chat.create({
+    data: {
+      user1_id: index,
+      user2_id: lawyerId
+    }
+  })
+
+  await db.message.create({
+    data: {
+      chatId: index,
+      from: index,
+      to: lawyerId,
+      message: "Hallo"
+    }
+  })
+
+  await db.message.create({
+    data: {
+      chatId: index,
+      from: lawyerId,
+      to: index,
+      message: "Ya hallo, ada yang bisa dibantu ?"
+    }
+  })
+}
