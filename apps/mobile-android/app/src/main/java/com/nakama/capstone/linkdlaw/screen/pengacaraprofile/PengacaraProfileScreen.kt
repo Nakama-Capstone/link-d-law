@@ -399,7 +399,7 @@ fun PengacaraProfileContent(
                                 shape = RoundedCornerShape(size = 10.dp)
                             )
                             .clickable {
-                                createChat(lawyerData?.id ?: 0)
+                                createChat(lawyerData?.userId ?: 0)
                                 loading = true
                             },
                         contentAlignment = Alignment.Center
