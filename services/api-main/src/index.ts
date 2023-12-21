@@ -4,6 +4,7 @@ import lawRoute from "./routes/lawRoute"
 import userProfileRoute from "./routes/userProfileRoute"
 import chatRoute from "./routes/chatRoute"
 import lawyerRoute from "./routes/lawyerRoute"
+import communityRoute from "./routes/comunityRoute"
 import { AuthMiddleware, RequestAuthMiddleware } from "@/middleware/middleware"
 
 // prepare all service needed
@@ -30,6 +31,7 @@ createGroup(app, 'v1', (router) => {
   router.use('/', userProfileRoute)
   router.use('/', chatRoute)
   router.use('/', lawyerRoute)
+  router.use('/', communityRoute)
 
   router.get('/test', AuthMiddleware, (req, res) => {
     const { auth } = req as RequestAuthMiddleware

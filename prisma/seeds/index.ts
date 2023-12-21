@@ -225,3 +225,26 @@ for (let index = 1; index <= 12; index++) {
     }
   })
 }
+
+// seed posting
+console.log("Seeding post...")
+for (let index = 1; index <= 10; index++) {
+  const comment = Math.floor(Math.random() * (5 - 1 + 1)) + 1
+  await db.post.create({
+    data: {
+      title: faker.lorem.sentence(5),
+      content: faker.lorem.paragraphs(),
+      userId: index
+    }
+  })
+
+  for (let i = 1; i <= comment; i++) {
+    await db.postComment.create({
+      data: {
+        postId: index,
+        userId: Math.floor(Math.random() * (25 - 1 + 1)) + 1,
+        content: faker.lorem.paragraphs()
+      }
+    })
+  }
+}
