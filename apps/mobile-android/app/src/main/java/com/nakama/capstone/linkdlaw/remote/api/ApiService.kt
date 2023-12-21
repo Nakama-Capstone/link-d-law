@@ -22,6 +22,7 @@ import com.nakama.capstone.linkdlaw.remote.dto.SendMessageRequest
 import com.nakama.capstone.linkdlaw.remote.dto.SendMessageResponse
 import com.nakama.capstone.linkdlaw.remote.dto.UpdateProfileRequest
 import com.nakama.capstone.linkdlaw.remote.dto.GetCommunityPostResponse
+import com.nakama.capstone.linkdlaw.remote.dto.GetNewDetailResponse
 import com.nakama.capstone.linkdlaw.remote.dto.GetNewsResponse
 import okhttp3.RequestBody
 import retrofit2.http.Body
@@ -137,4 +138,6 @@ interface ApiService {
 
     @GET("/v1/news")
     suspend fun getNews(): GetNewsResponse
+    @GET("/v1/news/detail")
+    suspend fun getNewsDetail(link: String): GetNewDetailResponse
 }
