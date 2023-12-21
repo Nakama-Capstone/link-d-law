@@ -50,4 +50,27 @@ const getDetailLawyer = async (req: Request, res: Response) => {
     }
 }
 
-export { getAllLawyer, getDetailLawyer }
+const getTopLawyer = async (req: Request, res: Response) => {
+    try {
+        // get top lawyer
+        const data = await db.lawyer.findMany({
+            orderBy: {
+                rate: "desc"
+            },
+            take: 3
+        })
+        res.json({
+            ok: true,
+            message: "Success get top lawyers",
+            data
+        })
+    } catch (error) {
+        res.status(400).json({
+            ok: false,
+            message: error,
+            test: "kesini"
+        })
+    }
+}
+
+export { getAllLawyer, getDetailLawyer, getTopLawyer }

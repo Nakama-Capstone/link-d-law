@@ -58,6 +58,16 @@ export type educationalBackground = $Result.DefaultSelection<Prisma.$educational
  * 
  */
 export type firmaHukum = $Result.DefaultSelection<Prisma.$firmaHukumPayload>
+/**
+ * Model Post
+ * 
+ */
+export type Post = $Result.DefaultSelection<Prisma.$PostPayload>
+/**
+ * Model PostComment
+ * 
+ */
+export type PostComment = $Result.DefaultSelection<Prisma.$PostCommentPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -270,6 +280,26 @@ export class PrismaClient<
     * ```
     */
   get firmaHukum(): Prisma.firmaHukumDelegate<ExtArgs>;
+
+  /**
+   * `prisma.post`: Exposes CRUD operations for the **Post** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Posts
+    * const posts = await prisma.post.findMany()
+    * ```
+    */
+  get post(): Prisma.PostDelegate<ExtArgs>;
+
+  /**
+   * `prisma.postComment`: Exposes CRUD operations for the **PostComment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PostComments
+    * const postComments = await prisma.postComment.findMany()
+    * ```
+    */
+  get postComment(): Prisma.PostCommentDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -748,7 +778,9 @@ export namespace Prisma {
     Message: 'Message',
     Lawyer: 'Lawyer',
     educationalBackground: 'educationalBackground',
-    firmaHukum: 'firmaHukum'
+    firmaHukum: 'firmaHukum',
+    Post: 'Post',
+    PostComment: 'PostComment'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -765,7 +797,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     meta: {
-      modelProps: 'law' | 'lawBab' | 'lawData' | 'user' | 'chat' | 'message' | 'lawyer' | 'educationalBackground' | 'firmaHukum'
+      modelProps: 'law' | 'lawBab' | 'lawData' | 'user' | 'chat' | 'message' | 'lawyer' | 'educationalBackground' | 'firmaHukum' | 'post' | 'postComment'
       txIsolationLevel: Prisma.TransactionIsolationLevel
     },
     model: {
@@ -1363,6 +1395,138 @@ export namespace Prisma {
           }
         }
       }
+      Post: {
+        payload: Prisma.$PostPayload<ExtArgs>
+        fields: Prisma.PostFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PostFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$PostPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PostFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$PostPayload>
+          }
+          findFirst: {
+            args: Prisma.PostFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$PostPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PostFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$PostPayload>
+          }
+          findMany: {
+            args: Prisma.PostFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$PostPayload>[]
+          }
+          create: {
+            args: Prisma.PostCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$PostPayload>
+          }
+          createMany: {
+            args: Prisma.PostCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.PostDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$PostPayload>
+          }
+          update: {
+            args: Prisma.PostUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$PostPayload>
+          }
+          deleteMany: {
+            args: Prisma.PostDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PostUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.PostUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$PostPayload>
+          }
+          aggregate: {
+            args: Prisma.PostAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregatePost>
+          }
+          groupBy: {
+            args: Prisma.PostGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<PostGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PostCountArgs<ExtArgs>,
+            result: $Utils.Optional<PostCountAggregateOutputType> | number
+          }
+        }
+      }
+      PostComment: {
+        payload: Prisma.$PostCommentPayload<ExtArgs>
+        fields: Prisma.PostCommentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PostCommentFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$PostCommentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PostCommentFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$PostCommentPayload>
+          }
+          findFirst: {
+            args: Prisma.PostCommentFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$PostCommentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PostCommentFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$PostCommentPayload>
+          }
+          findMany: {
+            args: Prisma.PostCommentFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$PostCommentPayload>[]
+          }
+          create: {
+            args: Prisma.PostCommentCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$PostCommentPayload>
+          }
+          createMany: {
+            args: Prisma.PostCommentCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.PostCommentDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$PostCommentPayload>
+          }
+          update: {
+            args: Prisma.PostCommentUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$PostCommentPayload>
+          }
+          deleteMany: {
+            args: Prisma.PostCommentDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PostCommentUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.PostCommentUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$PostCommentPayload>
+          }
+          aggregate: {
+            args: Prisma.PostCommentAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregatePostComment>
+          }
+          groupBy: {
+            args: Prisma.PostCommentGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<PostCommentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PostCommentCountArgs<ExtArgs>,
+            result: $Utils.Optional<PostCommentCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1584,6 +1748,8 @@ export namespace Prisma {
     chat2: number
     from: number
     to: number
+    PostComment: number
+    Post: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1591,6 +1757,8 @@ export namespace Prisma {
     chat2?: boolean | UserCountOutputTypeCountChat2Args
     from?: boolean | UserCountOutputTypeCountFromArgs
     to?: boolean | UserCountOutputTypeCountToArgs
+    PostComment?: boolean | UserCountOutputTypeCountPostCommentArgs
+    Post?: boolean | UserCountOutputTypeCountPostArgs
   }
 
   // Custom InputTypes
@@ -1635,6 +1803,22 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountToArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MessageWhereInput
+  }
+
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPostCommentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostCommentWhereInput
+  }
+
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPostArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostWhereInput
   }
 
 
@@ -1713,6 +1897,40 @@ export namespace Prisma {
    */
   export type LawyerCountOutputTypeCountFirmaHukumArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: firmaHukumWhereInput
+  }
+
+
+
+  /**
+   * Count Type PostCountOutputType
+   */
+
+  export type PostCountOutputType = {
+    PostComment: number
+  }
+
+  export type PostCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    PostComment?: boolean | PostCountOutputTypeCountPostCommentArgs
+  }
+
+  // Custom InputTypes
+
+  /**
+   * PostCountOutputType without action
+   */
+  export type PostCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostCountOutputType
+     */
+    select?: PostCountOutputTypeSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * PostCountOutputType without action
+   */
+  export type PostCountOutputTypeCountPostCommentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostCommentWhereInput
   }
 
 
@@ -4893,6 +5111,8 @@ export namespace Prisma {
     from?: boolean | User$fromArgs<ExtArgs>
     to?: boolean | User$toArgs<ExtArgs>
     Lawyer?: boolean | User$LawyerArgs<ExtArgs>
+    PostComment?: boolean | User$PostCommentArgs<ExtArgs>
+    Post?: boolean | User$PostArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -4914,6 +5134,8 @@ export namespace Prisma {
     from?: boolean | User$fromArgs<ExtArgs>
     to?: boolean | User$toArgs<ExtArgs>
     Lawyer?: boolean | User$LawyerArgs<ExtArgs>
+    PostComment?: boolean | User$PostCommentArgs<ExtArgs>
+    Post?: boolean | User$PostArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -4926,6 +5148,8 @@ export namespace Prisma {
       from: Prisma.$MessagePayload<ExtArgs>[]
       to: Prisma.$MessagePayload<ExtArgs>[]
       Lawyer: Prisma.$LawyerPayload<ExtArgs> | null
+      PostComment: Prisma.$PostCommentPayload<ExtArgs>[]
+      Post: Prisma.$PostPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -5311,6 +5535,10 @@ export namespace Prisma {
     to<T extends User$toArgs<ExtArgs> = {}>(args?: Subset<T, User$toArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, 'findMany'> | Null>;
 
     Lawyer<T extends User$LawyerArgs<ExtArgs> = {}>(args?: Subset<T, User$LawyerArgs<ExtArgs>>): Prisma__LawyerClient<$Result.GetResult<Prisma.$LawyerPayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
+
+    PostComment<T extends User$PostCommentArgs<ExtArgs> = {}>(args?: Subset<T, User$PostCommentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostCommentPayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    Post<T extends User$PostArgs<ExtArgs> = {}>(args?: Subset<T, User$PostArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, 'findMany'> | Null>;
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -5757,6 +5985,48 @@ export namespace Prisma {
      */
     include?: LawyerInclude<ExtArgs> | null
     where?: LawyerWhereInput
+  }
+
+
+  /**
+   * User.PostComment
+   */
+  export type User$PostCommentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostComment
+     */
+    select?: PostCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PostCommentInclude<ExtArgs> | null
+    where?: PostCommentWhereInput
+    orderBy?: PostCommentOrderByWithRelationInput | PostCommentOrderByWithRelationInput[]
+    cursor?: PostCommentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PostCommentScalarFieldEnum | PostCommentScalarFieldEnum[]
+  }
+
+
+  /**
+   * User.Post
+   */
+  export type User$PostArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Post
+     */
+    select?: PostSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PostInclude<ExtArgs> | null
+    where?: PostWhereInput
+    orderBy?: PostOrderByWithRelationInput | PostOrderByWithRelationInput[]
+    cursor?: PostWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PostScalarFieldEnum | PostScalarFieldEnum[]
   }
 
 
@@ -10641,6 +10911,1933 @@ export namespace Prisma {
 
 
   /**
+   * Model Post
+   */
+
+  export type AggregatePost = {
+    _count: PostCountAggregateOutputType | null
+    _avg: PostAvgAggregateOutputType | null
+    _sum: PostSumAggregateOutputType | null
+    _min: PostMinAggregateOutputType | null
+    _max: PostMaxAggregateOutputType | null
+  }
+
+  export type PostAvgAggregateOutputType = {
+    id: number | null
+    userId: number | null
+  }
+
+  export type PostSumAggregateOutputType = {
+    id: number | null
+    userId: number | null
+  }
+
+  export type PostMinAggregateOutputType = {
+    id: number | null
+    userId: number | null
+    title: string | null
+    content: string | null
+  }
+
+  export type PostMaxAggregateOutputType = {
+    id: number | null
+    userId: number | null
+    title: string | null
+    content: string | null
+  }
+
+  export type PostCountAggregateOutputType = {
+    id: number
+    userId: number
+    title: number
+    content: number
+    _all: number
+  }
+
+
+  export type PostAvgAggregateInputType = {
+    id?: true
+    userId?: true
+  }
+
+  export type PostSumAggregateInputType = {
+    id?: true
+    userId?: true
+  }
+
+  export type PostMinAggregateInputType = {
+    id?: true
+    userId?: true
+    title?: true
+    content?: true
+  }
+
+  export type PostMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    title?: true
+    content?: true
+  }
+
+  export type PostCountAggregateInputType = {
+    id?: true
+    userId?: true
+    title?: true
+    content?: true
+    _all?: true
+  }
+
+  export type PostAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Post to aggregate.
+     */
+    where?: PostWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Posts to fetch.
+     */
+    orderBy?: PostOrderByWithRelationInput | PostOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PostWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Posts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Posts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Posts
+    **/
+    _count?: true | PostCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PostAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PostSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PostMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PostMaxAggregateInputType
+  }
+
+  export type GetPostAggregateType<T extends PostAggregateArgs> = {
+        [P in keyof T & keyof AggregatePost]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePost[P]>
+      : GetScalarType<T[P], AggregatePost[P]>
+  }
+
+
+
+
+  export type PostGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostWhereInput
+    orderBy?: PostOrderByWithAggregationInput | PostOrderByWithAggregationInput[]
+    by: PostScalarFieldEnum[] | PostScalarFieldEnum
+    having?: PostScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PostCountAggregateInputType | true
+    _avg?: PostAvgAggregateInputType
+    _sum?: PostSumAggregateInputType
+    _min?: PostMinAggregateInputType
+    _max?: PostMaxAggregateInputType
+  }
+
+  export type PostGroupByOutputType = {
+    id: number
+    userId: number
+    title: string
+    content: string
+    _count: PostCountAggregateOutputType | null
+    _avg: PostAvgAggregateOutputType | null
+    _sum: PostSumAggregateOutputType | null
+    _min: PostMinAggregateOutputType | null
+    _max: PostMaxAggregateOutputType | null
+  }
+
+  type GetPostGroupByPayload<T extends PostGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PostGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PostGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PostGroupByOutputType[P]>
+            : GetScalarType<T[P], PostGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PostSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    title?: boolean
+    content?: boolean
+    PostComment?: boolean | Post$PostCommentArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    _count?: boolean | PostCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["post"]>
+
+  export type PostSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    title?: boolean
+    content?: boolean
+  }
+
+  export type PostInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    PostComment?: boolean | Post$PostCommentArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    _count?: boolean | PostCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+
+  export type $PostPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Post"
+    objects: {
+      PostComment: Prisma.$PostCommentPayload<ExtArgs>[]
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      userId: number
+      title: string
+      content: string
+    }, ExtArgs["result"]["post"]>
+    composites: {}
+  }
+
+
+  type PostGetPayload<S extends boolean | null | undefined | PostDefaultArgs> = $Result.GetResult<Prisma.$PostPayload, S>
+
+  type PostCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<PostFindManyArgs, 'select' | 'include' | 'distinct' > & {
+      select?: PostCountAggregateInputType | true
+    }
+
+  export interface PostDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Post'], meta: { name: 'Post' } }
+    /**
+     * Find zero or one Post that matches the filter.
+     * @param {PostFindUniqueArgs} args - Arguments to find a Post
+     * @example
+     * // Get one Post
+     * const post = await prisma.post.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends PostFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, PostFindUniqueArgs<ExtArgs>>
+    ): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one Post that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {PostFindUniqueOrThrowArgs} args - Arguments to find a Post
+     * @example
+     * // Get one Post
+     * const post = await prisma.post.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends PostFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, PostFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first Post that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostFindFirstArgs} args - Arguments to find a Post
+     * @example
+     * // Get one Post
+     * const post = await prisma.post.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends PostFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, PostFindFirstArgs<ExtArgs>>
+    ): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first Post that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostFindFirstOrThrowArgs} args - Arguments to find a Post
+     * @example
+     * // Get one Post
+     * const post = await prisma.post.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends PostFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, PostFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more Posts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Posts
+     * const posts = await prisma.post.findMany()
+     * 
+     * // Get first 10 Posts
+     * const posts = await prisma.post.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const postWithIdOnly = await prisma.post.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends PostFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, PostFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a Post.
+     * @param {PostCreateArgs} args - Arguments to create a Post.
+     * @example
+     * // Create one Post
+     * const Post = await prisma.post.create({
+     *   data: {
+     *     // ... data to create a Post
+     *   }
+     * })
+     * 
+    **/
+    create<T extends PostCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, PostCreateArgs<ExtArgs>>
+    ): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Create many Posts.
+     *     @param {PostCreateManyArgs} args - Arguments to create many Posts.
+     *     @example
+     *     // Create many Posts
+     *     const post = await prisma.post.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends PostCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, PostCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Post.
+     * @param {PostDeleteArgs} args - Arguments to delete one Post.
+     * @example
+     * // Delete one Post
+     * const Post = await prisma.post.delete({
+     *   where: {
+     *     // ... filter to delete one Post
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends PostDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, PostDeleteArgs<ExtArgs>>
+    ): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one Post.
+     * @param {PostUpdateArgs} args - Arguments to update one Post.
+     * @example
+     * // Update one Post
+     * const post = await prisma.post.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends PostUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, PostUpdateArgs<ExtArgs>>
+    ): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more Posts.
+     * @param {PostDeleteManyArgs} args - Arguments to filter Posts to delete.
+     * @example
+     * // Delete a few Posts
+     * const { count } = await prisma.post.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends PostDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, PostDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Posts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Posts
+     * const post = await prisma.post.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends PostUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, PostUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Post.
+     * @param {PostUpsertArgs} args - Arguments to update or create a Post.
+     * @example
+     * // Update or create a Post
+     * const post = await prisma.post.upsert({
+     *   create: {
+     *     // ... data to create a Post
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Post we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends PostUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, PostUpsertArgs<ExtArgs>>
+    ): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of Posts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostCountArgs} args - Arguments to filter Posts to count.
+     * @example
+     * // Count the number of Posts
+     * const count = await prisma.post.count({
+     *   where: {
+     *     // ... the filter for the Posts we want to count
+     *   }
+     * })
+    **/
+    count<T extends PostCountArgs>(
+      args?: Subset<T, PostCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PostCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Post.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PostAggregateArgs>(args: Subset<T, PostAggregateArgs>): Prisma.PrismaPromise<GetPostAggregateType<T>>
+
+    /**
+     * Group by Post.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PostGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PostGroupByArgs['orderBy'] }
+        : { orderBy?: PostGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PostGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPostGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Post model
+   */
+  readonly fields: PostFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Post.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PostClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+
+    PostComment<T extends Post$PostCommentArgs<ExtArgs> = {}>(args?: Subset<T, Post$PostCommentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostCommentPayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+
+
+  /**
+   * Fields of the Post model
+   */ 
+  interface PostFieldRefs {
+    readonly id: FieldRef<"Post", 'Int'>
+    readonly userId: FieldRef<"Post", 'Int'>
+    readonly title: FieldRef<"Post", 'String'>
+    readonly content: FieldRef<"Post", 'String'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * Post findUnique
+   */
+  export type PostFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Post
+     */
+    select?: PostSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PostInclude<ExtArgs> | null
+    /**
+     * Filter, which Post to fetch.
+     */
+    where: PostWhereUniqueInput
+  }
+
+
+  /**
+   * Post findUniqueOrThrow
+   */
+  export type PostFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Post
+     */
+    select?: PostSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PostInclude<ExtArgs> | null
+    /**
+     * Filter, which Post to fetch.
+     */
+    where: PostWhereUniqueInput
+  }
+
+
+  /**
+   * Post findFirst
+   */
+  export type PostFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Post
+     */
+    select?: PostSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PostInclude<ExtArgs> | null
+    /**
+     * Filter, which Post to fetch.
+     */
+    where?: PostWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Posts to fetch.
+     */
+    orderBy?: PostOrderByWithRelationInput | PostOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Posts.
+     */
+    cursor?: PostWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Posts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Posts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Posts.
+     */
+    distinct?: PostScalarFieldEnum | PostScalarFieldEnum[]
+  }
+
+
+  /**
+   * Post findFirstOrThrow
+   */
+  export type PostFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Post
+     */
+    select?: PostSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PostInclude<ExtArgs> | null
+    /**
+     * Filter, which Post to fetch.
+     */
+    where?: PostWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Posts to fetch.
+     */
+    orderBy?: PostOrderByWithRelationInput | PostOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Posts.
+     */
+    cursor?: PostWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Posts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Posts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Posts.
+     */
+    distinct?: PostScalarFieldEnum | PostScalarFieldEnum[]
+  }
+
+
+  /**
+   * Post findMany
+   */
+  export type PostFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Post
+     */
+    select?: PostSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PostInclude<ExtArgs> | null
+    /**
+     * Filter, which Posts to fetch.
+     */
+    where?: PostWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Posts to fetch.
+     */
+    orderBy?: PostOrderByWithRelationInput | PostOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Posts.
+     */
+    cursor?: PostWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Posts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Posts.
+     */
+    skip?: number
+    distinct?: PostScalarFieldEnum | PostScalarFieldEnum[]
+  }
+
+
+  /**
+   * Post create
+   */
+  export type PostCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Post
+     */
+    select?: PostSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PostInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Post.
+     */
+    data: XOR<PostCreateInput, PostUncheckedCreateInput>
+  }
+
+
+  /**
+   * Post createMany
+   */
+  export type PostCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Posts.
+     */
+    data: PostCreateManyInput | PostCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Post update
+   */
+  export type PostUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Post
+     */
+    select?: PostSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PostInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Post.
+     */
+    data: XOR<PostUpdateInput, PostUncheckedUpdateInput>
+    /**
+     * Choose, which Post to update.
+     */
+    where: PostWhereUniqueInput
+  }
+
+
+  /**
+   * Post updateMany
+   */
+  export type PostUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Posts.
+     */
+    data: XOR<PostUpdateManyMutationInput, PostUncheckedUpdateManyInput>
+    /**
+     * Filter which Posts to update
+     */
+    where?: PostWhereInput
+  }
+
+
+  /**
+   * Post upsert
+   */
+  export type PostUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Post
+     */
+    select?: PostSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PostInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Post to update in case it exists.
+     */
+    where: PostWhereUniqueInput
+    /**
+     * In case the Post found by the `where` argument doesn't exist, create a new Post with this data.
+     */
+    create: XOR<PostCreateInput, PostUncheckedCreateInput>
+    /**
+     * In case the Post was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PostUpdateInput, PostUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Post delete
+   */
+  export type PostDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Post
+     */
+    select?: PostSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PostInclude<ExtArgs> | null
+    /**
+     * Filter which Post to delete.
+     */
+    where: PostWhereUniqueInput
+  }
+
+
+  /**
+   * Post deleteMany
+   */
+  export type PostDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Posts to delete
+     */
+    where?: PostWhereInput
+  }
+
+
+  /**
+   * Post.PostComment
+   */
+  export type Post$PostCommentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostComment
+     */
+    select?: PostCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PostCommentInclude<ExtArgs> | null
+    where?: PostCommentWhereInput
+    orderBy?: PostCommentOrderByWithRelationInput | PostCommentOrderByWithRelationInput[]
+    cursor?: PostCommentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PostCommentScalarFieldEnum | PostCommentScalarFieldEnum[]
+  }
+
+
+  /**
+   * Post without action
+   */
+  export type PostDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Post
+     */
+    select?: PostSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PostInclude<ExtArgs> | null
+  }
+
+
+
+  /**
+   * Model PostComment
+   */
+
+  export type AggregatePostComment = {
+    _count: PostCommentCountAggregateOutputType | null
+    _avg: PostCommentAvgAggregateOutputType | null
+    _sum: PostCommentSumAggregateOutputType | null
+    _min: PostCommentMinAggregateOutputType | null
+    _max: PostCommentMaxAggregateOutputType | null
+  }
+
+  export type PostCommentAvgAggregateOutputType = {
+    id: number | null
+    postId: number | null
+    userId: number | null
+  }
+
+  export type PostCommentSumAggregateOutputType = {
+    id: number | null
+    postId: number | null
+    userId: number | null
+  }
+
+  export type PostCommentMinAggregateOutputType = {
+    id: number | null
+    postId: number | null
+    userId: number | null
+    content: string | null
+  }
+
+  export type PostCommentMaxAggregateOutputType = {
+    id: number | null
+    postId: number | null
+    userId: number | null
+    content: string | null
+  }
+
+  export type PostCommentCountAggregateOutputType = {
+    id: number
+    postId: number
+    userId: number
+    content: number
+    _all: number
+  }
+
+
+  export type PostCommentAvgAggregateInputType = {
+    id?: true
+    postId?: true
+    userId?: true
+  }
+
+  export type PostCommentSumAggregateInputType = {
+    id?: true
+    postId?: true
+    userId?: true
+  }
+
+  export type PostCommentMinAggregateInputType = {
+    id?: true
+    postId?: true
+    userId?: true
+    content?: true
+  }
+
+  export type PostCommentMaxAggregateInputType = {
+    id?: true
+    postId?: true
+    userId?: true
+    content?: true
+  }
+
+  export type PostCommentCountAggregateInputType = {
+    id?: true
+    postId?: true
+    userId?: true
+    content?: true
+    _all?: true
+  }
+
+  export type PostCommentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PostComment to aggregate.
+     */
+    where?: PostCommentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PostComments to fetch.
+     */
+    orderBy?: PostCommentOrderByWithRelationInput | PostCommentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PostCommentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PostComments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PostComments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PostComments
+    **/
+    _count?: true | PostCommentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PostCommentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PostCommentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PostCommentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PostCommentMaxAggregateInputType
+  }
+
+  export type GetPostCommentAggregateType<T extends PostCommentAggregateArgs> = {
+        [P in keyof T & keyof AggregatePostComment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePostComment[P]>
+      : GetScalarType<T[P], AggregatePostComment[P]>
+  }
+
+
+
+
+  export type PostCommentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostCommentWhereInput
+    orderBy?: PostCommentOrderByWithAggregationInput | PostCommentOrderByWithAggregationInput[]
+    by: PostCommentScalarFieldEnum[] | PostCommentScalarFieldEnum
+    having?: PostCommentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PostCommentCountAggregateInputType | true
+    _avg?: PostCommentAvgAggregateInputType
+    _sum?: PostCommentSumAggregateInputType
+    _min?: PostCommentMinAggregateInputType
+    _max?: PostCommentMaxAggregateInputType
+  }
+
+  export type PostCommentGroupByOutputType = {
+    id: number
+    postId: number
+    userId: number
+    content: string
+    _count: PostCommentCountAggregateOutputType | null
+    _avg: PostCommentAvgAggregateOutputType | null
+    _sum: PostCommentSumAggregateOutputType | null
+    _min: PostCommentMinAggregateOutputType | null
+    _max: PostCommentMaxAggregateOutputType | null
+  }
+
+  type GetPostCommentGroupByPayload<T extends PostCommentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PostCommentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PostCommentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PostCommentGroupByOutputType[P]>
+            : GetScalarType<T[P], PostCommentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PostCommentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    postId?: boolean
+    userId?: boolean
+    content?: boolean
+    post?: boolean | PostDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["postComment"]>
+
+  export type PostCommentSelectScalar = {
+    id?: boolean
+    postId?: boolean
+    userId?: boolean
+    content?: boolean
+  }
+
+  export type PostCommentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    post?: boolean | PostDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+
+  export type $PostCommentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PostComment"
+    objects: {
+      post: Prisma.$PostPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      postId: number
+      userId: number
+      content: string
+    }, ExtArgs["result"]["postComment"]>
+    composites: {}
+  }
+
+
+  type PostCommentGetPayload<S extends boolean | null | undefined | PostCommentDefaultArgs> = $Result.GetResult<Prisma.$PostCommentPayload, S>
+
+  type PostCommentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<PostCommentFindManyArgs, 'select' | 'include' | 'distinct' > & {
+      select?: PostCommentCountAggregateInputType | true
+    }
+
+  export interface PostCommentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PostComment'], meta: { name: 'PostComment' } }
+    /**
+     * Find zero or one PostComment that matches the filter.
+     * @param {PostCommentFindUniqueArgs} args - Arguments to find a PostComment
+     * @example
+     * // Get one PostComment
+     * const postComment = await prisma.postComment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends PostCommentFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, PostCommentFindUniqueArgs<ExtArgs>>
+    ): Prisma__PostCommentClient<$Result.GetResult<Prisma.$PostCommentPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one PostComment that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {PostCommentFindUniqueOrThrowArgs} args - Arguments to find a PostComment
+     * @example
+     * // Get one PostComment
+     * const postComment = await prisma.postComment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends PostCommentFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, PostCommentFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__PostCommentClient<$Result.GetResult<Prisma.$PostCommentPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first PostComment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostCommentFindFirstArgs} args - Arguments to find a PostComment
+     * @example
+     * // Get one PostComment
+     * const postComment = await prisma.postComment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends PostCommentFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, PostCommentFindFirstArgs<ExtArgs>>
+    ): Prisma__PostCommentClient<$Result.GetResult<Prisma.$PostCommentPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first PostComment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostCommentFindFirstOrThrowArgs} args - Arguments to find a PostComment
+     * @example
+     * // Get one PostComment
+     * const postComment = await prisma.postComment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends PostCommentFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, PostCommentFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__PostCommentClient<$Result.GetResult<Prisma.$PostCommentPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more PostComments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostCommentFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PostComments
+     * const postComments = await prisma.postComment.findMany()
+     * 
+     * // Get first 10 PostComments
+     * const postComments = await prisma.postComment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const postCommentWithIdOnly = await prisma.postComment.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends PostCommentFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, PostCommentFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostCommentPayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a PostComment.
+     * @param {PostCommentCreateArgs} args - Arguments to create a PostComment.
+     * @example
+     * // Create one PostComment
+     * const PostComment = await prisma.postComment.create({
+     *   data: {
+     *     // ... data to create a PostComment
+     *   }
+     * })
+     * 
+    **/
+    create<T extends PostCommentCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, PostCommentCreateArgs<ExtArgs>>
+    ): Prisma__PostCommentClient<$Result.GetResult<Prisma.$PostCommentPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Create many PostComments.
+     *     @param {PostCommentCreateManyArgs} args - Arguments to create many PostComments.
+     *     @example
+     *     // Create many PostComments
+     *     const postComment = await prisma.postComment.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends PostCommentCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, PostCommentCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a PostComment.
+     * @param {PostCommentDeleteArgs} args - Arguments to delete one PostComment.
+     * @example
+     * // Delete one PostComment
+     * const PostComment = await prisma.postComment.delete({
+     *   where: {
+     *     // ... filter to delete one PostComment
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends PostCommentDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, PostCommentDeleteArgs<ExtArgs>>
+    ): Prisma__PostCommentClient<$Result.GetResult<Prisma.$PostCommentPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one PostComment.
+     * @param {PostCommentUpdateArgs} args - Arguments to update one PostComment.
+     * @example
+     * // Update one PostComment
+     * const postComment = await prisma.postComment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends PostCommentUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, PostCommentUpdateArgs<ExtArgs>>
+    ): Prisma__PostCommentClient<$Result.GetResult<Prisma.$PostCommentPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more PostComments.
+     * @param {PostCommentDeleteManyArgs} args - Arguments to filter PostComments to delete.
+     * @example
+     * // Delete a few PostComments
+     * const { count } = await prisma.postComment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends PostCommentDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, PostCommentDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PostComments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostCommentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PostComments
+     * const postComment = await prisma.postComment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends PostCommentUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, PostCommentUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one PostComment.
+     * @param {PostCommentUpsertArgs} args - Arguments to update or create a PostComment.
+     * @example
+     * // Update or create a PostComment
+     * const postComment = await prisma.postComment.upsert({
+     *   create: {
+     *     // ... data to create a PostComment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PostComment we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends PostCommentUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, PostCommentUpsertArgs<ExtArgs>>
+    ): Prisma__PostCommentClient<$Result.GetResult<Prisma.$PostCommentPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of PostComments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostCommentCountArgs} args - Arguments to filter PostComments to count.
+     * @example
+     * // Count the number of PostComments
+     * const count = await prisma.postComment.count({
+     *   where: {
+     *     // ... the filter for the PostComments we want to count
+     *   }
+     * })
+    **/
+    count<T extends PostCommentCountArgs>(
+      args?: Subset<T, PostCommentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PostCommentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PostComment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostCommentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PostCommentAggregateArgs>(args: Subset<T, PostCommentAggregateArgs>): Prisma.PrismaPromise<GetPostCommentAggregateType<T>>
+
+    /**
+     * Group by PostComment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PostCommentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PostCommentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PostCommentGroupByArgs['orderBy'] }
+        : { orderBy?: PostCommentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PostCommentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPostCommentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PostComment model
+   */
+  readonly fields: PostCommentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PostComment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PostCommentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+
+    post<T extends PostDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PostDefaultArgs<ExtArgs>>): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+
+
+  /**
+   * Fields of the PostComment model
+   */ 
+  interface PostCommentFieldRefs {
+    readonly id: FieldRef<"PostComment", 'Int'>
+    readonly postId: FieldRef<"PostComment", 'Int'>
+    readonly userId: FieldRef<"PostComment", 'Int'>
+    readonly content: FieldRef<"PostComment", 'String'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * PostComment findUnique
+   */
+  export type PostCommentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostComment
+     */
+    select?: PostCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PostCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which PostComment to fetch.
+     */
+    where: PostCommentWhereUniqueInput
+  }
+
+
+  /**
+   * PostComment findUniqueOrThrow
+   */
+  export type PostCommentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostComment
+     */
+    select?: PostCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PostCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which PostComment to fetch.
+     */
+    where: PostCommentWhereUniqueInput
+  }
+
+
+  /**
+   * PostComment findFirst
+   */
+  export type PostCommentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostComment
+     */
+    select?: PostCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PostCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which PostComment to fetch.
+     */
+    where?: PostCommentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PostComments to fetch.
+     */
+    orderBy?: PostCommentOrderByWithRelationInput | PostCommentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PostComments.
+     */
+    cursor?: PostCommentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PostComments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PostComments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PostComments.
+     */
+    distinct?: PostCommentScalarFieldEnum | PostCommentScalarFieldEnum[]
+  }
+
+
+  /**
+   * PostComment findFirstOrThrow
+   */
+  export type PostCommentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostComment
+     */
+    select?: PostCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PostCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which PostComment to fetch.
+     */
+    where?: PostCommentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PostComments to fetch.
+     */
+    orderBy?: PostCommentOrderByWithRelationInput | PostCommentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PostComments.
+     */
+    cursor?: PostCommentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PostComments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PostComments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PostComments.
+     */
+    distinct?: PostCommentScalarFieldEnum | PostCommentScalarFieldEnum[]
+  }
+
+
+  /**
+   * PostComment findMany
+   */
+  export type PostCommentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostComment
+     */
+    select?: PostCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PostCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which PostComments to fetch.
+     */
+    where?: PostCommentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PostComments to fetch.
+     */
+    orderBy?: PostCommentOrderByWithRelationInput | PostCommentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PostComments.
+     */
+    cursor?: PostCommentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PostComments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PostComments.
+     */
+    skip?: number
+    distinct?: PostCommentScalarFieldEnum | PostCommentScalarFieldEnum[]
+  }
+
+
+  /**
+   * PostComment create
+   */
+  export type PostCommentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostComment
+     */
+    select?: PostCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PostCommentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PostComment.
+     */
+    data: XOR<PostCommentCreateInput, PostCommentUncheckedCreateInput>
+  }
+
+
+  /**
+   * PostComment createMany
+   */
+  export type PostCommentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PostComments.
+     */
+    data: PostCommentCreateManyInput | PostCommentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * PostComment update
+   */
+  export type PostCommentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostComment
+     */
+    select?: PostCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PostCommentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PostComment.
+     */
+    data: XOR<PostCommentUpdateInput, PostCommentUncheckedUpdateInput>
+    /**
+     * Choose, which PostComment to update.
+     */
+    where: PostCommentWhereUniqueInput
+  }
+
+
+  /**
+   * PostComment updateMany
+   */
+  export type PostCommentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PostComments.
+     */
+    data: XOR<PostCommentUpdateManyMutationInput, PostCommentUncheckedUpdateManyInput>
+    /**
+     * Filter which PostComments to update
+     */
+    where?: PostCommentWhereInput
+  }
+
+
+  /**
+   * PostComment upsert
+   */
+  export type PostCommentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostComment
+     */
+    select?: PostCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PostCommentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PostComment to update in case it exists.
+     */
+    where: PostCommentWhereUniqueInput
+    /**
+     * In case the PostComment found by the `where` argument doesn't exist, create a new PostComment with this data.
+     */
+    create: XOR<PostCommentCreateInput, PostCommentUncheckedCreateInput>
+    /**
+     * In case the PostComment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PostCommentUpdateInput, PostCommentUncheckedUpdateInput>
+  }
+
+
+  /**
+   * PostComment delete
+   */
+  export type PostCommentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostComment
+     */
+    select?: PostCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PostCommentInclude<ExtArgs> | null
+    /**
+     * Filter which PostComment to delete.
+     */
+    where: PostCommentWhereUniqueInput
+  }
+
+
+  /**
+   * PostComment deleteMany
+   */
+  export type PostCommentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PostComments to delete
+     */
+    where?: PostCommentWhereInput
+  }
+
+
+  /**
+   * PostComment without action
+   */
+  export type PostCommentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostComment
+     */
+    select?: PostCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: PostCommentInclude<ExtArgs> | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -10754,6 +12951,26 @@ export namespace Prisma {
   };
 
   export type FirmaHukumScalarFieldEnum = (typeof FirmaHukumScalarFieldEnum)[keyof typeof FirmaHukumScalarFieldEnum]
+
+
+  export const PostScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    title: 'title',
+    content: 'content'
+  };
+
+  export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
+
+
+  export const PostCommentScalarFieldEnum: {
+    id: 'id',
+    postId: 'postId',
+    userId: 'userId',
+    content: 'content'
+  };
+
+  export type PostCommentScalarFieldEnum = (typeof PostCommentScalarFieldEnum)[keyof typeof PostCommentScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -11046,6 +13263,8 @@ export namespace Prisma {
     from?: MessageListRelationFilter
     to?: MessageListRelationFilter
     Lawyer?: XOR<LawyerNullableRelationFilter, LawyerWhereInput> | null
+    PostComment?: PostCommentListRelationFilter
+    Post?: PostListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -11063,6 +13282,8 @@ export namespace Prisma {
     from?: MessageOrderByRelationAggregateInput
     to?: MessageOrderByRelationAggregateInput
     Lawyer?: LawyerOrderByWithRelationInput
+    PostComment?: PostCommentOrderByRelationAggregateInput
+    Post?: PostOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -11083,6 +13304,8 @@ export namespace Prisma {
     from?: MessageListRelationFilter
     to?: MessageListRelationFilter
     Lawyer?: XOR<LawyerNullableRelationFilter, LawyerWhereInput> | null
+    PostComment?: PostCommentListRelationFilter
+    Post?: PostListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -11405,6 +13628,116 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"firmaHukum"> | string
   }
 
+  export type PostWhereInput = {
+    AND?: PostWhereInput | PostWhereInput[]
+    OR?: PostWhereInput[]
+    NOT?: PostWhereInput | PostWhereInput[]
+    id?: IntFilter<"Post"> | number
+    userId?: IntFilter<"Post"> | number
+    title?: StringFilter<"Post"> | string
+    content?: StringFilter<"Post"> | string
+    PostComment?: PostCommentListRelationFilter
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type PostOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    PostComment?: PostCommentOrderByRelationAggregateInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type PostWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: PostWhereInput | PostWhereInput[]
+    OR?: PostWhereInput[]
+    NOT?: PostWhereInput | PostWhereInput[]
+    userId?: IntFilter<"Post"> | number
+    title?: StringFilter<"Post"> | string
+    content?: StringFilter<"Post"> | string
+    PostComment?: PostCommentListRelationFilter
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type PostOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    _count?: PostCountOrderByAggregateInput
+    _avg?: PostAvgOrderByAggregateInput
+    _max?: PostMaxOrderByAggregateInput
+    _min?: PostMinOrderByAggregateInput
+    _sum?: PostSumOrderByAggregateInput
+  }
+
+  export type PostScalarWhereWithAggregatesInput = {
+    AND?: PostScalarWhereWithAggregatesInput | PostScalarWhereWithAggregatesInput[]
+    OR?: PostScalarWhereWithAggregatesInput[]
+    NOT?: PostScalarWhereWithAggregatesInput | PostScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Post"> | number
+    userId?: IntWithAggregatesFilter<"Post"> | number
+    title?: StringWithAggregatesFilter<"Post"> | string
+    content?: StringWithAggregatesFilter<"Post"> | string
+  }
+
+  export type PostCommentWhereInput = {
+    AND?: PostCommentWhereInput | PostCommentWhereInput[]
+    OR?: PostCommentWhereInput[]
+    NOT?: PostCommentWhereInput | PostCommentWhereInput[]
+    id?: IntFilter<"PostComment"> | number
+    postId?: IntFilter<"PostComment"> | number
+    userId?: IntFilter<"PostComment"> | number
+    content?: StringFilter<"PostComment"> | string
+    post?: XOR<PostRelationFilter, PostWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type PostCommentOrderByWithRelationInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    userId?: SortOrder
+    content?: SortOrder
+    post?: PostOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type PostCommentWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: PostCommentWhereInput | PostCommentWhereInput[]
+    OR?: PostCommentWhereInput[]
+    NOT?: PostCommentWhereInput | PostCommentWhereInput[]
+    postId?: IntFilter<"PostComment"> | number
+    userId?: IntFilter<"PostComment"> | number
+    content?: StringFilter<"PostComment"> | string
+    post?: XOR<PostRelationFilter, PostWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type PostCommentOrderByWithAggregationInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    userId?: SortOrder
+    content?: SortOrder
+    _count?: PostCommentCountOrderByAggregateInput
+    _avg?: PostCommentAvgOrderByAggregateInput
+    _max?: PostCommentMaxOrderByAggregateInput
+    _min?: PostCommentMinOrderByAggregateInput
+    _sum?: PostCommentSumOrderByAggregateInput
+  }
+
+  export type PostCommentScalarWhereWithAggregatesInput = {
+    AND?: PostCommentScalarWhereWithAggregatesInput | PostCommentScalarWhereWithAggregatesInput[]
+    OR?: PostCommentScalarWhereWithAggregatesInput[]
+    NOT?: PostCommentScalarWhereWithAggregatesInput | PostCommentScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"PostComment"> | number
+    postId?: IntWithAggregatesFilter<"PostComment"> | number
+    userId?: IntWithAggregatesFilter<"PostComment"> | number
+    content?: StringWithAggregatesFilter<"PostComment"> | string
+  }
+
   export type LawCreateInput = {
     title: string
     description?: string | null
@@ -11598,6 +13931,8 @@ export namespace Prisma {
     from?: MessageCreateNestedManyWithoutFromIdInput
     to?: MessageCreateNestedManyWithoutToIdInput
     Lawyer?: LawyerCreateNestedOneWithoutUserInput
+    PostComment?: PostCommentCreateNestedManyWithoutUserInput
+    Post?: PostCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -11615,6 +13950,8 @@ export namespace Prisma {
     from?: MessageUncheckedCreateNestedManyWithoutFromIdInput
     to?: MessageUncheckedCreateNestedManyWithoutToIdInput
     Lawyer?: LawyerUncheckedCreateNestedOneWithoutUserInput
+    PostComment?: PostCommentUncheckedCreateNestedManyWithoutUserInput
+    Post?: PostUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -11631,6 +13968,8 @@ export namespace Prisma {
     from?: MessageUpdateManyWithoutFromIdNestedInput
     to?: MessageUpdateManyWithoutToIdNestedInput
     Lawyer?: LawyerUpdateOneWithoutUserNestedInput
+    PostComment?: PostCommentUpdateManyWithoutUserNestedInput
+    Post?: PostUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -11648,6 +13987,8 @@ export namespace Prisma {
     from?: MessageUncheckedUpdateManyWithoutFromIdNestedInput
     to?: MessageUncheckedUpdateManyWithoutToIdNestedInput
     Lawyer?: LawyerUncheckedUpdateOneWithoutUserNestedInput
+    PostComment?: PostCommentUncheckedUpdateManyWithoutUserNestedInput
+    Post?: PostUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -11934,6 +14275,99 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
   }
 
+  export type PostCreateInput = {
+    title: string
+    content: string
+    PostComment?: PostCommentCreateNestedManyWithoutPostInput
+    user: UserCreateNestedOneWithoutPostInput
+  }
+
+  export type PostUncheckedCreateInput = {
+    id?: number
+    userId: number
+    title: string
+    content: string
+    PostComment?: PostCommentUncheckedCreateNestedManyWithoutPostInput
+  }
+
+  export type PostUpdateInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    PostComment?: PostCommentUpdateManyWithoutPostNestedInput
+    user?: UserUpdateOneRequiredWithoutPostNestedInput
+  }
+
+  export type PostUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    PostComment?: PostCommentUncheckedUpdateManyWithoutPostNestedInput
+  }
+
+  export type PostCreateManyInput = {
+    id?: number
+    userId: number
+    title: string
+    content: string
+  }
+
+  export type PostUpdateManyMutationInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PostUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PostCommentCreateInput = {
+    content: string
+    post: PostCreateNestedOneWithoutPostCommentInput
+    user: UserCreateNestedOneWithoutPostCommentInput
+  }
+
+  export type PostCommentUncheckedCreateInput = {
+    id?: number
+    postId: number
+    userId: number
+    content: string
+  }
+
+  export type PostCommentUpdateInput = {
+    content?: StringFieldUpdateOperationsInput | string
+    post?: PostUpdateOneRequiredWithoutPostCommentNestedInput
+    user?: UserUpdateOneRequiredWithoutPostCommentNestedInput
+  }
+
+  export type PostCommentUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    postId?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PostCommentCreateManyInput = {
+    id?: number
+    postId: number
+    userId: number
+    content: string
+  }
+
+  export type PostCommentUpdateManyMutationInput = {
+    content?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PostCommentUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    postId?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -12210,11 +14644,31 @@ export namespace Prisma {
     isNot?: LawyerWhereInput | null
   }
 
+  export type PostCommentListRelationFilter = {
+    every?: PostCommentWhereInput
+    some?: PostCommentWhereInput
+    none?: PostCommentWhereInput
+  }
+
+  export type PostListRelationFilter = {
+    every?: PostWhereInput
+    some?: PostWhereInput
+    none?: PostWhereInput
+  }
+
   export type ChatOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type MessageOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PostCommentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PostOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -12468,6 +14922,75 @@ export namespace Prisma {
     lawyerId?: SortOrder
   }
 
+  export type PostCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+  }
+
+  export type PostAvgOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type PostMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+  }
+
+  export type PostMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+  }
+
+  export type PostSumOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type PostRelationFilter = {
+    is?: PostWhereInput
+    isNot?: PostWhereInput
+  }
+
+  export type PostCommentCountOrderByAggregateInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    userId?: SortOrder
+    content?: SortOrder
+  }
+
+  export type PostCommentAvgOrderByAggregateInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type PostCommentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    userId?: SortOrder
+    content?: SortOrder
+  }
+
+  export type PostCommentMinOrderByAggregateInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    userId?: SortOrder
+    content?: SortOrder
+  }
+
+  export type PostCommentSumOrderByAggregateInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    userId?: SortOrder
+  }
+
   export type LawBabCreateNestedManyWithoutLawInput = {
     create?: XOR<LawBabCreateWithoutLawInput, LawBabUncheckedCreateWithoutLawInput> | LawBabCreateWithoutLawInput[] | LawBabUncheckedCreateWithoutLawInput[]
     connectOrCreate?: LawBabCreateOrConnectWithoutLawInput | LawBabCreateOrConnectWithoutLawInput[]
@@ -12634,6 +15157,20 @@ export namespace Prisma {
     connect?: LawyerWhereUniqueInput
   }
 
+  export type PostCommentCreateNestedManyWithoutUserInput = {
+    create?: XOR<PostCommentCreateWithoutUserInput, PostCommentUncheckedCreateWithoutUserInput> | PostCommentCreateWithoutUserInput[] | PostCommentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PostCommentCreateOrConnectWithoutUserInput | PostCommentCreateOrConnectWithoutUserInput[]
+    createMany?: PostCommentCreateManyUserInputEnvelope
+    connect?: PostCommentWhereUniqueInput | PostCommentWhereUniqueInput[]
+  }
+
+  export type PostCreateNestedManyWithoutUserInput = {
+    create?: XOR<PostCreateWithoutUserInput, PostUncheckedCreateWithoutUserInput> | PostCreateWithoutUserInput[] | PostUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PostCreateOrConnectWithoutUserInput | PostCreateOrConnectWithoutUserInput[]
+    createMany?: PostCreateManyUserInputEnvelope
+    connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
+  }
+
   export type ChatUncheckedCreateNestedManyWithoutUser1Input = {
     create?: XOR<ChatCreateWithoutUser1Input, ChatUncheckedCreateWithoutUser1Input> | ChatCreateWithoutUser1Input[] | ChatUncheckedCreateWithoutUser1Input[]
     connectOrCreate?: ChatCreateOrConnectWithoutUser1Input | ChatCreateOrConnectWithoutUser1Input[]
@@ -12666,6 +15203,20 @@ export namespace Prisma {
     create?: XOR<LawyerCreateWithoutUserInput, LawyerUncheckedCreateWithoutUserInput>
     connectOrCreate?: LawyerCreateOrConnectWithoutUserInput
     connect?: LawyerWhereUniqueInput
+  }
+
+  export type PostCommentUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<PostCommentCreateWithoutUserInput, PostCommentUncheckedCreateWithoutUserInput> | PostCommentCreateWithoutUserInput[] | PostCommentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PostCommentCreateOrConnectWithoutUserInput | PostCommentCreateOrConnectWithoutUserInput[]
+    createMany?: PostCommentCreateManyUserInputEnvelope
+    connect?: PostCommentWhereUniqueInput | PostCommentWhereUniqueInput[]
+  }
+
+  export type PostUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<PostCreateWithoutUserInput, PostUncheckedCreateWithoutUserInput> | PostCreateWithoutUserInput[] | PostUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PostCreateOrConnectWithoutUserInput | PostCreateOrConnectWithoutUserInput[]
+    createMany?: PostCreateManyUserInputEnvelope
+    connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
   }
 
   export type ChatUpdateManyWithoutUser1NestedInput = {
@@ -12734,6 +15285,34 @@ export namespace Prisma {
     update?: XOR<XOR<LawyerUpdateToOneWithWhereWithoutUserInput, LawyerUpdateWithoutUserInput>, LawyerUncheckedUpdateWithoutUserInput>
   }
 
+  export type PostCommentUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PostCommentCreateWithoutUserInput, PostCommentUncheckedCreateWithoutUserInput> | PostCommentCreateWithoutUserInput[] | PostCommentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PostCommentCreateOrConnectWithoutUserInput | PostCommentCreateOrConnectWithoutUserInput[]
+    upsert?: PostCommentUpsertWithWhereUniqueWithoutUserInput | PostCommentUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PostCommentCreateManyUserInputEnvelope
+    set?: PostCommentWhereUniqueInput | PostCommentWhereUniqueInput[]
+    disconnect?: PostCommentWhereUniqueInput | PostCommentWhereUniqueInput[]
+    delete?: PostCommentWhereUniqueInput | PostCommentWhereUniqueInput[]
+    connect?: PostCommentWhereUniqueInput | PostCommentWhereUniqueInput[]
+    update?: PostCommentUpdateWithWhereUniqueWithoutUserInput | PostCommentUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PostCommentUpdateManyWithWhereWithoutUserInput | PostCommentUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PostCommentScalarWhereInput | PostCommentScalarWhereInput[]
+  }
+
+  export type PostUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PostCreateWithoutUserInput, PostUncheckedCreateWithoutUserInput> | PostCreateWithoutUserInput[] | PostUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PostCreateOrConnectWithoutUserInput | PostCreateOrConnectWithoutUserInput[]
+    upsert?: PostUpsertWithWhereUniqueWithoutUserInput | PostUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PostCreateManyUserInputEnvelope
+    set?: PostWhereUniqueInput | PostWhereUniqueInput[]
+    disconnect?: PostWhereUniqueInput | PostWhereUniqueInput[]
+    delete?: PostWhereUniqueInput | PostWhereUniqueInput[]
+    connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
+    update?: PostUpdateWithWhereUniqueWithoutUserInput | PostUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PostUpdateManyWithWhereWithoutUserInput | PostUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PostScalarWhereInput | PostScalarWhereInput[]
+  }
+
   export type ChatUncheckedUpdateManyWithoutUser1NestedInput = {
     create?: XOR<ChatCreateWithoutUser1Input, ChatUncheckedCreateWithoutUser1Input> | ChatCreateWithoutUser1Input[] | ChatUncheckedCreateWithoutUser1Input[]
     connectOrCreate?: ChatCreateOrConnectWithoutUser1Input | ChatCreateOrConnectWithoutUser1Input[]
@@ -12798,6 +15377,34 @@ export namespace Prisma {
     delete?: LawyerWhereInput | boolean
     connect?: LawyerWhereUniqueInput
     update?: XOR<XOR<LawyerUpdateToOneWithWhereWithoutUserInput, LawyerUpdateWithoutUserInput>, LawyerUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PostCommentUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PostCommentCreateWithoutUserInput, PostCommentUncheckedCreateWithoutUserInput> | PostCommentCreateWithoutUserInput[] | PostCommentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PostCommentCreateOrConnectWithoutUserInput | PostCommentCreateOrConnectWithoutUserInput[]
+    upsert?: PostCommentUpsertWithWhereUniqueWithoutUserInput | PostCommentUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PostCommentCreateManyUserInputEnvelope
+    set?: PostCommentWhereUniqueInput | PostCommentWhereUniqueInput[]
+    disconnect?: PostCommentWhereUniqueInput | PostCommentWhereUniqueInput[]
+    delete?: PostCommentWhereUniqueInput | PostCommentWhereUniqueInput[]
+    connect?: PostCommentWhereUniqueInput | PostCommentWhereUniqueInput[]
+    update?: PostCommentUpdateWithWhereUniqueWithoutUserInput | PostCommentUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PostCommentUpdateManyWithWhereWithoutUserInput | PostCommentUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PostCommentScalarWhereInput | PostCommentScalarWhereInput[]
+  }
+
+  export type PostUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PostCreateWithoutUserInput, PostUncheckedCreateWithoutUserInput> | PostCreateWithoutUserInput[] | PostUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PostCreateOrConnectWithoutUserInput | PostCreateOrConnectWithoutUserInput[]
+    upsert?: PostUpsertWithWhereUniqueWithoutUserInput | PostUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PostCreateManyUserInputEnvelope
+    set?: PostWhereUniqueInput | PostWhereUniqueInput[]
+    disconnect?: PostWhereUniqueInput | PostWhereUniqueInput[]
+    delete?: PostWhereUniqueInput | PostWhereUniqueInput[]
+    connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
+    update?: PostUpdateWithWhereUniqueWithoutUserInput | PostUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PostUpdateManyWithWhereWithoutUserInput | PostUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PostScalarWhereInput | PostScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutChat1Input = {
@@ -13036,6 +15643,90 @@ export namespace Prisma {
     upsert?: LawyerUpsertWithoutFirmaHukumInput
     connect?: LawyerWhereUniqueInput
     update?: XOR<XOR<LawyerUpdateToOneWithWhereWithoutFirmaHukumInput, LawyerUpdateWithoutFirmaHukumInput>, LawyerUncheckedUpdateWithoutFirmaHukumInput>
+  }
+
+  export type PostCommentCreateNestedManyWithoutPostInput = {
+    create?: XOR<PostCommentCreateWithoutPostInput, PostCommentUncheckedCreateWithoutPostInput> | PostCommentCreateWithoutPostInput[] | PostCommentUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: PostCommentCreateOrConnectWithoutPostInput | PostCommentCreateOrConnectWithoutPostInput[]
+    createMany?: PostCommentCreateManyPostInputEnvelope
+    connect?: PostCommentWhereUniqueInput | PostCommentWhereUniqueInput[]
+  }
+
+  export type UserCreateNestedOneWithoutPostInput = {
+    create?: XOR<UserCreateWithoutPostInput, UserUncheckedCreateWithoutPostInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPostInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type PostCommentUncheckedCreateNestedManyWithoutPostInput = {
+    create?: XOR<PostCommentCreateWithoutPostInput, PostCommentUncheckedCreateWithoutPostInput> | PostCommentCreateWithoutPostInput[] | PostCommentUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: PostCommentCreateOrConnectWithoutPostInput | PostCommentCreateOrConnectWithoutPostInput[]
+    createMany?: PostCommentCreateManyPostInputEnvelope
+    connect?: PostCommentWhereUniqueInput | PostCommentWhereUniqueInput[]
+  }
+
+  export type PostCommentUpdateManyWithoutPostNestedInput = {
+    create?: XOR<PostCommentCreateWithoutPostInput, PostCommentUncheckedCreateWithoutPostInput> | PostCommentCreateWithoutPostInput[] | PostCommentUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: PostCommentCreateOrConnectWithoutPostInput | PostCommentCreateOrConnectWithoutPostInput[]
+    upsert?: PostCommentUpsertWithWhereUniqueWithoutPostInput | PostCommentUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: PostCommentCreateManyPostInputEnvelope
+    set?: PostCommentWhereUniqueInput | PostCommentWhereUniqueInput[]
+    disconnect?: PostCommentWhereUniqueInput | PostCommentWhereUniqueInput[]
+    delete?: PostCommentWhereUniqueInput | PostCommentWhereUniqueInput[]
+    connect?: PostCommentWhereUniqueInput | PostCommentWhereUniqueInput[]
+    update?: PostCommentUpdateWithWhereUniqueWithoutPostInput | PostCommentUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: PostCommentUpdateManyWithWhereWithoutPostInput | PostCommentUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: PostCommentScalarWhereInput | PostCommentScalarWhereInput[]
+  }
+
+  export type UserUpdateOneRequiredWithoutPostNestedInput = {
+    create?: XOR<UserCreateWithoutPostInput, UserUncheckedCreateWithoutPostInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPostInput
+    upsert?: UserUpsertWithoutPostInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPostInput, UserUpdateWithoutPostInput>, UserUncheckedUpdateWithoutPostInput>
+  }
+
+  export type PostCommentUncheckedUpdateManyWithoutPostNestedInput = {
+    create?: XOR<PostCommentCreateWithoutPostInput, PostCommentUncheckedCreateWithoutPostInput> | PostCommentCreateWithoutPostInput[] | PostCommentUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: PostCommentCreateOrConnectWithoutPostInput | PostCommentCreateOrConnectWithoutPostInput[]
+    upsert?: PostCommentUpsertWithWhereUniqueWithoutPostInput | PostCommentUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: PostCommentCreateManyPostInputEnvelope
+    set?: PostCommentWhereUniqueInput | PostCommentWhereUniqueInput[]
+    disconnect?: PostCommentWhereUniqueInput | PostCommentWhereUniqueInput[]
+    delete?: PostCommentWhereUniqueInput | PostCommentWhereUniqueInput[]
+    connect?: PostCommentWhereUniqueInput | PostCommentWhereUniqueInput[]
+    update?: PostCommentUpdateWithWhereUniqueWithoutPostInput | PostCommentUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: PostCommentUpdateManyWithWhereWithoutPostInput | PostCommentUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: PostCommentScalarWhereInput | PostCommentScalarWhereInput[]
+  }
+
+  export type PostCreateNestedOneWithoutPostCommentInput = {
+    create?: XOR<PostCreateWithoutPostCommentInput, PostUncheckedCreateWithoutPostCommentInput>
+    connectOrCreate?: PostCreateOrConnectWithoutPostCommentInput
+    connect?: PostWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutPostCommentInput = {
+    create?: XOR<UserCreateWithoutPostCommentInput, UserUncheckedCreateWithoutPostCommentInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPostCommentInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type PostUpdateOneRequiredWithoutPostCommentNestedInput = {
+    create?: XOR<PostCreateWithoutPostCommentInput, PostUncheckedCreateWithoutPostCommentInput>
+    connectOrCreate?: PostCreateOrConnectWithoutPostCommentInput
+    upsert?: PostUpsertWithoutPostCommentInput
+    connect?: PostWhereUniqueInput
+    update?: XOR<XOR<PostUpdateToOneWithWhereWithoutPostCommentInput, PostUpdateWithoutPostCommentInput>, PostUncheckedUpdateWithoutPostCommentInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutPostCommentNestedInput = {
+    create?: XOR<UserCreateWithoutPostCommentInput, UserUncheckedCreateWithoutPostCommentInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPostCommentInput
+    upsert?: UserUpsertWithoutPostCommentInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPostCommentInput, UserUpdateWithoutPostCommentInput>, UserUncheckedUpdateWithoutPostCommentInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -13494,6 +16185,50 @@ export namespace Prisma {
     create: XOR<LawyerCreateWithoutUserInput, LawyerUncheckedCreateWithoutUserInput>
   }
 
+  export type PostCommentCreateWithoutUserInput = {
+    content: string
+    post: PostCreateNestedOneWithoutPostCommentInput
+  }
+
+  export type PostCommentUncheckedCreateWithoutUserInput = {
+    id?: number
+    postId: number
+    content: string
+  }
+
+  export type PostCommentCreateOrConnectWithoutUserInput = {
+    where: PostCommentWhereUniqueInput
+    create: XOR<PostCommentCreateWithoutUserInput, PostCommentUncheckedCreateWithoutUserInput>
+  }
+
+  export type PostCommentCreateManyUserInputEnvelope = {
+    data: PostCommentCreateManyUserInput | PostCommentCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PostCreateWithoutUserInput = {
+    title: string
+    content: string
+    PostComment?: PostCommentCreateNestedManyWithoutPostInput
+  }
+
+  export type PostUncheckedCreateWithoutUserInput = {
+    id?: number
+    title: string
+    content: string
+    PostComment?: PostCommentUncheckedCreateNestedManyWithoutPostInput
+  }
+
+  export type PostCreateOrConnectWithoutUserInput = {
+    where: PostWhereUniqueInput
+    create: XOR<PostCreateWithoutUserInput, PostUncheckedCreateWithoutUserInput>
+  }
+
+  export type PostCreateManyUserInputEnvelope = {
+    data: PostCreateManyUserInput | PostCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ChatUpsertWithWhereUniqueWithoutUser1Input = {
     where: ChatWhereUniqueInput
     update: XOR<ChatUpdateWithoutUser1Input, ChatUncheckedUpdateWithoutUser1Input>
@@ -13609,6 +16344,58 @@ export namespace Prisma {
     firmaHukum?: firmaHukumUncheckedUpdateManyWithoutLawyerNestedInput
   }
 
+  export type PostCommentUpsertWithWhereUniqueWithoutUserInput = {
+    where: PostCommentWhereUniqueInput
+    update: XOR<PostCommentUpdateWithoutUserInput, PostCommentUncheckedUpdateWithoutUserInput>
+    create: XOR<PostCommentCreateWithoutUserInput, PostCommentUncheckedCreateWithoutUserInput>
+  }
+
+  export type PostCommentUpdateWithWhereUniqueWithoutUserInput = {
+    where: PostCommentWhereUniqueInput
+    data: XOR<PostCommentUpdateWithoutUserInput, PostCommentUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PostCommentUpdateManyWithWhereWithoutUserInput = {
+    where: PostCommentScalarWhereInput
+    data: XOR<PostCommentUpdateManyMutationInput, PostCommentUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type PostCommentScalarWhereInput = {
+    AND?: PostCommentScalarWhereInput | PostCommentScalarWhereInput[]
+    OR?: PostCommentScalarWhereInput[]
+    NOT?: PostCommentScalarWhereInput | PostCommentScalarWhereInput[]
+    id?: IntFilter<"PostComment"> | number
+    postId?: IntFilter<"PostComment"> | number
+    userId?: IntFilter<"PostComment"> | number
+    content?: StringFilter<"PostComment"> | string
+  }
+
+  export type PostUpsertWithWhereUniqueWithoutUserInput = {
+    where: PostWhereUniqueInput
+    update: XOR<PostUpdateWithoutUserInput, PostUncheckedUpdateWithoutUserInput>
+    create: XOR<PostCreateWithoutUserInput, PostUncheckedCreateWithoutUserInput>
+  }
+
+  export type PostUpdateWithWhereUniqueWithoutUserInput = {
+    where: PostWhereUniqueInput
+    data: XOR<PostUpdateWithoutUserInput, PostUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PostUpdateManyWithWhereWithoutUserInput = {
+    where: PostScalarWhereInput
+    data: XOR<PostUpdateManyMutationInput, PostUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type PostScalarWhereInput = {
+    AND?: PostScalarWhereInput | PostScalarWhereInput[]
+    OR?: PostScalarWhereInput[]
+    NOT?: PostScalarWhereInput | PostScalarWhereInput[]
+    id?: IntFilter<"Post"> | number
+    userId?: IntFilter<"Post"> | number
+    title?: StringFilter<"Post"> | string
+    content?: StringFilter<"Post"> | string
+  }
+
   export type UserCreateWithoutChat1Input = {
     email: string
     password: string
@@ -13622,6 +16409,8 @@ export namespace Prisma {
     from?: MessageCreateNestedManyWithoutFromIdInput
     to?: MessageCreateNestedManyWithoutToIdInput
     Lawyer?: LawyerCreateNestedOneWithoutUserInput
+    PostComment?: PostCommentCreateNestedManyWithoutUserInput
+    Post?: PostCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutChat1Input = {
@@ -13638,6 +16427,8 @@ export namespace Prisma {
     from?: MessageUncheckedCreateNestedManyWithoutFromIdInput
     to?: MessageUncheckedCreateNestedManyWithoutToIdInput
     Lawyer?: LawyerUncheckedCreateNestedOneWithoutUserInput
+    PostComment?: PostCommentUncheckedCreateNestedManyWithoutUserInput
+    Post?: PostUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutChat1Input = {
@@ -13658,6 +16449,8 @@ export namespace Prisma {
     from?: MessageCreateNestedManyWithoutFromIdInput
     to?: MessageCreateNestedManyWithoutToIdInput
     Lawyer?: LawyerCreateNestedOneWithoutUserInput
+    PostComment?: PostCommentCreateNestedManyWithoutUserInput
+    Post?: PostCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutChat2Input = {
@@ -13674,6 +16467,8 @@ export namespace Prisma {
     from?: MessageUncheckedCreateNestedManyWithoutFromIdInput
     to?: MessageUncheckedCreateNestedManyWithoutToIdInput
     Lawyer?: LawyerUncheckedCreateNestedOneWithoutUserInput
+    PostComment?: PostCommentUncheckedCreateNestedManyWithoutUserInput
+    Post?: PostUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutChat2Input = {
@@ -13730,6 +16525,8 @@ export namespace Prisma {
     from?: MessageUpdateManyWithoutFromIdNestedInput
     to?: MessageUpdateManyWithoutToIdNestedInput
     Lawyer?: LawyerUpdateOneWithoutUserNestedInput
+    PostComment?: PostCommentUpdateManyWithoutUserNestedInput
+    Post?: PostUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutChat1Input = {
@@ -13746,6 +16543,8 @@ export namespace Prisma {
     from?: MessageUncheckedUpdateManyWithoutFromIdNestedInput
     to?: MessageUncheckedUpdateManyWithoutToIdNestedInput
     Lawyer?: LawyerUncheckedUpdateOneWithoutUserNestedInput
+    PostComment?: PostCommentUncheckedUpdateManyWithoutUserNestedInput
+    Post?: PostUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutChat2Input = {
@@ -13772,6 +16571,8 @@ export namespace Prisma {
     from?: MessageUpdateManyWithoutFromIdNestedInput
     to?: MessageUpdateManyWithoutToIdNestedInput
     Lawyer?: LawyerUpdateOneWithoutUserNestedInput
+    PostComment?: PostCommentUpdateManyWithoutUserNestedInput
+    Post?: PostUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutChat2Input = {
@@ -13788,6 +16589,8 @@ export namespace Prisma {
     from?: MessageUncheckedUpdateManyWithoutFromIdNestedInput
     to?: MessageUncheckedUpdateManyWithoutToIdNestedInput
     Lawyer?: LawyerUncheckedUpdateOneWithoutUserNestedInput
+    PostComment?: PostCommentUncheckedUpdateManyWithoutUserNestedInput
+    Post?: PostUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutChatInput = {
@@ -13835,6 +16638,8 @@ export namespace Prisma {
     chat2?: ChatCreateNestedManyWithoutUser2Input
     to?: MessageCreateNestedManyWithoutToIdInput
     Lawyer?: LawyerCreateNestedOneWithoutUserInput
+    PostComment?: PostCommentCreateNestedManyWithoutUserInput
+    Post?: PostCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFromInput = {
@@ -13851,6 +16656,8 @@ export namespace Prisma {
     chat2?: ChatUncheckedCreateNestedManyWithoutUser2Input
     to?: MessageUncheckedCreateNestedManyWithoutToIdInput
     Lawyer?: LawyerUncheckedCreateNestedOneWithoutUserInput
+    PostComment?: PostCommentUncheckedCreateNestedManyWithoutUserInput
+    Post?: PostUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFromInput = {
@@ -13871,6 +16678,8 @@ export namespace Prisma {
     chat2?: ChatCreateNestedManyWithoutUser2Input
     from?: MessageCreateNestedManyWithoutFromIdInput
     Lawyer?: LawyerCreateNestedOneWithoutUserInput
+    PostComment?: PostCommentCreateNestedManyWithoutUserInput
+    Post?: PostCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutToInput = {
@@ -13887,6 +16696,8 @@ export namespace Prisma {
     chat2?: ChatUncheckedCreateNestedManyWithoutUser2Input
     from?: MessageUncheckedCreateNestedManyWithoutFromIdInput
     Lawyer?: LawyerUncheckedCreateNestedOneWithoutUserInput
+    PostComment?: PostCommentUncheckedCreateNestedManyWithoutUserInput
+    Post?: PostUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutToInput = {
@@ -13940,6 +16751,8 @@ export namespace Prisma {
     chat2?: ChatUpdateManyWithoutUser2NestedInput
     to?: MessageUpdateManyWithoutToIdNestedInput
     Lawyer?: LawyerUpdateOneWithoutUserNestedInput
+    PostComment?: PostCommentUpdateManyWithoutUserNestedInput
+    Post?: PostUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFromInput = {
@@ -13956,6 +16769,8 @@ export namespace Prisma {
     chat2?: ChatUncheckedUpdateManyWithoutUser2NestedInput
     to?: MessageUncheckedUpdateManyWithoutToIdNestedInput
     Lawyer?: LawyerUncheckedUpdateOneWithoutUserNestedInput
+    PostComment?: PostCommentUncheckedUpdateManyWithoutUserNestedInput
+    Post?: PostUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutToInput = {
@@ -13982,6 +16797,8 @@ export namespace Prisma {
     chat2?: ChatUpdateManyWithoutUser2NestedInput
     from?: MessageUpdateManyWithoutFromIdNestedInput
     Lawyer?: LawyerUpdateOneWithoutUserNestedInput
+    PostComment?: PostCommentUpdateManyWithoutUserNestedInput
+    Post?: PostUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutToInput = {
@@ -13998,6 +16815,8 @@ export namespace Prisma {
     chat2?: ChatUncheckedUpdateManyWithoutUser2NestedInput
     from?: MessageUncheckedUpdateManyWithoutFromIdNestedInput
     Lawyer?: LawyerUncheckedUpdateOneWithoutUserNestedInput
+    PostComment?: PostCommentUncheckedUpdateManyWithoutUserNestedInput
+    Post?: PostUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type educationalBackgroundCreateWithoutLawyerInput = {
@@ -14053,6 +16872,8 @@ export namespace Prisma {
     chat2?: ChatCreateNestedManyWithoutUser2Input
     from?: MessageCreateNestedManyWithoutFromIdInput
     to?: MessageCreateNestedManyWithoutToIdInput
+    PostComment?: PostCommentCreateNestedManyWithoutUserInput
+    Post?: PostCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLawyerInput = {
@@ -14069,6 +16890,8 @@ export namespace Prisma {
     chat2?: ChatUncheckedCreateNestedManyWithoutUser2Input
     from?: MessageUncheckedCreateNestedManyWithoutFromIdInput
     to?: MessageUncheckedCreateNestedManyWithoutToIdInput
+    PostComment?: PostCommentUncheckedCreateNestedManyWithoutUserInput
+    Post?: PostUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLawyerInput = {
@@ -14151,6 +16974,8 @@ export namespace Prisma {
     chat2?: ChatUpdateManyWithoutUser2NestedInput
     from?: MessageUpdateManyWithoutFromIdNestedInput
     to?: MessageUpdateManyWithoutToIdNestedInput
+    PostComment?: PostCommentUpdateManyWithoutUserNestedInput
+    Post?: PostUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLawyerInput = {
@@ -14167,6 +16992,8 @@ export namespace Prisma {
     chat2?: ChatUncheckedUpdateManyWithoutUser2NestedInput
     from?: MessageUncheckedUpdateManyWithoutFromIdNestedInput
     to?: MessageUncheckedUpdateManyWithoutToIdNestedInput
+    PostComment?: PostCommentUncheckedUpdateManyWithoutUserNestedInput
+    Post?: PostUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type LawyerCreateWithoutEducationalBackgroundInput = {
@@ -14277,6 +17104,257 @@ export namespace Prisma {
     educationalBackground?: educationalBackgroundUncheckedUpdateManyWithoutLawyerNestedInput
   }
 
+  export type PostCommentCreateWithoutPostInput = {
+    content: string
+    user: UserCreateNestedOneWithoutPostCommentInput
+  }
+
+  export type PostCommentUncheckedCreateWithoutPostInput = {
+    id?: number
+    userId: number
+    content: string
+  }
+
+  export type PostCommentCreateOrConnectWithoutPostInput = {
+    where: PostCommentWhereUniqueInput
+    create: XOR<PostCommentCreateWithoutPostInput, PostCommentUncheckedCreateWithoutPostInput>
+  }
+
+  export type PostCommentCreateManyPostInputEnvelope = {
+    data: PostCommentCreateManyPostInput | PostCommentCreateManyPostInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserCreateWithoutPostInput = {
+    email: string
+    password: string
+    firstName: string
+    middleName?: string | null
+    lastName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    image?: string | null
+    chat1?: ChatCreateNestedManyWithoutUser1Input
+    chat2?: ChatCreateNestedManyWithoutUser2Input
+    from?: MessageCreateNestedManyWithoutFromIdInput
+    to?: MessageCreateNestedManyWithoutToIdInput
+    Lawyer?: LawyerCreateNestedOneWithoutUserInput
+    PostComment?: PostCommentCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutPostInput = {
+    id?: number
+    email: string
+    password: string
+    firstName: string
+    middleName?: string | null
+    lastName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    image?: string | null
+    chat1?: ChatUncheckedCreateNestedManyWithoutUser1Input
+    chat2?: ChatUncheckedCreateNestedManyWithoutUser2Input
+    from?: MessageUncheckedCreateNestedManyWithoutFromIdInput
+    to?: MessageUncheckedCreateNestedManyWithoutToIdInput
+    Lawyer?: LawyerUncheckedCreateNestedOneWithoutUserInput
+    PostComment?: PostCommentUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutPostInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPostInput, UserUncheckedCreateWithoutPostInput>
+  }
+
+  export type PostCommentUpsertWithWhereUniqueWithoutPostInput = {
+    where: PostCommentWhereUniqueInput
+    update: XOR<PostCommentUpdateWithoutPostInput, PostCommentUncheckedUpdateWithoutPostInput>
+    create: XOR<PostCommentCreateWithoutPostInput, PostCommentUncheckedCreateWithoutPostInput>
+  }
+
+  export type PostCommentUpdateWithWhereUniqueWithoutPostInput = {
+    where: PostCommentWhereUniqueInput
+    data: XOR<PostCommentUpdateWithoutPostInput, PostCommentUncheckedUpdateWithoutPostInput>
+  }
+
+  export type PostCommentUpdateManyWithWhereWithoutPostInput = {
+    where: PostCommentScalarWhereInput
+    data: XOR<PostCommentUpdateManyMutationInput, PostCommentUncheckedUpdateManyWithoutPostInput>
+  }
+
+  export type UserUpsertWithoutPostInput = {
+    update: XOR<UserUpdateWithoutPostInput, UserUncheckedUpdateWithoutPostInput>
+    create: XOR<UserCreateWithoutPostInput, UserUncheckedCreateWithoutPostInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPostInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPostInput, UserUncheckedUpdateWithoutPostInput>
+  }
+
+  export type UserUpdateWithoutPostInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    middleName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    chat1?: ChatUpdateManyWithoutUser1NestedInput
+    chat2?: ChatUpdateManyWithoutUser2NestedInput
+    from?: MessageUpdateManyWithoutFromIdNestedInput
+    to?: MessageUpdateManyWithoutToIdNestedInput
+    Lawyer?: LawyerUpdateOneWithoutUserNestedInput
+    PostComment?: PostCommentUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPostInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    middleName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    chat1?: ChatUncheckedUpdateManyWithoutUser1NestedInput
+    chat2?: ChatUncheckedUpdateManyWithoutUser2NestedInput
+    from?: MessageUncheckedUpdateManyWithoutFromIdNestedInput
+    to?: MessageUncheckedUpdateManyWithoutToIdNestedInput
+    Lawyer?: LawyerUncheckedUpdateOneWithoutUserNestedInput
+    PostComment?: PostCommentUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type PostCreateWithoutPostCommentInput = {
+    title: string
+    content: string
+    user: UserCreateNestedOneWithoutPostInput
+  }
+
+  export type PostUncheckedCreateWithoutPostCommentInput = {
+    id?: number
+    userId: number
+    title: string
+    content: string
+  }
+
+  export type PostCreateOrConnectWithoutPostCommentInput = {
+    where: PostWhereUniqueInput
+    create: XOR<PostCreateWithoutPostCommentInput, PostUncheckedCreateWithoutPostCommentInput>
+  }
+
+  export type UserCreateWithoutPostCommentInput = {
+    email: string
+    password: string
+    firstName: string
+    middleName?: string | null
+    lastName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    image?: string | null
+    chat1?: ChatCreateNestedManyWithoutUser1Input
+    chat2?: ChatCreateNestedManyWithoutUser2Input
+    from?: MessageCreateNestedManyWithoutFromIdInput
+    to?: MessageCreateNestedManyWithoutToIdInput
+    Lawyer?: LawyerCreateNestedOneWithoutUserInput
+    Post?: PostCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutPostCommentInput = {
+    id?: number
+    email: string
+    password: string
+    firstName: string
+    middleName?: string | null
+    lastName?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    image?: string | null
+    chat1?: ChatUncheckedCreateNestedManyWithoutUser1Input
+    chat2?: ChatUncheckedCreateNestedManyWithoutUser2Input
+    from?: MessageUncheckedCreateNestedManyWithoutFromIdInput
+    to?: MessageUncheckedCreateNestedManyWithoutToIdInput
+    Lawyer?: LawyerUncheckedCreateNestedOneWithoutUserInput
+    Post?: PostUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutPostCommentInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPostCommentInput, UserUncheckedCreateWithoutPostCommentInput>
+  }
+
+  export type PostUpsertWithoutPostCommentInput = {
+    update: XOR<PostUpdateWithoutPostCommentInput, PostUncheckedUpdateWithoutPostCommentInput>
+    create: XOR<PostCreateWithoutPostCommentInput, PostUncheckedCreateWithoutPostCommentInput>
+    where?: PostWhereInput
+  }
+
+  export type PostUpdateToOneWithWhereWithoutPostCommentInput = {
+    where?: PostWhereInput
+    data: XOR<PostUpdateWithoutPostCommentInput, PostUncheckedUpdateWithoutPostCommentInput>
+  }
+
+  export type PostUpdateWithoutPostCommentInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    user?: UserUpdateOneRequiredWithoutPostNestedInput
+  }
+
+  export type PostUncheckedUpdateWithoutPostCommentInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserUpsertWithoutPostCommentInput = {
+    update: XOR<UserUpdateWithoutPostCommentInput, UserUncheckedUpdateWithoutPostCommentInput>
+    create: XOR<UserCreateWithoutPostCommentInput, UserUncheckedCreateWithoutPostCommentInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPostCommentInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPostCommentInput, UserUncheckedUpdateWithoutPostCommentInput>
+  }
+
+  export type UserUpdateWithoutPostCommentInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    middleName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    chat1?: ChatUpdateManyWithoutUser1NestedInput
+    chat2?: ChatUpdateManyWithoutUser2NestedInput
+    from?: MessageUpdateManyWithoutFromIdNestedInput
+    to?: MessageUpdateManyWithoutToIdNestedInput
+    Lawyer?: LawyerUpdateOneWithoutUserNestedInput
+    Post?: PostUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPostCommentInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    middleName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    chat1?: ChatUncheckedUpdateManyWithoutUser1NestedInput
+    chat2?: ChatUncheckedUpdateManyWithoutUser2NestedInput
+    from?: MessageUncheckedUpdateManyWithoutFromIdNestedInput
+    to?: MessageUncheckedUpdateManyWithoutToIdNestedInput
+    Lawyer?: LawyerUncheckedUpdateOneWithoutUserNestedInput
+    Post?: PostUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type LawBabCreateManyLawInput = {
     id?: number
     name: string
@@ -14367,6 +17445,18 @@ export namespace Prisma {
     time?: Date | string
   }
 
+  export type PostCommentCreateManyUserInput = {
+    id?: number
+    postId: number
+    content: string
+  }
+
+  export type PostCreateManyUserInput = {
+    id?: number
+    title: string
+    content: string
+  }
+
   export type ChatUpdateWithoutUser1Input = {
     user2?: UserUpdateOneRequiredWithoutChat2NestedInput
     Message?: MessageUpdateManyWithoutChatNestedInput
@@ -14445,6 +17535,42 @@ export namespace Prisma {
     time?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PostCommentUpdateWithoutUserInput = {
+    content?: StringFieldUpdateOperationsInput | string
+    post?: PostUpdateOneRequiredWithoutPostCommentNestedInput
+  }
+
+  export type PostCommentUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    postId?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PostCommentUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    postId?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PostUpdateWithoutUserInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    PostComment?: PostCommentUpdateManyWithoutPostNestedInput
+  }
+
+  export type PostUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    PostComment?: PostCommentUncheckedUpdateManyWithoutPostNestedInput
+  }
+
+  export type PostUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+  }
+
   export type MessageCreateManyChatInput = {
     id?: number
     from: number
@@ -14518,6 +17644,29 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
   }
 
+  export type PostCommentCreateManyPostInput = {
+    id?: number
+    userId: number
+    content: string
+  }
+
+  export type PostCommentUpdateWithoutPostInput = {
+    content?: StringFieldUpdateOperationsInput | string
+    user?: UserUpdateOneRequiredWithoutPostCommentNestedInput
+  }
+
+  export type PostCommentUncheckedUpdateWithoutPostInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PostCommentUncheckedUpdateManyWithoutPostInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+  }
+
 
 
   /**
@@ -14543,6 +17692,10 @@ export namespace Prisma {
      * @deprecated Use LawyerCountOutputTypeDefaultArgs instead
      */
     export type LawyerCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = LawyerCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use PostCountOutputTypeDefaultArgs instead
+     */
+    export type PostCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PostCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use LawDefaultArgs instead
      */
@@ -14579,6 +17732,14 @@ export namespace Prisma {
      * @deprecated Use firmaHukumDefaultArgs instead
      */
     export type firmaHukumArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = firmaHukumDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use PostDefaultArgs instead
+     */
+    export type PostArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PostDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use PostCommentDefaultArgs instead
+     */
+    export type PostCommentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PostCommentDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

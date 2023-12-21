@@ -100,6 +100,26 @@ CREATE TABLE "firmaHukum" (
     CONSTRAINT "firmaHukum_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Post" (
+    "id" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "title" TEXT NOT NULL,
+    "content" TEXT NOT NULL,
+
+    CONSTRAINT "Post_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "PostComment" (
+    "id" SERIAL NOT NULL,
+    "postId" INTEGER NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "content" TEXT NOT NULL,
+
+    CONSTRAINT "PostComment_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "Law_title_key" ON "Law"("title");
 
@@ -138,3 +158,12 @@ ALTER TABLE "educationalBackground" ADD CONSTRAINT "educationalBackground_lawyer
 
 -- AddForeignKey
 ALTER TABLE "firmaHukum" ADD CONSTRAINT "firmaHukum_lawyerId_fkey" FOREIGN KEY ("lawyerId") REFERENCES "Lawyer"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Post" ADD CONSTRAINT "Post_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "PostComment" ADD CONSTRAINT "PostComment_postId_fkey" FOREIGN KEY ("postId") REFERENCES "Post"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "PostComment" ADD CONSTRAINT "PostComment_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

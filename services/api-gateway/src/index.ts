@@ -168,7 +168,7 @@ createGroup(app, 'v1', (router) => {
       const newPath = path.replace(/^\/v1\//, "/")
       return newPath
     },
-  }));
+  }))
 })
 
 

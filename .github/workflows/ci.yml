@@ -232,7 +232,7 @@ jobs:
 
   artifacts-comment:
     # only push branch dev, dev-md
-    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/dev-md'
+    # if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/dev-md'
     name: Generate artifacts and comment on PR
     runs-on: ubuntu-latest
     needs: [apps-mobile-android-lint, apps-mobile-android-build-debug-apk, apps-mobile-android-build-release-apk]

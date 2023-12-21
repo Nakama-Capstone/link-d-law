@@ -28,20 +28,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nakama.capstone.linkdlaw.R
+import com.nakama.capstone.linkdlaw.remote.dto.ChatDataItem
 import com.nakama.capstone.linkdlaw.ui.theme.Poppins
 
 @Composable
 fun PesanScreen(
-    toDetailChat: () -> Unit
+    toDetailChat: (String,String) -> Unit,
+    listChat: List<ChatDataItem?>?
 ) {
     PesanContent(
-        toDetailChat
+        toDetailChat = toDetailChat,
+        listChat = listChat
     )
 }
 
 @Composable
 fun PesanContent(
-    toDetailChat: () -> Unit
+    toDetailChat: (String,String) -> Unit,
+    listChat: List<ChatDataItem?>?
 ) {
     //Dummy data for preview
     val listLawyer = listOf<String>(
@@ -71,17 +75,20 @@ fun PesanContent(
         Spacer(modifier = Modifier.height(25.dp))
 
         LazyColumn() {
-            items(listLawyer.size) { index ->
-                PesanScreenItem(
-                    image = R.drawable.profile,
-                    lawyerName = listLawyer[index],
-                    latestMessage = listMessage[index],
-                    latestMessageTime = "12.00",
-                    modifier = Modifier.fillMaxWidth(),
-                    toDetailChat = {
-                        toDetailChat()
-                    }
-                )
+            
+            items(listChat?.size ?: 0) { index ->
+                if (listChat != null){
+                    PesanScreenItem(
+                        image = R.drawable.profile,
+                        lawyerName = listChat[index]?.id.toString(),
+                        latestMessage = "",
+                        latestMessageTime = "",
+                        modifier = Modifier.fillMaxWidth(),
+                        toDetailChat = {
+                            toDetailChat(listChat[index]?.id.toString(),listChat[index]?.user2Id.toString())
+                        }
+                    )
+                }
             }
         }
     }
@@ -150,5 +157,7 @@ fun PesanScreenItem(
 )
 @Composable
 fun PesanScreenPreview() {
-    PesanScreen(toDetailChat = {})
+    val data = listOf<ChatDataItem>()
+    
+    PesanScreen(toDetailChat = {_,_ -> }, listChat = data)
 }

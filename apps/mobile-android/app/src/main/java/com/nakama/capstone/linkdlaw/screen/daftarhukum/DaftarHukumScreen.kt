@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,20 +28,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nakama.capstone.linkdlaw.R
+import com.nakama.capstone.linkdlaw.remote.dto.GetLawsDataItem
 import com.nakama.capstone.linkdlaw.ui.theme.Poppins
 
 @Composable
 fun DaftarhukumScreen(
-    toLawDetail: () -> Unit
+    toLawDetail: (Int) -> Unit,
+    lawsResult: List<GetLawsDataItem?>?
 ) {
     DaftarHukumContent(
-        toLawDetail
+        toLawDetail = toLawDetail,
+        lawsResult = lawsResult
     )
 }
 
 @Composable
 fun DaftarHukumContent(
-    toLawDetail: () -> Unit
+    toLawDetail: (Int) -> Unit,
+    lawsResult: List<GetLawsDataItem?>?
 ) {
     Column(
         modifier = Modifier
@@ -71,42 +77,41 @@ fun DaftarHukumContent(
         }
         Spacer(modifier = Modifier.height(16.dp))
 
-        ListHukumItem(
-            image = R.drawable.uud_1945,
-            title = "UUD 1945",
-            body = "Undang-undang Dasar Republik Indonesia 1945",
-            count = 34,
-            toLawDetail = {
-                toLawDetail()
+        LazyColumn() {
+            if (lawsResult != null) {
+                items(lawsResult) { item ->
+
+                    ListHukumItem(
+                        image = if (item?.id == 1) R.drawable.uud_1945 else R.drawable.kuh_perdata,
+                        title = item?.title ?: "",
+                        body = item?.description ?: "",
+                        count = 0,
+                        toLawDetail = toLawDetail,
+                        id = item?.id ?: 0
+                    )
+
+                }
             }
-        )
-        ListHukumItem(
-            image = R.drawable.kuh_perdata,
-            title = "KUH PERDATA",
-            body = "Kitab Undang-undang Hukum Perdata",
-            count = 1993,
-            toLawDetail = {
-                toLawDetail()
-            }
-        )
+        }
 
     }
 }
 
 @Composable
 fun ListHukumItem(
+    id: Int,
     image: Int,
     title: String,
     body: String,
     count: Int,
-    toLawDetail: () -> Unit
+    toLawDetail: (Int) -> Unit
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 6.dp)
             .clickable {
-                toLawDetail()
+                toLawDetail(id)
             }
             .padding(6.dp),
         verticalAlignment = Alignment.Top,
@@ -138,14 +143,14 @@ fun ListHukumItem(
                     color = Color(0xFF242B32),
                 )
             )
-            Text(
-                text = "$count Pasal",
-                style = TextStyle(
-                    fontSize = 10.sp,
-                    fontFamily = FontFamily(Font(R.font.poppins_medium)),
-                    color = Color(0xFF242B32),
-                )
-            )
+//            Text(
+//                text = "",
+//                style = TextStyle(
+//                    fontSize = 10.sp,
+//                    fontFamily = FontFamily(Font(R.font.poppins_medium)),
+//                    color = Color(0xFF242B32),
+//                )
+//            )
         }
     }
 }
@@ -157,6 +162,17 @@ fun ListHukumItem(
 @Composable
 fun DaftarHukumScreenPreview() {
     DaftarhukumScreen(
-        {}
+        toLawDetail = {},
+        lawsResult = null
     )
+}
+
+@Preview(
+    showBackground = true
+)
+@Composable
+fun ListHukumItemPreview() {
+    ListHukumItem(image = R.drawable.uud_1945, title = "", body = "", count = 2, id = 0) {
+
+    }
 }

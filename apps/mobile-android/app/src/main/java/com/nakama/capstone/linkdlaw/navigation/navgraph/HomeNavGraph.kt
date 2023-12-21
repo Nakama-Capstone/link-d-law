@@ -1,22 +1,30 @@
 package com.nakama.capstone.linkdlaw.navigation.navgraph
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.nakama.capstone.linkdlaw.navigation.model.BottomBarScreen
 import com.nakama.capstone.linkdlaw.screen.chat.ChatClassificationScreen
 import com.nakama.capstone.linkdlaw.screen.chat.ChatKimScreen
 import com.nakama.capstone.linkdlaw.screen.chat.ChatLawyerScreen
 import com.nakama.capstone.linkdlaw.screen.chat.ChatViewModel
 import com.nakama.capstone.linkdlaw.screen.daftarhukum.DaftarhukumScreen
+import com.nakama.capstone.linkdlaw.screen.daftarhukum.LawScreenViewModel
 import com.nakama.capstone.linkdlaw.screen.detailhukum.DetailHukumScreen
 import com.nakama.capstone.linkdlaw.screen.home.HomeContent
 import com.nakama.capstone.linkdlaw.screen.pengacara.PengacaraScreen
+import com.nakama.capstone.linkdlaw.screen.pengacara.PengacaraScreenViewModel
 import com.nakama.capstone.linkdlaw.screen.pengacaraprofile.PengacaraProfileScreen
+import com.nakama.capstone.linkdlaw.screen.pengacaraprofile.PengacaraProfileViewModel
 import com.nakama.capstone.linkdlaw.screen.pesan.PesanScreen
+import com.nakama.capstone.linkdlaw.screen.pesan.PesanScreenViewModel
 import com.nakama.capstone.linkdlaw.screen.profile.EditProfileScreen
 import com.nakama.capstone.linkdlaw.screen.profile.EditProfileViewModel
 import com.nakama.capstone.linkdlaw.screen.settings.SettingScreen
@@ -31,7 +39,8 @@ fun HomeNavGraph(rootNavController: NavController, navController: NavHostControl
         startDestination = BottomBarScreen.Home.route
     ) {
         composable(route = BottomBarScreen.Home.route) {
-
+            val chatViewModel: ChatViewModel = koinViewModel()
+            
             HomeContent(
                 item = listOf("text1", "text2", "text3"),
                 onSearch = {},
@@ -43,7 +52,9 @@ fun HomeNavGraph(rootNavController: NavController, navController: NavHostControl
                 },
                 toClassificationScreen = {
                     navController.navigate(HomeGraph.LawClassification.route)
-                }
+                },
+                tanyakimResult = chatViewModel.tanyakimResult.observeAsState(),
+                sendTanyaKim = chatViewModel::getTanyakimResult
             )
         }
 
@@ -51,7 +62,7 @@ fun HomeNavGraph(rootNavController: NavController, navController: NavHostControl
             val chatViewModel: ChatViewModel = koinViewModel()
             val loadingState = chatViewModel.loading.observeAsState()
             val resultState = chatViewModel.predictResult.observeAsState()
-            
+
             ChatClassificationScreen(
                 navigateBack = {
                     navController.navigateUp()
@@ -64,6 +75,9 @@ fun HomeNavGraph(rootNavController: NavController, navController: NavHostControl
 
         composable(route = HomeGraph.Setting.route) {
             val settingsViewModel: SettingsViewModel = koinViewModel()
+            LaunchedEffect(Unit){
+                settingsViewModel.getProfileData()
+            }
 
             SettingScreen(
                 logoutClick = {
@@ -80,64 +94,149 @@ fun HomeNavGraph(rootNavController: NavController, navController: NavHostControl
         }
 
         composable(route = BottomBarScreen.Law.route) {
+            val lawScreenViewModel: LawScreenViewModel = koinViewModel()
+            
+            LaunchedEffect(Unit){
+                lawScreenViewModel.getLaws()
+            }
+            
+            val lawsResult = lawScreenViewModel.getLawsResult.observeAsState()
+            
             DaftarhukumScreen(
-                toLawDetail = {
-                    navController.navigate(HomeGraph.DetailLaw.route)
-                }
+                toLawDetail = {id ->
+                    navController.navigate(HomeGraph.DetailLaw.route+"/$id")
+                },
+                lawsResult = lawsResult.value
             )
         }
 
-        composable(route = HomeGraph.DetailLaw.route) {
+        composable(route = HomeGraph.DetailLaw.route + "/{id}") { navBackStackEntry ->
+            val lawScreenViewModel: LawScreenViewModel = koinViewModel()
+            val id = navBackStackEntry.arguments?.getString("id") ?: "0"
+            
+            LaunchedEffect(Unit){
+                lawScreenViewModel.getPasal(id.toInt())
+            }
+            
+//            val pasalResult = lawScreenViewModel.getPasalResult.observeAsState()
+            
+            val pasalResult = lawScreenViewModel.lawListDataFlow(id.toInt()).collectAsLazyPagingItems()
+            
             DetailHukumScreen(
                 navigateBack = {
                     navController.navigateUp()
-                }
+                },
+                pasalResult = pasalResult,
+                id = id.toInt()
             )
         }
 
         composable(route = BottomBarScreen.Lawyer.route) {
+            val pengacaraScreenViewModel: PengacaraScreenViewModel = koinViewModel()
+            LaunchedEffect(Unit){
+                pengacaraScreenViewModel.getLawyers()
+            }
+//            val listPengacara = pengacaraScreenViewModel.listLawyer.observeAsState()
+            val listPengacara = pengacaraScreenViewModel.lawyerDataFlow.collectAsLazyPagingItems()
+            
             PengacaraScreen(
-                toDetailLawyer = {
-                    navController.navigate(route = HomeGraph.DetailLawyer.route)
-                }
+                toDetailLawyer = { id ->
+                    navController.navigate(route = HomeGraph.DetailLawyer.route+"/$id")
+                },
+                getLawyers = pengacaraScreenViewModel::getLawyers,
+                listPengacara = listPengacara
             )
         }
         composable(route = BottomBarScreen.Chat.route) {
+            val pesanScreenViewModel: PesanScreenViewModel = koinViewModel()
+            LaunchedEffect(Unit){
+                pesanScreenViewModel.getAllChat()
+            }
+            val getAllChatResult = pesanScreenViewModel.getAllChatResult.observeAsState()
+
             PesanScreen(
-                toDetailChat = {
-                    navController.navigate(route = HomeGraph.LawyerChatDetail.route)
-                }
+                toDetailChat = { id, user2Id ->
+                    navController.navigate(route = HomeGraph.LawyerChatDetail.route + "/$id/$user2Id")
+                },
+                listChat = getAllChatResult.value?.data
             )
         }
-        composable(route = HomeGraph.DetailLawyer.route) {
+        composable(route = HomeGraph.DetailLawyer.route + "/{id}") {backStackEntry ->
+            val pengacaraProfileViewModel: PengacaraProfileViewModel = koinViewModel()
+            val pengacaraScreenViewModel: PengacaraScreenViewModel = koinViewModel()
+            val loadingState = pengacaraProfileViewModel.loadingState.observeAsState()
+            val lawyerDetail = pengacaraScreenViewModel.singleLawyer.observeAsState()
+            val createResult = pengacaraProfileViewModel.createChatResponse.observeAsState()
+            
+            val id = backStackEntry.arguments?.getString("id") ?: "0"
+            LaunchedEffect(Unit){
+                pengacaraScreenViewModel.getLawyersById(id.toInt())
+            }
+            
             PengacaraProfileScreen(
+                lawyerId = id.toInt(),
+                loadingState = loadingState,
+                createState = createResult,
                 navigateBack = {
                     navController.navigateUp()
                 },
-                toChatScreen = {
-                    navController.navigate(HomeGraph.LawyerChatDetail.route) {
-                        navController.popBackStack()
+                toChatScreen = { chatId, user2Id ->
+                    navController.navigate(route = HomeGraph.LawyerChatDetail.route + "/$chatId/$user2Id") {
                         popUpTo(BottomBarScreen.Chat.route)
                     }
-                }
+                },
+                createChat = pengacaraProfileViewModel::createChat,
+                getDetailLawyer = pengacaraScreenViewModel::getLawyersById,
+                lawyerData = lawyerDetail.value
             )
         }
-        composable(route = HomeGraph.LawyerChatDetail.route) {
+        composable(
+            route = HomeGraph.LawyerChatDetail.route + "/{chatId}/{user2Id}",
+            arguments = listOf(
+                navArgument("chatId") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                },
+                navArgument("user2Id") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                }
+            )
+        ) { backStackEntry ->
+            
+            val chatId = backStackEntry.arguments?.getString("chatId")
+            val user2Id = backStackEntry.arguments?.getString("user2Id")
             ChatLawyerScreen(
+                chatId = chatId?.toInt() ?: 0,
+                lawyerId = user2Id?.toInt() ?: 0,
+                lawyerName = chatId ?: " ",
                 navigateBack = {
                     navController.navigateUp()
+                },
+                sendMessage = { 
+                    
                 }
             )
         }
         composable(HomeGraph.ChatKim.route) {
+            val chatViewModel: ChatViewModel = koinViewModel()
+            val loadingState = chatViewModel.loading.observeAsState()
+            val resultState = chatViewModel.tanyakimResult.observeAsState()
+            
             ChatKimScreen(
                 navigateBack = {
                     navController.navigateUp()
-                }
+                },
+                tanyakimResult = resultState,
+                loadingState = loadingState,
+                sendMessage = chatViewModel::getTanyakimResult
             )
         }
         composable(HomeGraph.EditProfile.route) {
             val editProfileViewModel: EditProfileViewModel = koinViewModel()
+            LaunchedEffect(Unit){   
+                editProfileViewModel.getProfileData()
+            }
             val profileData = editProfileViewModel.profileData.observeAsState()
             val editResult = editProfileViewModel.editResult.observeAsState()
 
@@ -146,7 +245,7 @@ fun HomeNavGraph(rootNavController: NavController, navController: NavHostControl
 //            if (editResult.value == true){
 //                navController.popBackStack()
 //            }
-            
+
             EditProfileScreen(
                 profileData = profileData,
                 navigateBack = {
