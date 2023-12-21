@@ -119,3 +119,22 @@ export const getNews = async (req: Request, res: Response) => {
     })
   }
 }
+
+export const getNewDetail = async (req: Request, res: Response) => {
+  const { link } = req.query
+  const data = await RssCache.getNews()
+  const news = data.find(item => item.link === link)
+  if (!news) return res.status(404).json({
+    ok: false,
+    message: 'news not found',
+  })
+  return res.json({
+    ok: true,
+    message: 'news detail',
+    data: {
+      ...news,
+      date: news.date.format('YYYY-MM-DD HH:mm:ss'),
+      dateHuman: news.date.fromNow(),
+    }
+  })
+}
