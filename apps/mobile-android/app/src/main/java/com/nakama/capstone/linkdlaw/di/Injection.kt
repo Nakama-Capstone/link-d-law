@@ -90,7 +90,7 @@ object Injection {
         viewModel{ PengacaraScreenViewModel(get()) }
         viewModel{ LawScreenViewModel(get()) }
         viewModel{ ForumScreenViewModel(get()) }
-        viewModel{ HomeScreenViewModel(get()) }
+        viewModel{ HomeScreenViewModel(get(), get()) }
     }
     
     val repositoryModule = module { 

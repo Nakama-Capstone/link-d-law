@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.BottomAppBar
@@ -29,8 +31,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nakama.capstone.linkdlaw.R
@@ -75,6 +79,8 @@ fun ChatKimContent(
     val message = remember {
         mutableStateOf("")
     }
+
+    val localFocusManager = LocalFocusManager.current
     
     Scaffold(
         topBar = {
@@ -107,6 +113,15 @@ fun ChatKimContent(
                         label = {
                             Text(text = "Ketik....")
                         },
+                        keyboardOptions = KeyboardOptions(
+                            imeAction = ImeAction.Done,
+                        ),
+                        keyboardActions = KeyboardActions(
+                            onDone = {
+                                localFocusManager.clearFocus()
+                            }
+                        ),
+                        singleLine = true,
                         modifier = Modifier
                             .padding(8.dp)
                             .width(310.dp)
@@ -121,6 +136,7 @@ fun ChatKimContent(
                             .clickable {
                                 messageList.add(Message(message.value, true))
                                 sendMessage(message.value)
+                                message.value = ""
                             }
                             .padding(8.dp),
                         contentAlignment = Alignment.Center

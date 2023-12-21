@@ -34,6 +34,6 @@ sealed class BottomBarScreen(
     object Forum: BottomBarScreen(
         route = "FORUM",
         title = "Forum",
-        icon = R.drawable.ic_chat
+        icon = R.drawable.ic_forum
     )
 }

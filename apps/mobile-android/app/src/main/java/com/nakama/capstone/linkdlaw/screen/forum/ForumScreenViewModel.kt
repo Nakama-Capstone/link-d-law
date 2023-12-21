@@ -5,26 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import com.google.gson.annotations.SerializedName
 import com.nakama.capstone.linkdlaw.remote.api.PostBodyCommunityPost
 import com.nakama.capstone.linkdlaw.remote.api.PostBodyCommunityPostComment
 import com.nakama.capstone.linkdlaw.remote.dto.GetCommunityPostCommentResponse
 import com.nakama.capstone.linkdlaw.remote.dto.GetCommunityPostResponse
-import com.nakama.capstone.linkdlaw.remote.dto.GetCommunityPostResponseDataItem
-import com.nakama.capstone.linkdlaw.remote.dto.GetLawsDataItem
-import com.nakama.capstone.linkdlaw.remote.dto.GetPasalDataItem
-import com.nakama.capstone.linkdlaw.remote.dto.GetPasalResponse
 import com.nakama.capstone.linkdlaw.repository.CommunityRepository
-import com.nakama.capstone.linkdlaw.repository.LawRepository
-import com.nakama.capstone.linkdlaw.screen.detailhukum.DetailHukumPagingSource
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
-import kotlin.math.log
 
 class ForumScreenViewModel(private val communityRepository: CommunityRepository): ViewModel() {
     
@@ -33,16 +20,23 @@ class ForumScreenViewModel(private val communityRepository: CommunityRepository)
     
     private val _getCommentsResult = MutableLiveData<GetCommunityPostCommentResponse?>()
     var getCommentsResult: LiveData<GetCommunityPostCommentResponse?> = _getCommentsResult
+    
+    private val _loadingState = MutableLiveData<Boolean>()
+    val loadingState: LiveData<Boolean> = _loadingState
 
     fun SendPostComment(postId: Int, content: String) {
         viewModelScope.launch {
+            _loadingState.value = true
             try {
                 Log.d("owaekoawekoawekoawkoeawoe", "a")
                 communityRepository.sendPostComment(postId, PostBodyCommunityPostComment(content))
+                _loadingState.value = false
                 Log.d("SendComment", "sendComment")
             }catch (e: HttpException){
+                _loadingState.value = false
                 Log.d("SendComment", "sendComment: ${e.message}")
             }catch (e: Exception){
+                _loadingState.value = false
                 Log.d("SendComment", "sendComment: ${e.message}")
             }
         }
@@ -50,13 +44,17 @@ class ForumScreenViewModel(private val communityRepository: CommunityRepository)
 
     fun SendPost(title: String, content: String) {
         viewModelScope.launch {
+            _loadingState.value = true
             try {
                 Log.d("owaekoawekoawekoawkoeawoe", "a")
                 communityRepository.sendPost(PostBodyCommunityPost(title, content))
+                _loadingState.value = false
                 Log.d("SendComment", "sendComment")
             }catch (e: HttpException){
+                _loadingState.value = false
                 Log.d("SendComment", "sendComment: ${e.message}")
             }catch (e: Exception){
+                _loadingState.value = false
                 Log.d("SendComment", "sendComment: ${e.message}")
             }
         }

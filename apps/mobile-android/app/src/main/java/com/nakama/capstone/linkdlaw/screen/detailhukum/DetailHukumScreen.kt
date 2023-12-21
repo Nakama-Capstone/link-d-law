@@ -60,6 +60,7 @@ fun DetailHukumScreen(
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun DetailHukumContent(
     id: Int,
@@ -119,7 +120,7 @@ fun DetailHukumContent(
             ) {
                 Spacer(modifier = Modifier.height(15.dp))
                 Text(
-                    text = if (id == 1) "UUD 1945" else "KUH PERDATA",
+                    text = if (id == 1) "KUH PERDATA" else "UUD 1945",
                     style = TextStyle(
                         fontFamily = Poppins,
                         fontWeight = FontWeight.Bold,

@@ -19,6 +19,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.BottomAppBar
@@ -40,7 +42,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nakama.capstone.linkdlaw.R
@@ -88,6 +92,8 @@ fun ChatLawyerContent(
     val message = remember {
         mutableStateOf("")
     }
+
+    val localFocusManager = LocalFocusManager.current
     
     LaunchedEffect(loadingState){
         if (messageList.isEmpty() ) {
@@ -138,6 +144,16 @@ fun ChatLawyerContent(
                         label = {
                             Text(text = "Ketik....")
                         },
+                        keyboardOptions = KeyboardOptions(
+                            imeAction = ImeAction.Done,
+                        ),
+                        keyboardActions = KeyboardActions(
+                            onDone = {
+                                localFocusManager.clearFocus()
+                                
+                            }
+                        ),
+                        singleLine = true,
                         modifier = Modifier
                             .padding(8.dp)
                             .width(310.dp)
@@ -154,6 +170,7 @@ fun ChatLawyerContent(
                                     chatId, lawyerId, message.value
                                 )
                                 messageList.add(MessageDataItem(message = message.value, to = lawyerId, from = userId))
+                                message.value = ""
                             },
                         contentAlignment = Alignment.Center
                     ) {

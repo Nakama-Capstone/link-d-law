@@ -44,7 +44,7 @@ fun SettingSection(
         modifier = modifier
             .width(350.dp)
             .wrapContentHeight(Alignment.CenterVertically)
-            .clickable { 
+            .clickable {
                 onClick()
             }
     ) {
@@ -54,16 +54,19 @@ fun SettingSection(
             Box(
                 modifier = modifier
                     .size(60.dp)
-                    .weight(1f)
                     .background(color = Color(0xfff3f2fb), shape = CircleShape),
                 contentAlignment = Alignment.Center
             ) {
                 Image(
                     painter = icon,
                     contentDescription = null,
-                    modifier = modifier.size(60.dp).padding(8.dp).clip(CircleShape)
+                    modifier = modifier
+                        .size(60.dp)
+                        .padding(8.dp)
+                        .clip(CircleShape)
                 )
             }
+            Spacer(modifier = Modifier.width(6.dp))
             Column(
                 verticalArrangement = Arrangement.Center,
                 modifier = modifier.weight(3f)

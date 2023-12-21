@@ -1,6 +1,7 @@
 package com.nakama.capstone.linkdlaw.remote.api
 
 import com.google.gson.annotations.SerializedName
+import com.nakama.capstone.linkdlaw.remote.dto.CreateChatRequest
 import com.nakama.capstone.linkdlaw.remote.dto.CreateChatResponse
 import com.nakama.capstone.linkdlaw.remote.dto.GetAllChatResponse
 import com.nakama.capstone.linkdlaw.remote.dto.GetAllMessageResponse
@@ -13,6 +14,7 @@ import com.nakama.capstone.linkdlaw.remote.dto.GetPredictRequest
 import com.nakama.capstone.linkdlaw.remote.dto.GetPredictResponse
 import com.nakama.capstone.linkdlaw.remote.dto.GetProfileResponse
 import com.nakama.capstone.linkdlaw.remote.dto.GetTanyakimResponse
+import com.nakama.capstone.linkdlaw.remote.dto.GetTopLawyerResponse
 import com.nakama.capstone.linkdlaw.remote.dto.LoginRequest
 import com.nakama.capstone.linkdlaw.remote.dto.LoginResponse
 import com.nakama.capstone.linkdlaw.remote.dto.LogoutResponse
@@ -22,6 +24,7 @@ import com.nakama.capstone.linkdlaw.remote.dto.SendMessageRequest
 import com.nakama.capstone.linkdlaw.remote.dto.SendMessageResponse
 import com.nakama.capstone.linkdlaw.remote.dto.UpdateProfileRequest
 import com.nakama.capstone.linkdlaw.remote.dto.GetCommunityPostResponse
+import com.nakama.capstone.linkdlaw.remote.dto.GetNewDetailResponse
 import com.nakama.capstone.linkdlaw.remote.dto.GetNewsResponse
 import okhttp3.RequestBody
 import retrofit2.http.Body
@@ -82,8 +85,9 @@ interface ApiService {
     @GET("/v1/chats")
     suspend fun getAllChat(): GetAllChatResponse
 
+    @POST("/v1/chats")
     suspend fun createChat(
-        @Body user2Id: Int
+        @Body user2Id: CreateChatRequest
     ): CreateChatResponse
 
     @GET("/v1/chats/{id}")
@@ -134,7 +138,13 @@ interface ApiService {
     suspend fun sendCommunityPost(
         @Body postBodyCommunityPost: PostBodyCommunityPost
     )
+    
+    @GET("/v1/lawyers/top")
+    suspend fun getTopLawyer(): GetTopLawyerResponse
+    
 
     @GET("/v1/news")
     suspend fun getNews(): GetNewsResponse
+    @GET("/v1/news/detail")
+    suspend fun getNewsDetail(link: String): GetNewDetailResponse
 }

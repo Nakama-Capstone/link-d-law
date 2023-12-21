@@ -19,7 +19,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.OutlinedTextField
@@ -44,6 +47,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -64,6 +68,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.ImageLoader
+import coil.compose.AsyncImage
 import coil.decode.ImageSource
 import com.dicoding.sampleui.components.HomeSection
 import com.nakama.capstone.linkdlaw.R
@@ -71,6 +76,7 @@ import com.nakama.capstone.linkdlaw.navigation.model.BottomBarScreen
 import com.nakama.capstone.linkdlaw.navigation.navgraph.HomeNavGraph
 import com.nakama.capstone.linkdlaw.remote.dto.GetNewsResponseDataItem
 import com.nakama.capstone.linkdlaw.remote.dto.GetTanyakimResponse
+import com.nakama.capstone.linkdlaw.remote.dto.TopLawyerDataItem
 import com.nakama.capstone.linkdlaw.screen.components.SearchBar
 import com.nakama.capstone.linkdlaw.ui.theme.LinkDLawTheme
 import com.nakama.capstone.linkdlaw.ui.theme.Poppins
@@ -201,10 +207,19 @@ fun HomeContent(
     onClick: () -> Unit,
     toChatKimScreen: () -> Unit,
     toClassificationScreen: () -> Unit,
+    listTopLawyer: List<TopLawyerDataItem?>?,
+    toDetailLawyer: (String) -> Unit,
     modifier: Modifier = Modifier,
     news: List<GetNewsResponseDataItem?>?,
 ) {
-    Column {
+
+    val scrollState = rememberScrollState()
+    
+    Column (
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(scrollState)
+    ) {
         val context = LocalContext.current
 
         TopBar(
@@ -219,7 +234,7 @@ fun HomeContent(
         )
 
         HomeSection(
-            title = "Fitur Kim",
+            title = "Fitur Kim AI",
             modifier = modifier
         ) {
             Row(
@@ -264,10 +279,27 @@ fun HomeContent(
                 }
             }
         }
-        
-        
-        
-        
+
+        HomeSection(
+            title = "Top Pengacara",
+            modifier = modifier
+        ) {
+            LazyRow(
+                contentPadding = PaddingValues(10.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                if (listTopLawyer != null){
+                    items(listTopLawyer) { item ->
+                        HomeListItem(
+                            text = item?.user?.firstName.toString(),
+                            modifier = modifier.clickable { 
+                                toDetailLawyer(item?.user?.id.toString())
+                            }
+                        )
+                    }
+                }
+            }
+        }
 
 //        HomeSection(
 //            title = "Top Pengacara",
@@ -285,55 +317,99 @@ fun HomeContent(
 //                }
 //            }
 //        }
-        
+
+
+
+        Text(
+            text = "Berita Hukum Terbaru",
+            color = Color.Black,
+            fontFamily = Poppins,
+            fontSize = 22.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = modifier.padding(8.dp)
+        )
         news?.forEach {
             Column (
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 16.dp)
             ) {
-                Text(
-                    text = "Berita Hukum Terbaru",
-                    color = Color.Black,
-                    fontFamily = Poppins,
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = modifier.padding(8.dp)
-                )
-                
-//                display image if it.img != null
-                it?.img?.let {
-                    ImageSource(
-                        it.,
-                        ImageLoader(context)
-                    )
-                }
-                
-                Box (
+
+                Box(
                     modifier = Modifier
                         .padding(8.dp)
-//                    border
+                        //                    border
                         .border(
                             width = 1.dp,
                             color = Color(0xFFE0E0E0),
                             shape = RoundedCornerShape(10.dp)
                         )
+                        .clickable {
+                            // open it.link in browser
+                            var intent = android.content.Intent(android.content.Intent.ACTION_VIEW)
+                            intent.data = android.net.Uri.parse(it?.link)
+                            context.startActivity(intent)
+                        }
                 ) {
                     Column {
+
+                        Row (
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            it?.image?.let { it1 ->
+                                AsyncImage(
+                                    model = it1,
+                                    contentDescription = "image",
+                                    modifier = Modifier
+                                        .size(120.dp)
+                                        .padding(8.dp),
+                                )
+                            }
+
+                            Column (
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(8.dp)
+                            ) {
+                                Text(
+                                    text = it?.title ?: "",
+                                    modifier = Modifier.padding(8.dp),
+                                    style = TextStyle(
+                                        fontSize = 16.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                )
+                            }
+                        }
+                        
                         Text(
-                            text = it?.title ?: "",
+                            text = it?.link ?: "",
                             modifier = Modifier.padding(8.dp),
                             style = TextStyle(
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Light
                             )
                         )
+
                         Text(
-                            text = (it?.content ?: "").split(" ").take(20).joinToString(" ") + "...",
+                            text = (it?.content ?: "")
+                                .split(" ")
+                                .take(20)
+//                                replace \n with space
+                                .map { it.replace("\n", " ") }
+                                .joinToString(" ") + "...",
                             modifier = Modifier.padding(8.dp),
                             style = TextStyle(
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.Normal
+                            )
+                        )
+                        
+                        Text(
+                            text = it?.dateHuman.toString(),
+                            modifier = Modifier.padding(8.dp),
+                            style = TextStyle(
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Light
                             )
                         )
                     }
@@ -384,7 +460,16 @@ fun HomeListItem(text: String, modifier: Modifier) {
                 .size(100.dp),
             contentAlignment = Alignment.Center
         ) {
-            Text(text = text)
+            Image(
+                painter = painterResource(id = R.drawable.profile),
+                contentDescription = null,
+                modifier = Modifier
+                    .clip(
+                        CircleShape
+                    )
+                    .padding(horizontal = 6.dp, vertical = 12.dp)
+            )
+            Text(text = text, modifier = Modifier.align(Alignment.BottomCenter))
         }
     }
 }
@@ -519,6 +604,17 @@ fun GreetingPreview() {
         mutableStateOf(GetTanyakimResponse())
     }
     LinkDLawTheme {
-        HomeContent(item = listOf("text1", "text2", "text3"),{}, data,{}, {}, {}, {}, news = null)
+        HomeContent(
+            item = listOf("text1", "text2", "text3"),
+            {},
+            data,
+            {},
+            {},
+            {},
+            {},
+            listTopLawyer = null,
+            toDetailLawyer = {  },
+            news = null
+        )
     }
 }
