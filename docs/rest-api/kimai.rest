@@ -1,0 +1,12 @@
+### V1 hello
+GET {{host}}/v1/kimai/hello
+Content-Type: application/json
+
+### V1 predict
+POST {{host}}/v1/kimai/role/predict
+Content-Type: application/json
+
+{
+    "text": "Bayu pedofil"
+}
+

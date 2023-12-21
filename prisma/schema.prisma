@@ -2,7 +2,11 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  //   for debian
+  binaryTargets = ["native", "debian-openssl-1.1.x", "debian-openssl-3.0.x", "linux-musl", "linux-musl-openssl-3.0.x", "linux-arm64-openssl-1.1.x"]
+  output        = "./prisma-client" //Change output to custom path
+  //   binaryTargets = ["native", "debian-openssl-1.1.x"]
 }
 
 datasource db {
@@ -49,10 +53,13 @@ model User {
   lastName   String?
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
+  image      String?
   chat1      Chat[]    @relation("user1_id")
   chat2      Chat[]    @relation("user2_id")
   from       Message[] @relation("from")
   to         Message[] @relation("to")
+
+  Lawyer Lawyer?
 }
 
 model Chat {
@@ -78,14 +85,16 @@ model Message {
 
 model Lawyer {
   id                    Int                     @id @default(autoincrement())
-  name                  String
+  userId                Int                     @unique
   specialist            String
   rate                  Int
   nomorPerandi          String
-  image                 String
   fee                   Int
   educationalBackground educationalBackground[]
   firmaHukum            firmaHukum[]
+
+  // set references user one to one lawyer, wen lawyter deleted relation set null
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model educationalBackground {
@@ -93,12 +102,12 @@ model educationalBackground {
   lawyerId   Int
   university String
   major      String
-  lawyer     Lawyer @relation(fields: [lawyerId], references: [id])
+  lawyer     Lawyer @relation(fields: [lawyerId], references: [id], onDelete: Cascade)
 }
 
 model firmaHukum {
   id       Int    @id @default(autoincrement())
   lawyerId Int
   name     String
-  lawyer   Lawyer @relation(fields: [lawyerId], references: [id])
+  lawyer   Lawyer @relation(fields: [lawyerId], references: [id], onDelete: Cascade)
 }

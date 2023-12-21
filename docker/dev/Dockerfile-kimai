@@ -1,0 +1,19 @@
+FROM python:3.11-slim
+
+# WORKDIR /app
+WORKDIR /app
+
+# install tensorflow
+RUN pip install tensorflow-cpu
+
+# install requirements
+COPY . .
+RUN pip install -r requirements.txt
+
+WORKDIR /app/services/kim-ai
+
+# expose
+EXPOSE 4003
+
+# run app
+CMD ["python", "src/test_dev.py"]
