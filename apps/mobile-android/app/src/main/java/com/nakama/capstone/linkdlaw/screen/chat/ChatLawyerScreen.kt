@@ -41,20 +41,33 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nakama.capstone.linkdlaw.R
+import com.nakama.capstone.linkdlaw.remote.dto.SendMessageRequest
 
 
 @Composable
 fun ChatLawyerScreen(
-    navigateBack: () -> Unit
+    chatId: Int,
+    lawyerId: Int,
+    lawyerName: String,
+    navigateBack: () -> Unit,
+    sendMessage: (SendMessageRequest) -> Unit
 ) {
     ChatLawyerContent(
-        navigateBack
+        chatId = chatId,
+        lawyerId = lawyerId,
+        lawyerName = lawyerName,
+        navigateBack = navigateBack,
+        sendMessage = sendMessage
     )
 }
 
 @Composable
 fun ChatLawyerContent(
-    navigateBack: () -> Unit
+    chatId: Int,
+    lawyerId: Int,
+    lawyerName: String,
+    navigateBack: () -> Unit,
+    sendMessage: (SendMessageRequest) -> Unit
 ) {
     val messageList = remember {
         mutableListOf(Message("",false))
@@ -74,7 +87,7 @@ fun ChatLawyerContent(
                                 .size(60.dp)
                                 .clip(shape = CircleShape)
                         )
-                        Text(text = "Lawyer name")
+                        Text(text = lawyerName)
                     }
                 },
                 navigationIcon = {
@@ -197,6 +210,10 @@ fun ChatUIPreview() {
 @Composable
 fun ChatLawyerPreview() {
     ChatLawyerContent(
-        navigateBack = {}
+        chatId = 0,
+        lawyerId = 0,
+        lawyerName = "",
+        navigateBack = {},
+        sendMessage = { _ -> }
     )
 }
