@@ -23,6 +23,7 @@ import com.nakama.capstone.linkdlaw.screen.forum.ForumScreen
 import com.nakama.capstone.linkdlaw.screen.forum.ForumScreenViewModel
 import com.nakama.capstone.linkdlaw.screen.forumdetail.ForumDetailScreen
 import com.nakama.capstone.linkdlaw.screen.home.HomeContent
+import com.nakama.capstone.linkdlaw.screen.home.HomeScreenViewModel
 import com.nakama.capstone.linkdlaw.screen.pengacara.PengacaraScreen
 import com.nakama.capstone.linkdlaw.screen.pengacara.PengacaraScreenViewModel
 import com.nakama.capstone.linkdlaw.screen.pengacaraprofile.PengacaraProfileScreen
@@ -44,6 +45,16 @@ fun HomeNavGraph(rootNavController: NavController, navController: NavHostControl
     ) {
         composable(route = BottomBarScreen.Home.route) {
             val chatViewModel: ChatViewModel = koinViewModel()
+            val homeViewModel: HomeScreenViewModel = koinViewModel()
+
+            homeViewModel.getTopLawyer()
+            val listTopLawyer = homeViewModel.listTopLawyer.observeAsState()
+            
+            LaunchedEffect(Unit){
+                homeViewModel.getNews()
+            }
+            
+            val getNews = homeViewModel.listLawyer.observeAsState()
             
             HomeContent(
                 item = listOf("text1", "text2", "text3"),
@@ -58,7 +69,12 @@ fun HomeNavGraph(rootNavController: NavController, navController: NavHostControl
                     navController.navigate(HomeGraph.LawClassification.route)
                 },
                 tanyakimResult = chatViewModel.tanyakimResult.observeAsState(),
-                sendTanyaKim = chatViewModel::getTanyakimResult
+                sendTanyaKim = chatViewModel::getTanyakimResult,
+                listTopLawyer = listTopLawyer.value,
+                toDetailLawyer = { id ->
+                    navController.navigate(route = HomeGraph.DetailLawyer.route+"/$id")
+                },
+                news = getNews.value?.data
             )
         }
 
@@ -153,9 +169,7 @@ fun HomeNavGraph(rootNavController: NavController, navController: NavHostControl
         }
         composable(route = BottomBarScreen.Chat.route) {
             val pesanScreenViewModel: PesanScreenViewModel = koinViewModel()
-            LaunchedEffect(Unit){
-                pesanScreenViewModel.getAllChat()
-            }
+            pesanScreenViewModel.getAllChat()
             val getAllChatResult = pesanScreenViewModel.getAllChatResult.observeAsState()
 
             PesanScreen(
@@ -168,6 +182,14 @@ fun HomeNavGraph(rootNavController: NavController, navController: NavHostControl
         composable(route = HomeGraph.DetailLawyer.route + "/{id}") {backStackEntry ->
             val pengacaraProfileViewModel: PengacaraProfileViewModel = koinViewModel()
             val pengacaraScreenViewModel: PengacaraScreenViewModel = koinViewModel()
+            val settingsViewModel: SettingsViewModel = koinViewModel()
+            
+            LaunchedEffect(Unit){
+                settingsViewModel.getProfileData()
+            }
+            
+            val userId = settingsViewModel.profileData.observeAsState().value?.id
+            
             val loadingState = pengacaraProfileViewModel.loadingState.observeAsState()
             val lawyerDetail = pengacaraScreenViewModel.singleLawyer.observeAsState()
             val createResult = pengacaraProfileViewModel.createChatResponse.observeAsState()
@@ -178,6 +200,7 @@ fun HomeNavGraph(rootNavController: NavController, navController: NavHostControl
             }
             
             PengacaraProfileScreen(
+                userId = userId ?: 0,
                 lawyerId = id.toInt(),
                 loadingState = loadingState,
                 createState = createResult,
@@ -185,6 +208,7 @@ fun HomeNavGraph(rootNavController: NavController, navController: NavHostControl
                     navController.navigateUp()
                 },
                 toChatScreen = { chatId, user1Id, user2Id, user2Name ->
+                    navController.popBackStack()
                     navController.navigate(route = HomeGraph.LawyerChatDetail.route + "/$chatId/$user1Id/$user2Id/$user2Name")
                 },
                 createChat = pengacaraProfileViewModel::createChat,
@@ -280,10 +304,18 @@ fun HomeNavGraph(rootNavController: NavController, navController: NavHostControl
         }
         composable(BottomBarScreen.Forum.route) {
             val forumScreenViewModel: ForumScreenViewModel = koinViewModel()
+            val loadingState = forumScreenViewModel.loadingState.observeAsState()
+            val getPostsResult = forumScreenViewModel.getPostsResult.observeAsState()
+            
             LaunchedEffect(Unit){
                 forumScreenViewModel.GetPosts()
             }
-            val getPostsResult = forumScreenViewModel.getPostsResult.observeAsState()
+            
+            LaunchedEffect(loadingState.value){
+                if (loadingState.value == false){
+                    forumScreenViewModel.GetPosts()
+                }
+            }
             
             ForumScreen(
                 navController = navController,
@@ -301,9 +333,8 @@ fun HomeNavGraph(rootNavController: NavController, navController: NavHostControl
             HomeGraph.ForumDetail.route + "/{id}",
         ) { backStackEntry ->
             val forumScreenViewModel: ForumScreenViewModel = koinViewModel()
-            LaunchedEffect(Unit){
-                forumScreenViewModel.GetPosts()
-            }
+            val loadingState = forumScreenViewModel.loadingState.observeAsState()
+            forumScreenViewModel.GetPosts()
             val getPostsResult = forumScreenViewModel.getPostsResult.observeAsState()
             
             // convert to int 1 digit only
@@ -317,11 +348,17 @@ fun HomeNavGraph(rootNavController: NavController, navController: NavHostControl
 
 
             // get comments
+            
+            val getCommentsResult = forumScreenViewModel.getCommentsResult.observeAsState()
             LaunchedEffect(Unit){
                 forumScreenViewModel.GetPostsComments(idInInteger)
             }
-            val getCommentsResult = forumScreenViewModel.getCommentsResult.observeAsState()
             
+            LaunchedEffect(loadingState.value){
+                if (loadingState.value == false){
+                    forumScreenViewModel.GetPostsComments(idInInteger)
+                }
+            }
 
             if (post != null) {
                 ForumDetailScreen(

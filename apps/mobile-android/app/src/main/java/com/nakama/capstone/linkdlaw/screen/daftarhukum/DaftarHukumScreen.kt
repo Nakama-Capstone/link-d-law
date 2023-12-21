@@ -81,7 +81,7 @@ fun DaftarHukumContent(
             if (lawsResult != null) {
                 items(lawsResult) { item ->
                     ListHukumItem(
-                        image = if (item?.id == 1) R.drawable.uud_1945 else R.drawable.kuh_perdata,
+                        image = if (item?.id == 1) R.drawable.kuh_perdata else R.drawable.uud_1945,
                         title = item?.title ?: "",
                         body = item?.description ?: "",
                         count = 0,

@@ -1,6 +1,7 @@
 package com.nakama.capstone.linkdlaw.repository
 
 import com.nakama.capstone.linkdlaw.remote.api.ApiService
+import com.nakama.capstone.linkdlaw.remote.dto.CreateChatRequest
 import com.nakama.capstone.linkdlaw.remote.dto.CreateChatResponse
 import com.nakama.capstone.linkdlaw.remote.dto.GetAllChatResponse
 import com.nakama.capstone.linkdlaw.remote.dto.GetAllMessageResponse
@@ -31,7 +32,7 @@ class ChatRepository(private val apiService: ApiService) {
     }
     
     suspend fun createChat(user2Id: Int):CreateChatResponse{
-        return apiService.createChat(user2Id)
+        return apiService.createChat(CreateChatRequest(user2Id = user2Id))
     }
     
     suspend fun getMessageFromChatId(chatId: Int):GetAllMessageResponse{

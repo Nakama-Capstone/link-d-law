@@ -1,5 +1,6 @@
 package com.nakama.capstone.linkdlaw.screen.pengacaraprofile
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,8 +27,10 @@ class PengacaraProfileViewModel(private val chatRepository: ChatRepository):View
                 _loadingState.value = false
             }catch (e: HttpException){
                 _loadingState.value = false
+                Log.e("CreateChat", "createChat: Gagal ${e.message}", )
             }catch (e: Exception){
                 _loadingState.value = false
+                Log.e("CreateChat", "createChat: Gagal ${e.message}", )
             }
         }
     }

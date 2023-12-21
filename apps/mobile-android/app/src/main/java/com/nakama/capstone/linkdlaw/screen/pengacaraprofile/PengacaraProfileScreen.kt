@@ -64,11 +64,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nakama.capstone.linkdlaw.R
 import com.nakama.capstone.linkdlaw.remote.dto.CreateChatResponse
+import com.nakama.capstone.linkdlaw.remote.dto.EducationalBackgroundItem
+import com.nakama.capstone.linkdlaw.remote.dto.FirmaHukumItem
 import com.nakama.capstone.linkdlaw.remote.dto.LawyerDataItem
 import com.nakama.capstone.linkdlaw.ui.theme.Poppins
 
 @Composable
 fun PengacaraProfileScreen(
+    userId: Int,
     lawyerId: Int,
     loadingState: State<Boolean?>,
     createState: State<CreateChatResponse?>,
@@ -81,6 +84,7 @@ fun PengacaraProfileScreen(
 //    getDetailLawyer(lawyerId)
     
     PengacaraProfileContent(
+        userId = userId,
         lawyerId = lawyerId,
         loadingState = loadingState,
         createState = createState,
@@ -94,6 +98,7 @@ fun PengacaraProfileScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PengacaraProfileContent(
+    userId: Int,
     lawyerId: Int,
     loadingState: State<Boolean?>,
     createState: State<CreateChatResponse?>,
@@ -109,18 +114,17 @@ fun PengacaraProfileContent(
         mutableStateOf("0")
     }
     
-    val loading = remember {
-        mutableStateOf(false)
-    }
+    var loading = false 
     
     LaunchedEffect(loadingState.value){
-        if (loadingState.value == false && loading.value){
+        if (loadingState.value == false){
+            chatId.value = createState.value?.data?.chatId?.toString() ?: "0"
+            
             if (createState.value?.ok == true){
-                chatId.value = createState.value?.data?.chatId?.toString() ?: "0"
 
-                toChatScreen(chatId.value, lawyerId.toString(), "1",lawyerData?.user?.firstName ?: "")
+                toChatScreen(chatId.value, userId.toString(), lawyerId.toString(),lawyerData?.user?.firstName ?: "")
             }else{
-                toChatScreen(chatId.value, lawyerId.toString(), "1", lawyerData?.user?.firstName ?: "")
+                toChatScreen(chatId.value, userId.toString(), lawyerId.toString(),lawyerData?.user?.firstName ?: "")
                 Toast.makeText(context, "Chat sudah ada", Toast.LENGTH_SHORT).show()
             }
         }
@@ -338,12 +342,14 @@ fun PengacaraProfileContent(
                     DropDownItem(
                         textHeader = "Riwayat Pendidikan",
                         textBody = "",
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        listBody = lawyerData?.educationalBackground
                     )
                     Spacer(modifier = Modifier.height(15.dp))
-                    DropDownItem(
+                    FirmaHukumDropDownItem(
                         textHeader = "Firma Hukum",
                         textBody = "",
+                        listBody = lawyerData?.firmaHukum,
                         modifier = Modifier.fillMaxWidth()
                     )
 
@@ -393,8 +399,8 @@ fun PengacaraProfileContent(
                                 shape = RoundedCornerShape(size = 10.dp)
                             )
                             .clickable {
-                                createChat(lawyerData?.id ?: 0)
-                                loading.value = true
+                                createChat(lawyerData?.userId ?: 0)
+                                loading = true
                             },
                         contentAlignment = Alignment.Center
                     ) {
@@ -415,9 +421,10 @@ fun PengacaraProfileContent(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DropDownItem(
+fun FirmaHukumDropDownItem(
     textHeader: String,
     textBody: String,
+    listBody: List<FirmaHukumItem?>?,
     modifier: Modifier = Modifier
 ) {
     var expandedState by remember { mutableStateOf(false) }
@@ -470,18 +477,91 @@ fun DropDownItem(
                 }
             }
             if (expandedState) {
+                listBody?.forEach { item ->
+                    Text(
+                        text = item?.name ?: " ",
+                        fontSize = 14.sp,
+                        fontFamily = FontFamily(Font(R.font.poppins_regular)),
+                        color = Color(0xFF494949),
+                        maxLines = 4,
+                        overflow = TextOverflow.Ellipsis
+                    )
+
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DropDownItem(
+    textHeader: String,
+    textBody: String,
+    listBody: List<EducationalBackgroundItem?>?,
+    modifier: Modifier = Modifier
+) {
+    var expandedState by remember { mutableStateOf(false) }
+    val rotationState by animateFloatAsState(
+        targetValue = if (expandedState) 180f else 0f, label = "Animation"
+    )
+
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .animateContentSize(
+                animationSpec = tween(
+                    delayMillis = 300,
+                    easing = LinearOutSlowInEasing
+                )
+            ),
+        colors = CardDefaults.cardColors(Color(0xFFD9D9D9)),
+        shape = RoundedCornerShape(10.dp),
+        onClick = {
+            expandedState = !expandedState
+        }
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 0.dp)
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry." +
-                        "Lorem Ipsum has been the industry's standard dummy text ever since" +
-                        "the 1500s, when an unknown printer took a galley of type and scrambled it" +
-                        "to make a type specimen book. It has survived not only five centuries, but" +
-                        "also the leap into electronic typesetting, remaining essentially unchanged.",
+                    modifier = Modifier
+                        .weight(6f),
+                    text = textHeader,
                     fontSize = 14.sp,
                     fontFamily = FontFamily(Font(R.font.poppins_regular)),
                     color = Color(0xFF494949),
-                    maxLines = 4,
+                    maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
+                IconButton(
+                    modifier = Modifier
+                        .alpha(0.5f)
+                        .weight(1f)
+                        .rotate(rotationState),
+                    onClick = { expandedState = !expandedState }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowDropDown,
+                        contentDescription = "Arrow drop down"
+                    )
+                }
+            }
+            if (expandedState) {
+                listBody?.forEach { item ->
+                    Text(
+                        text = item?.major + " - " + item?.university,
+                        fontSize = 14.sp,
+                        fontFamily = FontFamily(Font(R.font.poppins_regular)),
+                        color = Color(0xFF494949),
+                        maxLines = 4,
+                        overflow = TextOverflow.Ellipsis
+                    )
+
+                }
             }
         }
     }
@@ -501,6 +581,7 @@ fun PengacaraProfilePreview() {
     }
     
     PengacaraProfileScreen(
+        userId = 1,
         lawyerId = 1,
         loadingState = sample,
         createState = sample2,
