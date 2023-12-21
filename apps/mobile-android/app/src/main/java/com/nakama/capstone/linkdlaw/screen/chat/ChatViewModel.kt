@@ -1,10 +1,12 @@
 package com.nakama.capstone.linkdlaw.screen.chat
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nakama.capstone.linkdlaw.remote.dto.GetPredictRequest
+import com.nakama.capstone.linkdlaw.remote.dto.GetTanyakimResponse
 import com.nakama.capstone.linkdlaw.repository.ChatRepository
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -16,6 +18,9 @@ class ChatViewModel(private val chatRepository: ChatRepository):ViewModel() {
     
     private val _predictResult = MutableLiveData<String?>()
     val predictResult: LiveData<String?> = _predictResult
+    
+    private val _tanyakimResult = MutableLiveData<GetTanyakimResponse?>()
+    val tanyakimResult:LiveData<GetTanyakimResponse?> = _tanyakimResult
     
     fun getPredict(query: String){
         viewModelScope.launch { 
@@ -31,6 +36,36 @@ class ChatViewModel(private val chatRepository: ChatRepository):ViewModel() {
                 _predictResult.value = "Gagal predict"
                 _loading.value = false
             }
+        }
+    }
+    
+    fun getTanyakimResult(query: String){
+        viewModelScope.launch { 
+            _loading.value = true
+            try {
+                val response = chatRepository.getTanyakimResult(query)
+                _tanyakimResult.value = response
+                _loading.value = false
+            }catch (e: HttpException){
+                _loading.value = false
+                Log.d("Tanyakim", "getTanyakimResult: Gagal ${e.code()}")
+            }catch (e: Exception){
+                _loading.value = false
+                Log.d("Tanyakim", "getTanyakimResult: Gagal ${e.message}")
+            }
+            
+        }
+    }
+    
+    fun getMessageFromChatId(chatId: Int){
+        viewModelScope.launch { 
+            
+        }
+    }
+    
+    fun sendMessage( chatId: Int, user2Id: Int, message: String){
+        viewModelScope.launch { 
+            
         }
     }
     

@@ -36,7 +36,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -62,6 +65,7 @@ import com.dicoding.sampleui.components.HomeSection
 import com.nakama.capstone.linkdlaw.R
 import com.nakama.capstone.linkdlaw.navigation.model.BottomBarScreen
 import com.nakama.capstone.linkdlaw.navigation.navgraph.HomeNavGraph
+import com.nakama.capstone.linkdlaw.remote.dto.GetTanyakimResponse
 import com.nakama.capstone.linkdlaw.screen.components.SearchBar
 import com.nakama.capstone.linkdlaw.ui.theme.LinkDLawTheme
 import com.nakama.capstone.linkdlaw.ui.theme.Poppins
@@ -186,6 +190,8 @@ fun RowScope.AddItem(
 fun HomeContent(
     item: List<String>,
     onSearch: () -> Unit,
+    tanyakimResult: State<GetTanyakimResponse?>,
+    sendTanyaKim: (String) -> Unit,
     onClick: () -> Unit,
     toChatKimScreen: () -> Unit,
     toClassificationScreen: () -> Unit,
@@ -198,9 +204,11 @@ fun HomeContent(
             onSearch,
             onClick
         )
+        
 
         CardWithConstraint(
-            toChatKimScreen = toChatKimScreen
+            toChatKimScreen = toChatKimScreen,
+            sendTanyaKim = sendTanyaKim
         )
 
         HomeSection(
@@ -317,8 +325,13 @@ fun HomeListItem(text: String, modifier: Modifier) {
 
 @Composable
 fun CardWithConstraint(
-    toChatKimScreen: () -> Unit
+    toChatKimScreen: () -> Unit,
+    sendTanyaKim: (String) -> Unit
 ) {
+    val query = remember {
+        mutableStateOf("")
+    }
+    
     Box(
         modifier = Modifier
             .padding(8.dp)
@@ -373,8 +386,8 @@ fun CardWithConstraint(
             )
 
             OutlinedTextField(
-                value = "",
-                onValueChange = {},
+                value = query.value,
+                onValueChange = { query.value = it },
                 modifier = Modifier.constrainAs(textField) {
                     top.linkTo(image.bottom, margin = 8.dp)
                     start.linkTo(parent.start, margin = 16.dp)
@@ -397,7 +410,12 @@ fun CardWithConstraint(
                     .size(50.dp)
                     .background(shape = RoundedCornerShape(10.dp), color = Color(0xFF001D36))
                     .clickable {
-                        toChatKimScreen()
+                        if (query.value != ""){
+                            sendTanyaKim(query.value)
+                            toChatKimScreen()
+                        }else{
+                            toChatKimScreen()
+                        }
                     }
                     .constrainAs(button) {
                         top.linkTo(textField.top, margin = 0.dp)
@@ -431,7 +449,10 @@ fun HomeItemPreview() {
 @Preview(showBackground = true, device = Devices.PIXEL_4, showSystemUi = true)
 @Composable
 fun GreetingPreview() {
+    val data = remember {
+        mutableStateOf(GetTanyakimResponse())
+    }
     LinkDLawTheme {
-        HomeContent(item = listOf("text1", "text2", "text3"), {}, {}, {}, {})
+        HomeContent(item = listOf("text1", "text2", "text3"),{}, data,{}, {}, {}, {})
     }
 }

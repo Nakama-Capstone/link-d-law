@@ -23,8 +23,8 @@ class SettingsViewModel(private val authRepository: AuthRepository, private val 
         viewModelScope.launch {
             try {
                 val response = authRepository.logout()
+                authRepository.clearUserSession()
                 if (response.ok){
-                    authRepository.clearUserSession()
                     Log.d("logout", "logout: DataStore Cleared")
                 }else{
                     Log.d("logout", "logout: DataStore Not Cleared")

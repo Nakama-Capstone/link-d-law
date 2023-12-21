@@ -2,6 +2,7 @@
 
 package com.nakama.capstone.linkdlaw.screen.pengacaraprofile
 
+import android.widget.Toast
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -31,6 +32,7 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -39,6 +41,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,6 +53,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -58,26 +63,67 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nakama.capstone.linkdlaw.R
+import com.nakama.capstone.linkdlaw.remote.dto.CreateChatResponse
+import com.nakama.capstone.linkdlaw.remote.dto.LawyerDataItem
 import com.nakama.capstone.linkdlaw.ui.theme.Poppins
 
 @Composable
 fun PengacaraProfileScreen(
+    lawyerId: Int,
+    loadingState: State<Boolean?>,
+    createState: State<CreateChatResponse?>,
     navigateBack: () -> Unit,
-    toChatScreen: () -> Unit
+    toChatScreen: (String, String) -> Unit,
+    createChat: (Int) -> Unit,
+    getDetailLawyer: (Int) -> Unit,
+    lawyerData: LawyerDataItem?
 ) {
+//    getDetailLawyer(lawyerId)
+    
     PengacaraProfileContent(
+        lawyerId = lawyerId,
+        loadingState = loadingState,
+        createState = createState,
         navigateBack = navigateBack,
-        toChatScreen = toChatScreen
+        toChatScreen = toChatScreen,
+        createChat = createChat,
+        lawyerData = lawyerData
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PengacaraProfileContent(
+    lawyerId: Int,
+    loadingState: State<Boolean?>,
+    createState: State<CreateChatResponse?>,
     navigateBack: () -> Unit,
-    toChatScreen: () -> Unit
+    toChatScreen: (String,String) -> Unit,
+    createChat: (Int) -> Unit,
+    lawyerData: LawyerDataItem?
 ) {
     val scrollState = rememberScrollState()
+    val context = LocalContext.current
+    
+    val chatId = remember {
+        mutableStateOf("")
+    }
+    
+    val loading = remember {
+        mutableStateOf(false)
+    }
+    
+    LaunchedEffect(loadingState.value){
+        if (loadingState.value == false){
+            if (createState.value?.ok == true){
+                chatId.value = createState.value?.data?.chatId?.toString() ?: ""
+
+                toChatScreen(chatId.value, lawyerId.toString())
+            }else{
+                Toast.makeText(context, "Create chat failed", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -102,6 +148,14 @@ fun PengacaraProfileContent(
             )
         }
     ) {
+        if (loadingState.value == true){
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .padding(it), contentAlignment = Alignment.Center){
+                CircularProgressIndicator()
+            }
+        }
+        
         Column(
             modifier = Modifier
                 .padding(it)
@@ -152,8 +206,9 @@ fun PengacaraProfileContent(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 verticalArrangement = Arrangement.Center
                             ) {
+                                val fullName = lawyerData?.user?.firstName + " " + lawyerData?.user?.lastName 
                                 Text(
-                                    text = "Dr. Hotman Paris Hutapea, S.H., LL.M., M.Hum.",
+                                    text = fullName ,
                                     style = TextStyle(
                                         fontSize = 12.sp,
                                         fontFamily = FontFamily(Font(R.font.poppins_regular)),
@@ -161,7 +216,7 @@ fun PengacaraProfileContent(
                                     )
                                 )
                                 Text(
-                                    text = "Pengacara Specialis Hukum Perdata",
+                                    text = lawyerData?.specialist ?: "",
                                     style = TextStyle(
                                         fontSize = 12.sp,
                                         fontFamily = FontFamily(Font(R.font.poppins_regular)),
@@ -216,7 +271,7 @@ fun PengacaraProfileContent(
                                 )
                             }
                             Text(
-                                text = "Semua (999)",
+                                text = "Semua (10)",
                                 style = TextStyle(
                                     fontSize = 14.sp,
                                     fontFamily = FontFamily(Font(R.font.poppins_regular)),
@@ -238,7 +293,7 @@ fun PengacaraProfileContent(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
-                                text = "“Saya puas dengan pak hotman karena agresif”",
+                                text = "“Saya puas dengan hasil konsultasi”",
                                 style = TextStyle(
                                     fontSize = 12.sp,
                                     fontFamily = FontFamily(Font(R.font.poppins_regular)),
@@ -268,7 +323,7 @@ fun PengacaraProfileContent(
                                 )
                             )
                             Text(
-                                text = "00000000000",
+                                text = lawyerData?.nomorPerandi ?: "",
                                 style = TextStyle(
                                     fontSize = 14.sp,
                                     fontFamily = Poppins,
@@ -320,7 +375,7 @@ fun PengacaraProfileContent(
                             )
                         )
                         Text(
-                            text = "RP.100.000",
+                            text = "RP." + lawyerData?.fee?.toString(),
                             style = TextStyle(
                                 fontSize = 12.sp,
                                 fontFamily = Poppins,
@@ -337,7 +392,8 @@ fun PengacaraProfileContent(
                                 shape = RoundedCornerShape(size = 10.dp)
                             )
                             .clickable {
-                                toChatScreen()
+                                createChat(lawyerData?.id ?: 0)
+                                loading.value = true
                             },
                         contentAlignment = Alignment.Center
                     ) {
@@ -436,8 +492,21 @@ fun DropDownItem(
 )
 @Composable
 fun PengacaraProfilePreview() {
+    val sample = remember {
+        mutableStateOf(false)
+    }
+    val sample2 = remember {
+        mutableStateOf(CreateChatResponse())
+    }
+    
     PengacaraProfileScreen(
+        lawyerId = 1,
+        loadingState = sample,
+        createState = sample2,
         navigateBack = {},
-        toChatScreen = {}
+        toChatScreen = {_, _ ->},
+        createChat = { _ ->},
+        getDetailLawyer = {},
+        lawyerData = LawyerDataItem()
     )
 }
