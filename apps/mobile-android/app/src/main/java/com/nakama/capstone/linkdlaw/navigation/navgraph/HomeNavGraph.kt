@@ -155,8 +155,8 @@ fun HomeNavGraph(rootNavController: NavController, navController: NavHostControl
             val getAllChatResult = pesanScreenViewModel.getAllChatResult.observeAsState()
 
             PesanScreen(
-                toDetailChat = { id, user2Id ->
-                    navController.navigate(route = HomeGraph.LawyerChatDetail.route + "/$id/$user2Id")
+                toDetailChat = { id, user1Id, user2Id, user2Name ->
+                    navController.navigate(route = HomeGraph.LawyerChatDetail.route + "/$id/$user1Id/$user2Id/$user2Name")
                 },
                 listChat = getAllChatResult.value?.data
             )
@@ -180,10 +180,8 @@ fun HomeNavGraph(rootNavController: NavController, navController: NavHostControl
                 navigateBack = {
                     navController.navigateUp()
                 },
-                toChatScreen = { chatId, user2Id ->
-                    navController.navigate(route = HomeGraph.LawyerChatDetail.route + "/$chatId/$user2Id") {
-                        popUpTo(BottomBarScreen.Chat.route)
-                    }
+                toChatScreen = { chatId, user1Id, user2Id, user2Name ->
+                    navController.navigate(route = HomeGraph.LawyerChatDetail.route + "/$chatId/$user1Id/$user2Id/$user2Name")
                 },
                 createChat = pengacaraProfileViewModel::createChat,
                 getDetailLawyer = pengacaraScreenViewModel::getLawyersById,
@@ -191,31 +189,51 @@ fun HomeNavGraph(rootNavController: NavController, navController: NavHostControl
             )
         }
         composable(
-            route = HomeGraph.LawyerChatDetail.route + "/{chatId}/{user2Id}",
+            route = HomeGraph.LawyerChatDetail.route + "/{chatId}/{user1Id}/{user2Id}/{user2Name}",
             arguments = listOf(
                 navArgument("chatId") {
                     type = NavType.StringType
-                    defaultValue = ""
+                    defaultValue = "0"
+                },
+                navArgument("user1Id") {
+                    type = NavType.StringType
+                    defaultValue = "0"
                 },
                 navArgument("user2Id") {
                     type = NavType.StringType
-                    defaultValue = ""
+                    defaultValue = "0"
+                },
+                navArgument("user2Name") {
+                    type = NavType.StringType
+                    defaultValue = "a"
                 }
             )
         ) { backStackEntry ->
+            val chatViewModel: ChatViewModel = koinViewModel()
             
             val chatId = backStackEntry.arguments?.getString("chatId")
+            val user1Id = backStackEntry.arguments?.getString("user1Id")
             val user2Id = backStackEntry.arguments?.getString("user2Id")
+            val user2Name = backStackEntry.arguments?.getString("user2Name")
+            
+            val loadingState = chatViewModel.loading.observeAsState()
+            val messageList = chatViewModel.getMessage.observeAsState()
+
+            LaunchedEffect(Unit){
+                chatViewModel.startPolling(chatId?.toInt() ?: 0)
+            }
+            
             ChatLawyerScreen(
                 chatId = chatId?.toInt() ?: 0,
+                userId = user1Id?.toInt() ?: 0,
                 lawyerId = user2Id?.toInt() ?: 0,
-                lawyerName = chatId ?: " ",
+                lawyerName = user2Name ?: "a",
                 navigateBack = {
                     navController.navigateUp()
                 },
-                sendMessage = { 
-                    
-                }
+                sendMessage = chatViewModel::sendMessage,
+                loadingState = loadingState.value,
+                listMessage = messageList.value?.data
             )
         }
         composable(HomeGraph.ChatKim.route) {

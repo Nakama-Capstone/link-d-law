@@ -2,6 +2,7 @@
 
 package com.nakama.capstone.linkdlaw.screen.chat
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -32,6 +33,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,36 +44,58 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nakama.capstone.linkdlaw.R
-import com.nakama.capstone.linkdlaw.remote.dto.SendMessageRequest
+import com.nakama.capstone.linkdlaw.remote.dto.MessageDataItem
 
 
 @Composable
 fun ChatLawyerScreen(
     chatId: Int,
+    userId: Int,
     lawyerId: Int,
     lawyerName: String,
     navigateBack: () -> Unit,
-    sendMessage: (SendMessageRequest) -> Unit
+    sendMessage: (Int,Int,String) -> Unit,
+    loadingState: Boolean?,
+    listMessage: List<MessageDataItem?>?
 ) {
     ChatLawyerContent(
         chatId = chatId,
+        userId = userId,
         lawyerId = lawyerId,
         lawyerName = lawyerName,
         navigateBack = navigateBack,
-        sendMessage = sendMessage
+        sendMessage = sendMessage,
+        loadingState = loadingState,
+        listMessage = listMessage
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatLawyerContent(
     chatId: Int,
+    userId: Int,
     lawyerId: Int,
     lawyerName: String,
     navigateBack: () -> Unit,
-    sendMessage: (SendMessageRequest) -> Unit
+    sendMessage: (Int,Int, String) -> Unit,
+    loadingState: Boolean?,
+    listMessage: List<MessageDataItem?>?
 ) {
-    val messageList = remember {
-        mutableListOf(Message("",false))
+    
+    var messageList = mutableListOf<MessageDataItem?>()
+    
+    val message = remember {
+        mutableStateOf("")
+    }
+    
+    LaunchedEffect(loadingState){
+        if (messageList.isEmpty() ) {
+            if (listMessage != null) {
+                messageList = listMessage.toMutableList()
+            }
+            Log.d("Cek data", "ChatLawyerContent: $userId $lawyerId $messageList")
+        }
     }
     
     Scaffold(
@@ -108,8 +133,8 @@ fun ChatLawyerContent(
             BottomAppBar(
                 actions = {
                     OutlinedTextField(
-                        value = "",
-                        onValueChange = {},
+                        value = message.value,
+                        onValueChange = { message.value = it},
                         label = {
                             Text(text = "Ketik....")
                         },
@@ -125,7 +150,10 @@ fun ChatLawyerContent(
                                 color = Color(0xFF001D36)
                             )
                             .clickable {
-
+                                sendMessage(
+                                    chatId, lawyerId, message.value
+                                )
+                                messageList.add(MessageDataItem(message = message.value, to = lawyerId, from = userId))
                             },
                         contentAlignment = Alignment.Center
                     ) {
@@ -142,17 +170,29 @@ fun ChatLawyerContent(
         }
     ) {
         Column(modifier = Modifier.padding(it)) {
-            val sampleMessages = listOf(
-                Message("Hello!", false),
-                Message("Hi there!", true),
-                Message("How are you?", false)
-            )
-            ChatUI(messages = sampleMessages)
+//            val sampleMessages = listOf(
+//                Message("Hello!", false),
+//                Message("Hi there!", true),
+//                Message("How are you?", false)
+//            )
+            ChatLawyerUI(messages = messageList, userId = userId)
         }
     }
 }
 
 data class Message(val content: String, val isSentByMe: Boolean)
+
+@Composable
+fun ChatLawyerUI(messages: List<MessageDataItem?>, userId: Int, modifier: Modifier = Modifier) {
+    LazyColumn(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        items(messages) { message ->
+            MessageLawyerCard(message = message, userId = userId)
+        }
+    }
+}
 
 @Composable
 fun ChatUI(messages: List<Message>, modifier: Modifier = Modifier) {
@@ -162,6 +202,34 @@ fun ChatUI(messages: List<Message>, modifier: Modifier = Modifier) {
     ) {
         items(messages) { message ->
             MessageCard(message = message)
+        }
+    }
+}
+
+@Composable
+fun MessageLawyerCard(message: MessageDataItem?, userId: Int) {
+    if (message != null) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(4.dp),
+            horizontalArrangement = if (message.to == userId) Arrangement.Start else Arrangement.End
+        ) {
+            Card(
+                colors = CardDefaults.cardColors(
+                    containerColor = if (message.to == userId) Color.LightGray else MaterialTheme.colorScheme.primary,
+                    contentColor = if (message.to == userId) Color.Black else Color.White
+                ),
+                modifier = Modifier
+                    .widthIn(max = 250.dp)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .padding(8.dp)
+                ) {
+                    message.message?.let { Text(it ) }
+                }
+            }
         }
     }
 }
@@ -211,9 +279,12 @@ fun ChatUIPreview() {
 fun ChatLawyerPreview() {
     ChatLawyerContent(
         chatId = 0,
+        userId = 0,
         lawyerId = 0,
         lawyerName = "",
         navigateBack = {},
-        sendMessage = { _ -> }
+        sendMessage = { _, _, _ -> },
+        loadingState = false,
+        listMessage = null
     )
 }
