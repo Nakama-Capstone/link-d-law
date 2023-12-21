@@ -64,7 +64,7 @@ const getAllMessage = async (req: Request, res: Response) => {
         })
 
         if (chat?.user1_id == auth.user.id || chat?.user2_id == auth.user.id) {
-            res.status(400).json({
+            res.json({
                 ok: true,
                 message: "Success get all message",
                 data: await db.message.findMany({
@@ -116,7 +116,7 @@ const sendMessage = async (req: Request, res: Response) => {
             })
         }
 
-        res.json({
+        res.status(400).json({
             ok: false,
             message: "Failed send message",
         })
