@@ -33,7 +33,7 @@ fun SettingScreen(
     onProfileClick: () -> Unit,
     getProfileData: () -> Unit
 ) {
-    getProfileData()
+//    getProfileData()
     SettingScreenContent(
         profileData = profileData,
         logoutClick = logoutClick,
