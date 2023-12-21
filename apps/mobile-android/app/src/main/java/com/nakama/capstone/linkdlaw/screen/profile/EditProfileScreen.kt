@@ -1,6 +1,10 @@
 package com.nakama.capstone.linkdlaw.screen.profile
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -40,6 +44,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberImagePainter
 import com.nakama.capstone.linkdlaw.R
 import com.nakama.capstone.linkdlaw.remote.dto.ProfileData
 import com.nakama.capstone.linkdlaw.remote.dto.UpdateProfileRequest
@@ -68,6 +73,12 @@ fun EditProfileScreen(
 
     var email = remember {
         mutableStateOf("")
+    }
+
+    var imageUri by remember { mutableStateOf<Uri?>(null) }
+    
+    val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
+        imageUri = uri
     }
     
     LaunchedEffect(profileData.value){
@@ -99,6 +110,9 @@ fun EditProfileScreen(
             contentAlignment = Alignment.Center, modifier = Modifier
                 .fillMaxWidth()
                 .height(100.dp)
+                .clickable {
+                    launcher.launch("image/*")
+                }
         ) {
             Text(text = "Foto Profil", modifier = Modifier.align(Alignment.TopCenter))
             Image(
@@ -108,6 +122,13 @@ fun EditProfileScreen(
                     .size(60.dp)
                     .clip(CircleShape)
             )
+            imageUri?.let { uri ->
+                Image(
+                    painter = rememberImagePainter(uri),
+                    contentDescription = "Gambar Terpilih",
+                    modifier = Modifier.size(200.dp)
+                )
+            }
         }
         Box {
             Column(
