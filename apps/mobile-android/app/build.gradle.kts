@@ -14,7 +14,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        buildConfigField("String", "BASE_URL", "\"https://linkdlaw-gmqkyrl3ra-uc.a.run.app\"")
+        buildConfigField("String", "BASE_URL", "\"https://link-d-law-a5s6ed4vba-et.a.run.app/\"")
         
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -103,4 +103,6 @@ dependencies {
     implementation("androidx.datastore:datastore-core:1.0.0")
     implementation("androidx.datastore:datastore-preferences:1.0.0")
     
+    //Paging3
+    implementation("androidx.paging:paging-compose:3.2.1")
 }
