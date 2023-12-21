@@ -30,6 +30,10 @@ class EditProfileViewModel(private val homeRepository: HomeRepository):ViewModel
     private val _profileLoading = MutableLiveData<Boolean>()
     val profileLoading: LiveData<Boolean> = _profileLoading
 
+
+    private val _editImageResult = MutableLiveData<Boolean>()
+    val editImageResult:LiveData<Boolean> = _editImageResult
+
     fun getProfileData(){
         viewModelScope.launch {
 
@@ -51,23 +55,42 @@ class EditProfileViewModel(private val homeRepository: HomeRepository):ViewModel
 
         }
     }
-    
+
     fun updateProfile(updateProfileRequest: UpdateProfileRequest){
         viewModelScope.launch {
             _loading.value = true
             try {
-            
+
                 val response = homeRepository.updateProfileData(updateProfileRequest)
                 Log.d("Update profile", "updateProfile: ${response.message}")
                 _editResult.value = response.ok ?: false
                 _loading.value = false
-                
+
             }catch (e: HttpException){
                 _loading.value = false
             }catch (e: Exception){
                 _loading.value = false
             }
-            
+
+        }
+    }
+
+    fun updateImageProfile(updateProfileRequest: UpdateProfileRequest){
+        viewModelScope.launch {
+            _loading.value = true
+            try {
+
+                val response = homeRepository.updateProfileData(updateProfileRequest)
+                Log.d("Update profile", "updateProfile: ${response.message}")
+                _editResult.value = response.ok ?: false
+                _loading.value = false
+
+            }catch (e: HttpException){
+                _loading.value = false
+            }catch (e: Exception){
+                _loading.value = false
+            }
+
         }
     }
     
