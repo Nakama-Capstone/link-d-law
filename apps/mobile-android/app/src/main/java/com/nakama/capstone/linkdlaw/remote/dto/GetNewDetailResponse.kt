@@ -2,16 +2,10 @@ package com.nakama.capstone.linkdlaw.remote.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class GetNewsResponse(
-
-	@field:SerializedName("lastUpdateHuman")
-	val lastUpdateHuman: String? = null,
+data class GetNewDetailResponse(
 
 	@field:SerializedName("data")
-	val data: List<GetNewsResponseDataItem?>? = null,
-
-	@field:SerializedName("lastUpdate")
-	val lastUpdate: Long? = null,
+	val data: GetNewDetailResponseData? = null,
 
 	@field:SerializedName("ok")
 	val ok: Boolean? = null,
@@ -20,10 +14,13 @@ data class GetNewsResponse(
 	val message: String? = null
 )
 
-data class GetNewsResponseDataItem(
+data class GetNewDetailResponseData(
 
 	@field:SerializedName("date")
 	val date: String? = null,
+
+	@field:SerializedName("image")
+	val image: String? = null,
 
 	@field:SerializedName("link")
 	val link: String? = null,
@@ -38,8 +35,5 @@ data class GetNewsResponseDataItem(
 	val rssurl: String? = null,
 
 	@field:SerializedName("content")
-	val content: String? = null,
-
-	@field:SerializedName("image")
-	val image: String? = null
+	val content: String? = null
 )

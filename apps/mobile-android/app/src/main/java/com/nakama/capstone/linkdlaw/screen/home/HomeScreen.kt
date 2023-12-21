@@ -19,8 +19,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.OutlinedTextField
@@ -66,6 +68,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.ImageLoader
+import coil.compose.AsyncImage
 import coil.decode.ImageSource
 import com.dicoding.sampleui.components.HomeSection
 import com.nakama.capstone.linkdlaw.R
@@ -209,7 +212,14 @@ fun HomeContent(
     modifier: Modifier = Modifier,
     news: List<GetNewsResponseDataItem?>?,
 ) {
-    Column {
+
+    val scrollState = rememberScrollState()
+    
+    Column (
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(scrollState)
+    ) {
         val context = LocalContext.current
 
         TopBar(
@@ -291,61 +301,121 @@ fun HomeContent(
             }
         }
 
+//        HomeSection(
+//            title = "Top Pengacara",
+//            modifier = modifier
+//        ) {
+//            LazyRow(
+//                contentPadding = PaddingValues(10.dp),
+//                horizontalArrangement = Arrangement.spacedBy(8.dp)
+//            ) {
+//                items(item) {
+//                    HomeListItem(
+//                        text = it,
+//                        modifier = modifier
+//                    )
+//                }
+//            }
+//        }
+
+
+
+        Text(
+            text = "Berita Hukum Terbaru",
+            color = Color.Black,
+            fontFamily = Poppins,
+            fontSize = 22.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = modifier.padding(8.dp)
+        )
         news?.forEach {
             Column (
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 16.dp)
             ) {
-                Text(
-                    text = "Berita Hukum Terbaru",
-                    color = Color.Black,
-                    fontFamily = Poppins,
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = modifier.padding(8.dp)
-                )
 
-//                display image if it.img != null
-                it?.img?.let {
-                    ImageSource(
-                        it.,
-                        ImageLoader(context)
-                    )
-                }
-
-                Box (
+                Box(
                     modifier = Modifier
                         .padding(8.dp)
-//                    border
+                        //                    border
                         .border(
                             width = 1.dp,
                             color = Color(0xFFE0E0E0),
                             shape = RoundedCornerShape(10.dp)
                         )
+                        .clickable {
+                            // open it.link in browser
+                            var intent = android.content.Intent(android.content.Intent.ACTION_VIEW)
+                            intent.data = android.net.Uri.parse(it?.link)
+                            context.startActivity(intent)
+                        }
                 ) {
                     Column {
+
+                        Row (
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            it?.image?.let { it1 ->
+                                AsyncImage(
+                                    model = it1,
+                                    contentDescription = "image",
+                                    modifier = Modifier
+                                        .size(120.dp)
+                                        .padding(8.dp),
+                                )
+                            }
+
+                            Column (
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(8.dp)
+                            ) {
+                                Text(
+                                    text = it?.title ?: "",
+                                    modifier = Modifier.padding(8.dp),
+                                    style = TextStyle(
+                                        fontSize = 16.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                )
+                            }
+                        }
+                        
                         Text(
-                            text = it?.title ?: "",
+                            text = it?.link ?: "",
                             modifier = Modifier.padding(8.dp),
                             style = TextStyle(
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Light
                             )
                         )
+
                         Text(
-                            text = (it?.content ?: "").split(" ").take(20).joinToString(" ") + "...",
+                            text = (it?.content ?: "")
+                                .split(" ")
+                                .take(20)
+//                                replace \n with space
+                                .map { it.replace("\n", " ") }
+                                .joinToString(" ") + "...",
                             modifier = Modifier.padding(8.dp),
                             style = TextStyle(
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.Normal
                             )
                         )
+                        
+                        Text(
+                            text = it?.dateHuman.toString(),
+                            modifier = Modifier.padding(8.dp),
+                            style = TextStyle(
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Light
+                            )
+                        )
                     }
                 }
             }
         }
-        
     }
 }
 
