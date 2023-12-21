@@ -14,3 +14,6 @@ steps:
 # Setelah steps, tag images yang akan di-push
 images:
   - 'gcr.io/$PROJECT_ID/linkdlaw:latest'
+
+options:
+  machineType: 'E2_HIGHCPU_8'

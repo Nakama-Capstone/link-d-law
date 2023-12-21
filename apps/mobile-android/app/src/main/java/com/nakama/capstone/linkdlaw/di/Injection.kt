@@ -5,6 +5,7 @@ import com.nakama.capstone.linkdlaw.preferences.SessionPreferences
 import com.nakama.capstone.linkdlaw.remote.api.ApiService
 import com.nakama.capstone.linkdlaw.repository.AuthRepository
 import com.nakama.capstone.linkdlaw.repository.ChatRepository
+import com.nakama.capstone.linkdlaw.repository.CommunityRepository
 import com.nakama.capstone.linkdlaw.repository.HomeRepository
 import com.nakama.capstone.linkdlaw.repository.LawRepository
 import com.nakama.capstone.linkdlaw.repository.PengacaraRepository
@@ -12,6 +13,7 @@ import com.nakama.capstone.linkdlaw.screen.auth.login.LoginViewModel
 import com.nakama.capstone.linkdlaw.screen.auth.register.RegisterViewModel
 import com.nakama.capstone.linkdlaw.screen.chat.ChatViewModel
 import com.nakama.capstone.linkdlaw.screen.daftarhukum.LawScreenViewModel
+import com.nakama.capstone.linkdlaw.screen.forum.ForumScreenViewModel
 import com.nakama.capstone.linkdlaw.screen.pengacara.PengacaraScreenViewModel
 import com.nakama.capstone.linkdlaw.screen.pengacaraprofile.PengacaraProfileViewModel
 import com.nakama.capstone.linkdlaw.screen.pesan.PesanScreenViewModel
@@ -85,6 +87,7 @@ object Injection {
         viewModel{ PengacaraProfileViewModel(get()) }
         viewModel{ PengacaraScreenViewModel(get()) }
         viewModel{ LawScreenViewModel(get()) }
+        viewModel{ ForumScreenViewModel(get()) }
     }
     
     val repositoryModule = module { 
@@ -93,5 +96,6 @@ object Injection {
         single { ChatRepository(get()) }
         single { PengacaraRepository(get()) }
         single { LawRepository(get()) }
+        single { CommunityRepository(get()) }
     }
 }

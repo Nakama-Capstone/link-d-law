@@ -73,7 +73,7 @@ fun PengacaraProfileScreen(
     loadingState: State<Boolean?>,
     createState: State<CreateChatResponse?>,
     navigateBack: () -> Unit,
-    toChatScreen: (String, String) -> Unit,
+    toChatScreen: (String, String,String, String) -> Unit,
     createChat: (Int) -> Unit,
     getDetailLawyer: (Int) -> Unit,
     lawyerData: LawyerDataItem?
@@ -98,7 +98,7 @@ fun PengacaraProfileContent(
     loadingState: State<Boolean?>,
     createState: State<CreateChatResponse?>,
     navigateBack: () -> Unit,
-    toChatScreen: (String,String) -> Unit,
+    toChatScreen: (String, String, String, String) -> Unit,
     createChat: (Int) -> Unit,
     lawyerData: LawyerDataItem?
 ) {
@@ -106,7 +106,7 @@ fun PengacaraProfileContent(
     val context = LocalContext.current
     
     val chatId = remember {
-        mutableStateOf("")
+        mutableStateOf("0")
     }
     
     val loading = remember {
@@ -114,13 +114,14 @@ fun PengacaraProfileContent(
     }
     
     LaunchedEffect(loadingState.value){
-        if (loadingState.value == false){
+        if (loadingState.value == false && loading.value){
             if (createState.value?.ok == true){
-                chatId.value = createState.value?.data?.chatId?.toString() ?: ""
+                chatId.value = createState.value?.data?.chatId?.toString() ?: "0"
 
-                toChatScreen(chatId.value, lawyerId.toString())
+                toChatScreen(chatId.value, lawyerId.toString(), "1",lawyerData?.user?.firstName ?: "")
             }else{
-                Toast.makeText(context, "Create chat failed", Toast.LENGTH_SHORT).show()
+                toChatScreen(chatId.value, lawyerId.toString(), "1", lawyerData?.user?.firstName ?: "")
+                Toast.makeText(context, "Chat sudah ada", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -504,7 +505,7 @@ fun PengacaraProfilePreview() {
         loadingState = sample,
         createState = sample2,
         navigateBack = {},
-        toChatScreen = {_, _ ->},
+        toChatScreen = {_, _, _, _ ->},
         createChat = { _ ->},
         getDetailLawyer = {},
         lawyerData = LawyerDataItem()
