@@ -53,7 +53,7 @@ fun EditProfileScreen(
     getProfileData: () -> Unit,
     editResult: Boolean
 ) {
-    getProfileData()
+//    getProfileData()
 
     var showDialog by remember { mutableStateOf(false) }
     var operationSuccessful by remember { mutableStateOf(false) }
