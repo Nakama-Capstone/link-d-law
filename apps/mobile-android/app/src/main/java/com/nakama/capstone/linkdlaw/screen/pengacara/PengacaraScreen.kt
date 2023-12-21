@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,23 +27,33 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.paging.compose.LazyPagingItems
 import com.nakama.capstone.linkdlaw.R
+import com.nakama.capstone.linkdlaw.remote.dto.LawyerDataItem
 import com.nakama.capstone.linkdlaw.screen.components.SearchBar
 import com.nakama.capstone.linkdlaw.ui.theme.Poppins
 
 @Composable
 fun PengacaraScreen(
-    toDetailLawyer: () -> Unit
+    toDetailLawyer: (Int) -> Unit,
+    getLawyers: () -> Unit,
+    listPengacara: LazyPagingItems<LawyerDataItem>
 ) {
+//    getLawyers()
+    
     PengacaraContent(
-        toDetailLawyer
+        toDetailLawyer = toDetailLawyer,
+        listPengacara = listPengacara
     )
 }
 
 @Composable
 fun PengacaraContent(
-    toDetailLawyer: () -> Unit
+    toDetailLawyer: (Int) -> Unit,
+    listPengacara: LazyPagingItems<LawyerDataItem>
 ) {
+    
+    
     Column(
         modifier = Modifier
             .padding(vertical = 18.dp, horizontal = 22.dp),
@@ -52,9 +61,23 @@ fun PengacaraContent(
     ) {
 //        var rating by remember { mutableFloatStateOf(2f) }
 
-        val lawyerData = listOf<String>(
-            "Brock Lesnar",
-            "Jokowo Prabowi"
+        val lawyerData = listOf<Pengacara>(
+            Pengacara(
+                id = 4,
+                namaDepan = "Dummy ",
+                namaBelakang = "SatuDua",
+                gelar = "A.Aa",
+                spesialis = "Spesialis Hukum Perdata",
+                rating = 5.0f
+            ),
+            Pengacara(
+                id = 5,
+                namaDepan = "Dummy",
+                namaBelakang = "TestDua",
+                gelar = "B.Bb",
+                spesialis = "Spesialis Hukum Pidana",
+                rating = 4.0f
+            ),
         )
 
         Text(
@@ -71,14 +94,18 @@ fun PengacaraContent(
         Spacer(modifier = Modifier.height(10.dp))
 
         LazyColumn() {
-            items(lawyerData) { lawyerName ->
+            items(listPengacara.itemCount){
+
                 LawyerItem(
-                    name = lawyerName,
-                    specialization = "YTTA",
-                    rating = 3f,
-                    toDetailLawyer = { toDetailLawyer() },
+                    name = listPengacara[it]?.user?.firstName + " " + listPengacara[it]?.user?.lastName,
+                    specialization = listPengacara[it]?.specialist ?: "",
+                    rating = listPengacara[it]?.rate?.toFloat() ?: 0f,
+                    toDetailLawyer = {
+                        toDetailLawyer(listPengacara[it]?.id ?: 0)
+                    },
                     modifier = Modifier.fillMaxWidth()
                 )
+                
             }
         }
 
@@ -160,7 +187,11 @@ fun RatingBar(
 )
 @Composable
 fun PengacaraScreenPreview() {
-    PengacaraScreen(
-        toDetailLawyer = {}
-    )
+//    val list: LazyPagingItems<LawyerDataItem> = 
+//    
+//    PengacaraScreen(
+//        toDetailLawyer = { _ -> },
+//        getLawyers = {},
+//        listPengacara = 
+//    )
 }
