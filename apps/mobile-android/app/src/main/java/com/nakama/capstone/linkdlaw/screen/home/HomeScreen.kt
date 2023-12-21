@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -42,6 +43,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -66,6 +68,7 @@ import com.nakama.capstone.linkdlaw.R
 import com.nakama.capstone.linkdlaw.navigation.model.BottomBarScreen
 import com.nakama.capstone.linkdlaw.navigation.navgraph.HomeNavGraph
 import com.nakama.capstone.linkdlaw.remote.dto.GetTanyakimResponse
+import com.nakama.capstone.linkdlaw.remote.dto.TopLawyerDataItem
 import com.nakama.capstone.linkdlaw.screen.components.SearchBar
 import com.nakama.capstone.linkdlaw.ui.theme.LinkDLawTheme
 import com.nakama.capstone.linkdlaw.ui.theme.Poppins
@@ -196,6 +199,8 @@ fun HomeContent(
     onClick: () -> Unit,
     toChatKimScreen: () -> Unit,
     toClassificationScreen: () -> Unit,
+    listTopLawyer: List<TopLawyerDataItem?>?,
+    toDetailLawyer: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column {
@@ -205,7 +210,7 @@ fun HomeContent(
             onSearch,
             onClick
         )
-        
+
 
         CardWithConstraint(
             toChatKimScreen = toChatKimScreen,
@@ -213,7 +218,7 @@ fun HomeContent(
         )
 
         HomeSection(
-            title = "Fitur Kim",
+            title = "Fitur Kim AI",
             modifier = modifier
         ) {
             Row(
@@ -267,11 +272,15 @@ fun HomeContent(
                 contentPadding = PaddingValues(10.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(item) {
-                    HomeListItem(
-                        text = it,
-                        modifier = modifier
-                    )
+                if (listTopLawyer != null){
+                    items(listTopLawyer) { item ->
+                        HomeListItem(
+                            text = item?.user?.firstName.toString(),
+                            modifier = modifier.clickable { 
+                                toDetailLawyer(item?.user?.id.toString())
+                            }
+                        )
+                    }
                 }
             }
         }
@@ -319,7 +328,16 @@ fun HomeListItem(text: String, modifier: Modifier) {
                 .size(100.dp),
             contentAlignment = Alignment.Center
         ) {
-            Text(text = text)
+            Image(
+                painter = painterResource(id = R.drawable.profile),
+                contentDescription = null,
+                modifier = Modifier
+                    .clip(
+                        CircleShape
+                    )
+                    .padding(horizontal = 6.dp, vertical = 12.dp)
+            )
+            Text(text = text, modifier = Modifier.align(Alignment.BottomCenter))
         }
     }
 }
@@ -332,7 +350,7 @@ fun CardWithConstraint(
     val query = remember {
         mutableStateOf("")
     }
-    
+
     Box(
         modifier = Modifier
             .padding(8.dp)
@@ -411,10 +429,10 @@ fun CardWithConstraint(
                     .size(50.dp)
                     .background(shape = RoundedCornerShape(10.dp), color = Color(0xFF001D36))
                     .clickable {
-                        if (query.value != ""){
+                        if (query.value != "") {
                             sendTanyaKim(query.value)
                             toChatKimScreen()
-                        }else{
+                        } else {
                             toChatKimScreen()
                         }
                     }
@@ -453,7 +471,18 @@ fun GreetingPreview() {
     val data = remember {
         mutableStateOf(GetTanyakimResponse())
     }
+
     LinkDLawTheme {
-        HomeContent(item = listOf("text1", "text2", "text3"),{}, data,{}, {}, {}, {})
+        HomeContent(
+            item = listOf("text1", "text2", "text3"),
+            {},
+            data,
+            {},
+            {},
+            {},
+            {},
+            listTopLawyer = null,
+            toDetailLawyer = {  }
+        )
     }
 }

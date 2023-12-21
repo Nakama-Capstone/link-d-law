@@ -73,7 +73,7 @@ fun PesanContent(
             )
         )
         Spacer(modifier = Modifier.height(25.dp))
-
+        
         LazyColumn() {
 
             items(listChat?.size ?: 0) { index ->
@@ -81,8 +81,8 @@ fun PesanContent(
                     PesanScreenItem(
                         image = R.drawable.profile,
                         lawyerName = listChat[index]?.user2?.firstName.toString(),
-                        latestMessage = listChat[index]?.message?.get(0)?.message.toString(),
-                        latestMessageTime = listChat[index]?.message?.get(0)?.time.toString(),
+                        latestMessage = listChat[index]?.message?.firstOrNull()?.message.orEmpty(),
+                        latestMessageTime = listChat[index]?.message?.firstOrNull()?.time.orEmpty(),
                         modifier = Modifier.fillMaxWidth(),
                         toDetailChat = {
                             toDetailChat(

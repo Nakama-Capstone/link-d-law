@@ -11,27 +11,31 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nakama.capstone.linkdlaw.remote.dto.GetCommunityPostCommentResponseDataItem
 import com.nakama.capstone.linkdlaw.remote.dto.GetCommunityPostResponseDataItem
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import com.nakama.capstone.linkdlaw.ui.theme.Poppins
 
 @Composable
@@ -39,9 +43,9 @@ fun ForumDetailScreen (
     forumId: String,
     post: GetCommunityPostResponseDataItem,
     comments: List<GetCommunityPostCommentResponseDataItem?>?,
-    sendComment: (Int, String) -> Unit
+    sendComment: (Int, String) -> Unit,
 ) {
-    ForumDetailContent(forumId, post, comments, sendComment)
+    ForumDetailContent(forumId, post, comments, sendComment, )
 }
 
 @Composable
@@ -49,14 +53,14 @@ fun ForumDetailContent (
     forumId: String,
     post: GetCommunityPostResponseDataItem,
     comments: List<GetCommunityPostCommentResponseDataItem?>?,
-    sendComment: (Int, String) -> Unit
+    sendComment: (Int, String) -> Unit,
 ) {
             var commentContent by remember {
                 mutableStateOf("")
             }
             val scrollState = rememberScrollState()
 
-    
+            val localFocusManager = LocalFocusManager.current
     
             Column (
                 modifier = Modifier
@@ -131,6 +135,15 @@ fun ForumDetailContent (
                         value = commentContent,
                         onValueChange = { commentContent = it },
                         label = { Text(text = "Komentar") },
+                        keyboardOptions = KeyboardOptions(
+                            imeAction = ImeAction.Done,
+                        ),
+                        keyboardActions = KeyboardActions(
+                            onDone = {
+                                localFocusManager.clearFocus()
+                            }
+                        ),
+                        singleLine = true,
                         modifier = Modifier
                             .padding(horizontal = 16.dp, vertical = 6.dp)
                     )
@@ -141,9 +154,13 @@ fun ForumDetailContent (
                         Button(onClick = {
                             if (post.id !== null) {
                                 sendComment(post.id, commentContent)
+                                commentContent = ""
                             }
                         }) {
-                            Text(text = ">")
+                            Icon(
+                                imageVector = Icons.Default.KeyboardArrowRight,
+                                contentDescription = null
+                            )
                         }
                     }
                 }

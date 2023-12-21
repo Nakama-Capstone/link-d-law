@@ -14,6 +14,7 @@ import com.nakama.capstone.linkdlaw.screen.auth.register.RegisterViewModel
 import com.nakama.capstone.linkdlaw.screen.chat.ChatViewModel
 import com.nakama.capstone.linkdlaw.screen.daftarhukum.LawScreenViewModel
 import com.nakama.capstone.linkdlaw.screen.forum.ForumScreenViewModel
+import com.nakama.capstone.linkdlaw.screen.home.HomeScreenViewModel
 import com.nakama.capstone.linkdlaw.screen.pengacara.PengacaraScreenViewModel
 import com.nakama.capstone.linkdlaw.screen.pengacaraprofile.PengacaraProfileViewModel
 import com.nakama.capstone.linkdlaw.screen.pesan.PesanScreenViewModel
@@ -88,6 +89,7 @@ object Injection {
         viewModel{ PengacaraScreenViewModel(get()) }
         viewModel{ LawScreenViewModel(get()) }
         viewModel{ ForumScreenViewModel(get()) }
+        viewModel { HomeScreenViewModel(get()) }
     }
     
     val repositoryModule = module { 
