@@ -16,4 +16,4 @@ images:
   - 'gcr.io/$PROJECT_ID/linkdlaw:latest'
 
 options:
-  machineType: 'E2_HIGHCPU_16'
+  machineType: 'E2_HIGHCPU_8'
