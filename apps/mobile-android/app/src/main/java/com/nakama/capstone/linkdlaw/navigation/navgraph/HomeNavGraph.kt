@@ -23,6 +23,7 @@ import com.nakama.capstone.linkdlaw.screen.forum.ForumScreen
 import com.nakama.capstone.linkdlaw.screen.forum.ForumScreenViewModel
 import com.nakama.capstone.linkdlaw.screen.forumdetail.ForumDetailScreen
 import com.nakama.capstone.linkdlaw.screen.home.HomeContent
+import com.nakama.capstone.linkdlaw.screen.home.HomeScreenViewModel
 import com.nakama.capstone.linkdlaw.screen.pengacara.PengacaraScreen
 import com.nakama.capstone.linkdlaw.screen.pengacara.PengacaraScreenViewModel
 import com.nakama.capstone.linkdlaw.screen.pengacaraprofile.PengacaraProfileScreen
@@ -44,6 +45,13 @@ fun HomeNavGraph(rootNavController: NavController, navController: NavHostControl
     ) {
         composable(route = BottomBarScreen.Home.route) {
             val chatViewModel: ChatViewModel = koinViewModel()
+            val homeViewModel: HomeScreenViewModel = koinViewModel()
+            
+            LaunchedEffect(Unit){
+                homeViewModel.getNews()
+            }
+            
+            val getNews = homeViewModel.listLawyer.observeAsState()
             
             HomeContent(
                 item = listOf("text1", "text2", "text3"),
@@ -58,7 +66,8 @@ fun HomeNavGraph(rootNavController: NavController, navController: NavHostControl
                     navController.navigate(HomeGraph.LawClassification.route)
                 },
                 tanyakimResult = chatViewModel.tanyakimResult.observeAsState(),
-                sendTanyaKim = chatViewModel::getTanyakimResult
+                sendTanyaKim = chatViewModel::getTanyakimResult,
+                news = getNews.value?.data
             )
         }
 
