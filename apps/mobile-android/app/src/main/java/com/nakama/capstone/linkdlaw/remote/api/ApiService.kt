@@ -6,7 +6,6 @@ import com.nakama.capstone.linkdlaw.remote.dto.CreateChatResponse
 import com.nakama.capstone.linkdlaw.remote.dto.GetAllChatResponse
 import com.nakama.capstone.linkdlaw.remote.dto.GetAllMessageResponse
 import com.nakama.capstone.linkdlaw.remote.dto.GetCommunityPostCommentResponse
-import com.nakama.capstone.linkdlaw.remote.dto.GetCommunityPostResponse
 import com.nakama.capstone.linkdlaw.remote.dto.GetLawsResponse
 import com.nakama.capstone.linkdlaw.remote.dto.GetLawyerDetailResponse
 import com.nakama.capstone.linkdlaw.remote.dto.GetLawyerResponse
@@ -24,6 +23,8 @@ import com.nakama.capstone.linkdlaw.remote.dto.RegisterResponse
 import com.nakama.capstone.linkdlaw.remote.dto.SendMessageRequest
 import com.nakama.capstone.linkdlaw.remote.dto.SendMessageResponse
 import com.nakama.capstone.linkdlaw.remote.dto.UpdateProfileRequest
+import com.nakama.capstone.linkdlaw.remote.dto.GetCommunityPostResponse
+import com.nakama.capstone.linkdlaw.remote.dto.GetNewsResponse
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -140,4 +141,7 @@ interface ApiService {
     @GET("/v1/lawyers/top")
     suspend fun getTopLawyer(): GetTopLawyerResponse
     
+
+    @GET("/v1/news")
+    suspend fun getNews(): GetNewsResponse
 }

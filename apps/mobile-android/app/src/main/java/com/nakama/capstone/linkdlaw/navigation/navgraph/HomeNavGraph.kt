@@ -46,8 +46,15 @@ fun HomeNavGraph(rootNavController: NavController, navController: NavHostControl
         composable(route = BottomBarScreen.Home.route) {
             val chatViewModel: ChatViewModel = koinViewModel()
             val homeViewModel: HomeScreenViewModel = koinViewModel()
+
             homeViewModel.getTopLawyer()
             val listTopLawyer = homeViewModel.listTopLawyer.observeAsState()
+            
+            LaunchedEffect(Unit){
+                homeViewModel.getNews()
+            }
+            
+            val getNews = homeViewModel.listLawyer.observeAsState()
             
             HomeContent(
                 item = listOf("text1", "text2", "text3"),
@@ -66,7 +73,8 @@ fun HomeNavGraph(rootNavController: NavController, navController: NavHostControl
                 listTopLawyer = listTopLawyer.value,
                 toDetailLawyer = { id ->
                     navController.navigate(route = HomeGraph.DetailLawyer.route+"/$id")
-                }
+                },
+                news = getNews.value?.data
             )
         }
 

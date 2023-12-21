@@ -1,8 +1,10 @@
 package com.nakama.capstone.linkdlaw.screen.home
 
+import android.media.Image
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -63,10 +65,13 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import coil.ImageLoader
+import coil.decode.ImageSource
 import com.dicoding.sampleui.components.HomeSection
 import com.nakama.capstone.linkdlaw.R
 import com.nakama.capstone.linkdlaw.navigation.model.BottomBarScreen
 import com.nakama.capstone.linkdlaw.navigation.navgraph.HomeNavGraph
+import com.nakama.capstone.linkdlaw.remote.dto.GetNewsResponseDataItem
 import com.nakama.capstone.linkdlaw.remote.dto.GetTanyakimResponse
 import com.nakama.capstone.linkdlaw.remote.dto.TopLawyerDataItem
 import com.nakama.capstone.linkdlaw.screen.components.SearchBar
@@ -201,7 +206,8 @@ fun HomeContent(
     toClassificationScreen: () -> Unit,
     listTopLawyer: List<TopLawyerDataItem?>?,
     toDetailLawyer: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    news: List<GetNewsResponseDataItem?>?,
 ) {
     Column {
         val context = LocalContext.current
@@ -210,7 +216,7 @@ fun HomeContent(
             onSearch,
             onClick
         )
-
+        
 
         CardWithConstraint(
             toChatKimScreen = toChatKimScreen,
@@ -284,6 +290,62 @@ fun HomeContent(
                 }
             }
         }
+
+        news?.forEach {
+            Column (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp)
+            ) {
+                Text(
+                    text = "Berita Hukum Terbaru",
+                    color = Color.Black,
+                    fontFamily = Poppins,
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = modifier.padding(8.dp)
+                )
+
+//                display image if it.img != null
+                it?.img?.let {
+                    ImageSource(
+                        it.,
+                        ImageLoader(context)
+                    )
+                }
+
+                Box (
+                    modifier = Modifier
+                        .padding(8.dp)
+//                    border
+                        .border(
+                            width = 1.dp,
+                            color = Color(0xFFE0E0E0),
+                            shape = RoundedCornerShape(10.dp)
+                        )
+                ) {
+                    Column {
+                        Text(
+                            text = it?.title ?: "",
+                            modifier = Modifier.padding(8.dp),
+                            style = TextStyle(
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        )
+                        Text(
+                            text = (it?.content ?: "").split(" ").take(20).joinToString(" ") + "...",
+                            modifier = Modifier.padding(8.dp),
+                            style = TextStyle(
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Normal
+                            )
+                        )
+                    }
+                }
+            }
+        }
+        
     }
 }
 
@@ -350,7 +412,7 @@ fun CardWithConstraint(
     val query = remember {
         mutableStateOf("")
     }
-
+    
     Box(
         modifier = Modifier
             .padding(8.dp)
@@ -471,7 +533,6 @@ fun GreetingPreview() {
     val data = remember {
         mutableStateOf(GetTanyakimResponse())
     }
-
     LinkDLawTheme {
         HomeContent(
             item = listOf("text1", "text2", "text3"),
@@ -482,7 +543,8 @@ fun GreetingPreview() {
             {},
             {},
             listTopLawyer = null,
-            toDetailLawyer = {  }
+            toDetailLawyer = {  },
+            news = null
         )
     }
 }

@@ -8,6 +8,7 @@ import com.nakama.capstone.linkdlaw.repository.ChatRepository
 import com.nakama.capstone.linkdlaw.repository.CommunityRepository
 import com.nakama.capstone.linkdlaw.repository.HomeRepository
 import com.nakama.capstone.linkdlaw.repository.LawRepository
+import com.nakama.capstone.linkdlaw.repository.NewRepository
 import com.nakama.capstone.linkdlaw.repository.PengacaraRepository
 import com.nakama.capstone.linkdlaw.screen.auth.login.LoginViewModel
 import com.nakama.capstone.linkdlaw.screen.auth.register.RegisterViewModel
@@ -89,7 +90,7 @@ object Injection {
         viewModel{ PengacaraScreenViewModel(get()) }
         viewModel{ LawScreenViewModel(get()) }
         viewModel{ ForumScreenViewModel(get()) }
-        viewModel { HomeScreenViewModel(get()) }
+        viewModel{ HomeScreenViewModel(get()) }
     }
     
     val repositoryModule = module { 
@@ -99,5 +100,6 @@ object Injection {
         single { PengacaraRepository(get()) }
         single { LawRepository(get()) }
         single { CommunityRepository(get()) }
+        single { NewRepository(get()) }
     }
 }
