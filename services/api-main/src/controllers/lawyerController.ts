@@ -54,6 +54,18 @@ const getTopLawyer = async (req: Request, res: Response) => {
     try {
         // get top lawyer
         const data = await db.lawyer.findMany({
+            include: {
+                User: {
+                    select: {
+                        id: true,
+                        firstName: true,
+                        middleName: true,
+                        lastName: true,
+                        email: true,
+                        image: true
+                    }
+                }
+            },
             orderBy: {
                 rate: "desc"
             },
