@@ -92,10 +92,8 @@ fun PengacaraContent(
         )
         SearchBar("Cari", modifier = Modifier)
         Spacer(modifier = Modifier.height(10.dp))
-
         LazyColumn() {
             items(listPengacara.itemCount){
-
                 LawyerItem(
                     name = listPengacara[it]?.user?.firstName + " " + listPengacara[it]?.user?.lastName,
                     specialization = listPengacara[it]?.specialist ?: "",
@@ -105,7 +103,6 @@ fun PengacaraContent(
                     },
                     modifier = Modifier.fillMaxWidth()
                 )
-                
             }
         }
 

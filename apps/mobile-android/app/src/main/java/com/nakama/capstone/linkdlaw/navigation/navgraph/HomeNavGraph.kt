@@ -1,5 +1,6 @@
 package com.nakama.capstone.linkdlaw.navigation.navgraph
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
@@ -18,6 +19,9 @@ import com.nakama.capstone.linkdlaw.screen.chat.ChatViewModel
 import com.nakama.capstone.linkdlaw.screen.daftarhukum.DaftarhukumScreen
 import com.nakama.capstone.linkdlaw.screen.daftarhukum.LawScreenViewModel
 import com.nakama.capstone.linkdlaw.screen.detailhukum.DetailHukumScreen
+import com.nakama.capstone.linkdlaw.screen.forum.ForumScreen
+import com.nakama.capstone.linkdlaw.screen.forum.ForumScreenViewModel
+import com.nakama.capstone.linkdlaw.screen.forumdetail.ForumDetailScreen
 import com.nakama.capstone.linkdlaw.screen.home.HomeContent
 import com.nakama.capstone.linkdlaw.screen.pengacara.PengacaraScreen
 import com.nakama.capstone.linkdlaw.screen.pengacara.PengacaraScreenViewModel
@@ -136,7 +140,7 @@ fun HomeNavGraph(rootNavController: NavController, navController: NavHostControl
             LaunchedEffect(Unit){
                 pengacaraScreenViewModel.getLawyers()
             }
-//            val listPengacara = pengacaraScreenViewModel.listLawyer.observeAsState()
+            // val listPengacara = pengacaraScreenViewModel.listLawyer.observeAsState()
             val listPengacara = pengacaraScreenViewModel.lawyerDataFlow.collectAsLazyPagingItems()
             
             PengacaraScreen(
@@ -256,6 +260,67 @@ fun HomeNavGraph(rootNavController: NavController, navController: NavHostControl
                 editResult = editResult.value ?: false
             )
         }
+        composable(BottomBarScreen.Forum.route) {
+            val forumScreenViewModel: ForumScreenViewModel = koinViewModel()
+            LaunchedEffect(Unit){
+                forumScreenViewModel.GetPosts()
+            }
+            val getPostsResult = forumScreenViewModel.getPostsResult.observeAsState()
+            
+            ForumScreen(
+                navController = navController,
+                toForumDetail = { id, post ->
+                    // navigate with post data                    
+                    navController.navigate(
+                        HomeGraph.ForumDetail.route + "/$id",
+                    )
+                },
+                posts = getPostsResult.value?.data,
+                sendPost = forumScreenViewModel::SendPost
+            )
+        }
+        composable(
+            HomeGraph.ForumDetail.route + "/{id}",
+        ) { backStackEntry ->
+            val forumScreenViewModel: ForumScreenViewModel = koinViewModel()
+            LaunchedEffect(Unit){
+                forumScreenViewModel.GetPosts()
+            }
+            val getPostsResult = forumScreenViewModel.getPostsResult.observeAsState()
+            
+            // convert to int 1 digit only
+            var idInInteger = (backStackEntry.arguments?.getString("id") ?: "0").toInt()
+            Log.d("ab-" + idInInteger, idInInteger.toString())
+            
+            val post = getPostsResult.value?.data?.first {
+                it?.id == idInInteger
+            }
+            Log.d("ab-getpostbyid", "post: $post")
+
+
+            // get comments
+            LaunchedEffect(Unit){
+                forumScreenViewModel.GetPostsComments(idInInteger)
+            }
+            val getCommentsResult = forumScreenViewModel.getCommentsResult.observeAsState()
+            
+
+            if (post != null) {
+                ForumDetailScreen(
+                    forumId = backStackEntry.arguments?.getString("id") ?: "0",
+                    // force to non null
+                    post = post,
+                    comments = getCommentsResult.value?.data,
+                    sendComment = forumScreenViewModel::SendPostComment
+//                    { id, content ->
+//                            forumScreenViewModel.SendPostComment(id, content)
+//                        run actions send comment here - forumScreenViewModel.SendPostComment
+                        
+//                        forumScreenViewModel.SendPostComment(id, content)
+//                    },
+                )
+            } else {}
+        }
     }
 }
 
@@ -279,4 +344,6 @@ sealed class HomeGraph(val route: String) {
 
     object EditProfile : HomeGraph("edit_profile")
 
+    object Forum : HomeGraph("forum")
+    object ForumDetail : HomeGraph("forum_detail")
 }

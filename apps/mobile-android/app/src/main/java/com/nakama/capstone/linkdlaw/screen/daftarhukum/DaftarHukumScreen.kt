@@ -80,7 +80,6 @@ fun DaftarHukumContent(
         LazyColumn() {
             if (lawsResult != null) {
                 items(lawsResult) { item ->
-
                     ListHukumItem(
                         image = if (item?.id == 1) R.drawable.uud_1945 else R.drawable.kuh_perdata,
                         title = item?.title ?: "",
@@ -89,7 +88,6 @@ fun DaftarHukumContent(
                         toLawDetail = toLawDetail,
                         id = item?.id ?: 0
                     )
-
                 }
             }
         }
