@@ -21,6 +21,7 @@ export const RssCache = {
     title: string,
     content: string,
     date: dayjs.Dayjs,
+    image?: string,
   }[],
   lastUpdate: 0,
   config: {
@@ -52,12 +53,12 @@ export const RssCache = {
             content: article?.textContent || '',
             title: item.title || article?.title || '',
             date: dayjs(item.isoDate || item.pubDate || ''),
+            image: article?.img || undefined,
           })
           count++
         // eslint-disable-next-line no-empty
         } catch (error) {}
       }
-
     }
 
     // sort by date
