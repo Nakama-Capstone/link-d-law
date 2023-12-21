@@ -24,7 +24,7 @@ const {
 // rate limiter
 app.use(rateLimit({
   windowMs: 15 * 60 * 1000,
-  limit: 2000,
+  limit: 5000,
   standardHeaders: 'draft-7',
   legacyHeaders: false,
 }))
