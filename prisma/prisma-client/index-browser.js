@@ -182,6 +182,20 @@ exports.Prisma.FirmaHukumScalarFieldEnum = {
   name: 'name'
 };
 
+exports.Prisma.PostScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  title: 'title',
+  content: 'content'
+};
+
+exports.Prisma.PostCommentScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  userId: 'userId',
+  content: 'content'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -207,7 +221,9 @@ exports.Prisma.ModelName = {
   Message: 'Message',
   Lawyer: 'Lawyer',
   educationalBackground: 'educationalBackground',
-  firmaHukum: 'firmaHukum'
+  firmaHukum: 'firmaHukum',
+  Post: 'Post',
+  PostComment: 'PostComment'
 };
 
 /**
