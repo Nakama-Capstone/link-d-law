@@ -64,5 +64,5 @@ object Graph {
     const val LAW = "law_graph"
     const val LAWYER = "lawyer_graph"
     const val CHAT = "chat_graph"
-
+    const val FORUM = "forum_graph"
 }
