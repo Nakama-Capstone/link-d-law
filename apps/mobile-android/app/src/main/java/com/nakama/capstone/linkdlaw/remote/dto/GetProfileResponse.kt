@@ -34,8 +34,11 @@ data class ProfileData(
 	@field:SerializedName("id")
 	val id: Int? = null,
 
-	@field:SerializedName("email")
-	val email: String? = null,
+    @field:SerializedName("email")
+    val email: String? = null,
+
+    @field:SerializedName("image")
+    val image: String? = null,
 
 	@field:SerializedName("updatedAt")
 	val updatedAt: String? = null

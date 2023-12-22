@@ -298,6 +298,7 @@ fun HomeNavGraph(rootNavController: NavController, navController: NavHostControl
                     navController.navigateUp()
                 },
                 onSaveClick = editProfileViewModel::updateProfile,
+                onUpdateImage = editProfileViewModel::updateImageProfile,
                 getProfileData = { editProfileViewModel.getProfileData() },
                 editResult = editResult.value ?: false
             )
