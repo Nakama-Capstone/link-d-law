@@ -24,8 +24,10 @@ import com.nakama.capstone.linkdlaw.remote.dto.SendMessageRequest
 import com.nakama.capstone.linkdlaw.remote.dto.SendMessageResponse
 import com.nakama.capstone.linkdlaw.remote.dto.UpdateProfileRequest
 import com.nakama.capstone.linkdlaw.remote.dto.GetCommunityPostResponse
+import com.nakama.capstone.linkdlaw.remote.dto.GetEditProfileResponse
 import com.nakama.capstone.linkdlaw.remote.dto.GetNewDetailResponse
 import com.nakama.capstone.linkdlaw.remote.dto.GetNewsResponse
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -73,6 +75,12 @@ interface ApiService {
     suspend fun updateProfile(
         @Body updateProfileRequest: UpdateProfileRequest
     ): GetProfileResponse
+
+    @Multipart
+    @POST("/v1/image")
+    suspend fun updateImageProfile(
+        @Part imgFile: MultipartBody.Part
+    ): GetEditProfileResponse
 
     @GET("/v1/laws")
     suspend fun getLaws(): GetLawsResponse

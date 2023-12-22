@@ -1,5 +1,6 @@
 package com.nakama.capstone.linkdlaw.screen.profile
 
+import android.content.Context
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -44,6 +45,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import coil.compose.rememberImagePainter
 import com.nakama.capstone.linkdlaw.R
 import com.nakama.capstone.linkdlaw.remote.dto.ProfileData
@@ -56,10 +58,12 @@ fun EditProfileScreen(
     navigateBack: () -> Unit,
     onSaveClick: (UpdateProfileRequest) -> Unit,
     getProfileData: () -> Unit,
-    editResult: Boolean
+    editResult: Boolean,
+    onUpdateImage: (Uri, Context) -> Unit
 ) {
 //    getProfileData()
 
+    val context = LocalContext.current
     var showDialog by remember { mutableStateOf(false) }
     var operationSuccessful by remember { mutableStateOf(false) }
     
@@ -115,13 +119,31 @@ fun EditProfileScreen(
                 }
         ) {
             Text(text = "Foto Profil", modifier = Modifier.align(Alignment.TopCenter))
-            Image(
-                painter = painterResource(id = R.drawable.profile),
-                contentDescription = null,
-                modifier = Modifier
+//            Image(
+//                painter = painterResource(id = R.drawable.profile),
+//                contentDescription = null,
+//                modifier = Modifier
+//                    .size(60.dp)
+//                    .clip(CircleShape)
+//            )
+
+//            if image found
+            profileData.value?.image?.let {
+                AsyncImage(model = profileData.value?.image ?: "", contentDescription = null, modifier = Modifier
                     .size(60.dp)
-                    .clip(CircleShape)
-            )
+                    .clip(CircleShape))
+            }
+//            if image not found
+            if (profileData.value?.image == null){
+                Image(
+                    painter = painterResource(id = R.drawable.profile),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(60.dp)
+                        .clip(CircleShape)
+                )
+            }
+            
             imageUri?.let { uri ->
                 Image(
                     painter = rememberImagePainter(uri),
@@ -168,11 +190,11 @@ fun EditProfileScreen(
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
             Button(
                 onClick = {
+                    showDialog = true
+                    onUpdateImage(imageUri ?: Uri.EMPTY, context)
                     onSaveClick(
                         UpdateProfileRequest(firstName.value, lastName.value, email.value)
-                        
                     )
-                    showDialog = true
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -248,6 +270,6 @@ fun DetailProfilePreview() {
         mutableStateOf(ProfileData())
     }
     EditProfileScreen(test,
-        {}, {}, {},false
+        {}, {}, {},false, { _, _ -> }
     )
 }

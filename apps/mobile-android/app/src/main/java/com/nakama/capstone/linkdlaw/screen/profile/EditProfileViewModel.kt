@@ -1,5 +1,7 @@
 package com.nakama.capstone.linkdlaw.screen.profile
 
+import android.content.Context
+import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
@@ -10,7 +12,15 @@ import com.nakama.capstone.linkdlaw.remote.dto.ProfileData
 import com.nakama.capstone.linkdlaw.remote.dto.UpdateProfileRequest
 import com.nakama.capstone.linkdlaw.repository.HomeRepository
 import kotlinx.coroutines.launch
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.HttpException
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.InputStream
 
 class EditProfileViewModel(private val homeRepository: HomeRepository):ViewModel() {
     
@@ -75,19 +85,34 @@ class EditProfileViewModel(private val homeRepository: HomeRepository):ViewModel
         }
     }
 
-    fun updateImageProfile(updateProfileRequest: UpdateProfileRequest){
+    fun updateImageProfile(imageUri: Uri, context: Context){
+        Log.d("awoekoawekawoke", imageUri.toString())
         viewModelScope.launch {
             _loading.value = true
             try {
+//                val file = File(imageUri.path)
+//                val requestFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
 
-                val response = homeRepository.updateProfileData(updateProfileRequest)
-                Log.d("Update profile", "updateProfile: ${response.message}")
-                _editResult.value = response.ok ?: false
+                val inputStream: InputStream? = context.contentResolver.openInputStream(imageUri)
+                val byteOutputStream = ByteArrayOutputStream()
+
+                inputStream?.copyTo(byteOutputStream)
+                
+                var mimeType = context.contentResolver.getType(imageUri)
+                var file = RequestBody.create(mimeType?.let { it.toMediaTypeOrNull() }, byteOutputStream.toByteArray())
+
+                Log.d("awoekoawekawoke2", file.toString())
+                val abc = MultipartBody.Part.createFormData("imgFile", "name.jpg", file)
+                val response = homeRepository.updateImageProfile(abc)
+                Log.d("Update image profile", "updateProfile: ${response.message}")
+                _editImageResult.value = response.ok ?: false
                 _loading.value = false
 
             }catch (e: HttpException){
+                Log.d("Update image profile", "updateProfile: ${e.message()}")
                 _loading.value = false
             }catch (e: Exception){
+                Log.d("Update image profile", "updateProfile: ${e.message}")
                 _loading.value = false
             }
 
